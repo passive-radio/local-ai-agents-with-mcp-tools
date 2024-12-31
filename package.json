@@ -1,0 +1,22 @@
+{
+  "scripts": {
+    "start": "tsx --no-watch src/index.ts",
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@langchain/anthropic": "^0.3.11",
+    "@langchain/community": "^0.3.20",
+    "@langchain/core": "^0.3.26",
+    "@langchain/groq": "^0.1.2",
+    "@langchain/langgraph": "^0.2.36",
+    "@langchain/openai": "^0.3.16",
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@types/yargs": "^17.0.33",
+    "dotenv": "^16.4.7",
+    "json5": "^2.2.3",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}

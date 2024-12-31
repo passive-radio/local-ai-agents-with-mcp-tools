@@ -1,0 +1,38 @@
+{
+    // "llm": {
+    //     "provider": "openai",
+    //     "model": "gpt-4o",
+    //     "temperature": 0.0
+    // },
+    "llm": {
+        "provider": "anthropic",
+        "model": "claude-3-5-haiku-latest",
+        "temperature": 0.0
+    },
+    // "llm": {
+    //     "provider": "groq",
+    //     "model": "llama-3.3-70b-versatile",
+    //     "temperature": 0.0
+    // },
+    "mcpServers": {
+        "brave-search": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-brave-search"
+            ],
+            "env": {
+                "PATH": "${PATH}",
+                "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+            }
+        },
+        "filesystem": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-filesystem",
+                "."
+            ]
+        },
+    }
+}
