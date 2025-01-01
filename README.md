@@ -11,8 +11,8 @@ LLMs from OpenAI, Anthropic and Groq are currently supported.
 A utility function `convertMCPServersToLangChainTools()` was introduced to simplify the work.
 
 It accepts the MCP server configuration in the same format
-as [Claude for Desktop](https://modelcontextprotocol.io/quickstart/user),
-a JS Object version of its JSON configuration file, i.e.:
+as [Claude for Desktop](https://modelcontextprotocol.io/quickstart/user);
+a JS Object version of its JSON configuration file, e.g.:
 
 ```ts
 const serverConfig: MCPServersConfig = {

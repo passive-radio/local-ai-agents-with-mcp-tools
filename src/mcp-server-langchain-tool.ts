@@ -5,10 +5,10 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { CallToolResultSchema, ListToolsResultSchema } from '@modelcontextprotocol/sdk/types.js';
 import { DynamicStructuredTool } from '@langchain/core/tools';
+import { jsonSchemaToZod, JsonSchema } from '@n8n/json-schema-to-zod';
 import { z } from 'zod';
-import { jsonSchemaToZod } from '@n8n/json-schema-to-zod';
 
-export type MCPServerConfig = {
+type MCPServerConfig = {
   command: string;
   args: string[];
   env?: Record<string, string>;
@@ -112,8 +112,7 @@ async function convertMCPServerToLangChainTools(
     new DynamicStructuredTool({
       name: tool.name,
       description: tool.description || '',
-      // schema: jsonSchemaToZod(tool.inputSchema),
-      schema: mcpSchemaToZodSchema(tool.inputSchema),
+      schema: jsonSchemaToZod(tool.inputSchema as JsonSchema) as z.ZodObject<any>,
 
       func: async (input) => {
         console.log(`\nMCP Tool "${tool.name}" received input:`, input);
@@ -156,119 +155,4 @@ async function convertMCPServerToLangChainTools(
   }
 
   return { availableTools, cleanup };
-}
-
-
-/**
- * Converts an MCP tool to a Zod schema for LangChain
- * @param tool MCP tool
- * @returns Zod schema compatible with DynamicStructuredTool
- */
-// FIXME: ad-hoc implementation
-function mcpSchemaToZodSchemaAlt(tool: any): z.ZodObject<any> {
-  const schema = {
-    operation: z
-      .enum([tool.name])
-      .describe(tool.description),
-  };
-
-  for (const required of tool.inputSchema.required) {
-    const prop = tool.inputSchema.properties[required];
-    if (prop.type === 'number') {
-      schema[required] = z.number().describe(prop.description);
-    } else if (prop.type === 'string') {
-      schema[required] = z.string().describe(prop.description);
-    }
-  }
-
-  return z.object(schema);
-}
-
-
-/**
- * Converts an MCP tool schema to a Zod schema for LangChain
- * @param mcpSchema MCP tool input schema
- * @returns Zod schema compatible with DynamicStructuredTool
- */
-// FIXME: not sure if the impl really correct...
-// It works OK as far as I tested...
-function mcpSchemaToZodSchema(mcpSchema: any): z.ZodObject<any> {
-  // the top level is an object for sure
-  return mcpSchemaToZodSchemaInner(mcpSchema) as z.ZodObject<any>;
-}
-
-function mcpSchemaToZodSchemaInner(mcpSchema: any): z.ZodType {
-  if (!mcpSchema || typeof mcpSchema !== 'object') {
-    throw new Error('Invalid schema');
-  }
-
-  // Handle enum types
-  if (mcpSchema.enum) {
-    return z.enum(mcpSchema.enum as [string, ...string[]]);
-  }
-
-  // Handle array types
-  if (mcpSchema.type === 'array' && mcpSchema.items) {
-    const itemSchema = mcpSchemaToZodSchemaInner(mcpSchema.items);
-    return z.array(itemSchema);
-  }
-
-  // Handle object types
-  if (mcpSchema.type === 'object' && mcpSchema.properties) {
-    const shape: Record<string, z.ZodType> = {};
-    
-    // Convert each property
-    for (const [key, prop] of Object.entries(mcpSchema.properties)) {
-      shape[key] = mcpSchemaToZodSchemaInner(prop as any);
-    }
-
-    // Handle required fields
-    let schema = z.object(shape);
-    if (Array.isArray(mcpSchema.required)) {
-      const required = mcpSchema.required;
-      schema = schema.required(required);
-    }
-
-    return schema;
-  }
-
-  // Handle basic types
-  if (mcpSchema.type) {
-    let schema = jsonTypeToZodType(mcpSchema.type);
-
-    // Add description if available
-    if (mcpSchema.description) {
-      schema = schema.describe(mcpSchema.description);
-    }
-
-    return schema;
-  }
-
-  return z.any();
-}
-
-/**
- * Converts a JSON Schema type to a Zod type
- * @param schemaType JSON Schema type string
- * @returns Corresponding Zod type
- */
-function jsonTypeToZodType(schemaType: string): z.ZodType {
-  switch (schemaType) {
-    case 'string':
-      return z.string();
-    case 'number':
-      return z.number();
-    case 'integer':
-      return z.number().int();
-    case 'boolean':
-      return z.boolean();
-    case 'null':
-      return z.null();
-    case 'array':
-      return z.array(z.any());
-    case 'object':
-      return z.object({});
-    default:
-      return z.any();
-  }
 }

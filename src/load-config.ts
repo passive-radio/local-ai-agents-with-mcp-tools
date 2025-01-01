@@ -1,7 +1,7 @@
 // Copyright (C) 2024 Hideya Kawahara
 // SPDX-License-Identifier: MIT
 
-import JSON5 from 'json5'
+import JSON5 from 'json5';
 import { readFileSync } from 'fs';
 
 export type LLMConfig = {
