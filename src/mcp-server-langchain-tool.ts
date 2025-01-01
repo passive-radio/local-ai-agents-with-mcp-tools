@@ -27,27 +27,32 @@ export async function convertMCPServersToLangChainTools(
   const allTools: Tool[] = [];
   const cleanupCallbacks: (() => Promise<void>)[] = [];
 
+  const serverInitPromises = Object.entries(configs).map(async ([name, config]) => {
+    // console.log(`Initializing MCP server "${name}" with: `, config, '\n');
+    console.log(`Initializing MCP server "${name}"`);
+    const result = await convertMCPServerToLangChainTools(name, config)
+    // console.log(`Initialized MCP server "${name}"\n`);
+    return {name, result};
+  });
+
+  // Track server names alongside their promises
+  const serverNames = Object.keys(configs);
+
   // Concurrently initialize all the MCP servers
   const results = await Promise.allSettled(
-    Object.entries(configs).map(async ([name, config]) => {
-      // console.log(`Initializing MCP server "${name}" with: `, config, '\n');
-      console.log(`Initializing MCP server "${name}"`);
-      const result = await convertMCPServerToLangChainTools(name, config)
-      // console.log(`Initialized MCP server "${name}"\n`);
-      return {name, result};
-    })
+    serverInitPromises
   );
   
   // Process successful initializations and log failures
-  for (const result of results) {
+  results.forEach((result, index) => {
     if (result.status === 'fulfilled') {
       const { result: { availableTools, cleanup } } = result.value;
       allTools.push(...availableTools);
       cleanupCallbacks.push(cleanup);
     } else {
-      console.error(`Failed to initialize MCP server: ${result.reason}`);
+      console.error(`\x1b[31mERROR\x1b[0m: MCP server "${serverNames[index]}": failed to initialize: ${result.reason}`);
     }
-  }
+  });
 
   async function cleanup(): Promise<void> {
     // Concurrently execute all the callbacks
@@ -56,14 +61,13 @@ export async function convertMCPServersToLangChainTools(
     // Log any cleanup failures
     const failures = results.filter(result => result.status === 'rejected');
     if (failures.length > 0) {
-      console.error(`${failures.length} cleanup callback(s) failed:`);
       failures.forEach((failure, index) => {
-        console.error(`Cleanup failure ${index + 1}:`, failure.reason);
+        console.error(`\x1b[31mERROR\x1b[0m: MCP server "${serverNames[index]}": failed to close: ${failure.reason}`);
       });
     }
   }
 
-  console.log(`MCP Servers initialized and found ${allTools.length} tools in total:`);
+  console.log(`\nMCP servers initialized and found ${allTools.length} tool(s) in total:`);
   allTools.forEach((tool) => console.log(`- ${tool.name}`));
 
   return { allTools, cleanup };
@@ -102,7 +106,7 @@ async function convertMCPServerToLangChainTools(
     ListToolsResultSchema
   );
 
-  console.log(`MCP Server "${serverName}": connected`);
+  console.log(`MCP server "${serverName}": connected`);
 
   const availableTools = toolsResponse.tools.map((tool) => (
     new DynamicStructuredTool({
@@ -142,7 +146,7 @@ async function convertMCPServerToLangChainTools(
     })
   ));
 
-  console.log(`MCP Server "${serverName}": found ${availableTools.length} tools`);
+  console.log(`MCP server "${serverName}": found ${availableTools.length} tool(s)`);
 
   async function cleanup(): Promise<void> {
     if (transport) {

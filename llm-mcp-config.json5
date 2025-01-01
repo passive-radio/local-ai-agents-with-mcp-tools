@@ -31,26 +31,26 @@
                 "."
             ]
         },
-        "fetch": {
-            // https://github.com/modelcontextprotocol/servers/tree/main/src/fetch
-            "command": "uv",
-            "args": [
-                "--directory",
-                "${MCP_FETCH_SERVER_DIR}/src",
-                "run",
-                "mcp_server_fetch"
-            ]
-        },
-        "weather": {
-            // https://github.com/modelcontextprotocol/quickstart-resources/tree/main/weather-server-python
-            "command": "uv",
-            "args": [
-                "--directory",
-                "${MCP_WEATHER_SERVER_DIR}/src",
-                "run",
-                "weather"
-            ]
-        },
+        // "fetch": {
+        //     // https://github.com/modelcontextprotocol/servers/tree/main/src/fetch
+        //     "command": "uv",
+        //     "args": [
+        //         "--directory",
+        //         "${MCP_FETCH_SERVER_DIR}/src",
+        //         "run",
+        //         "mcp_server_fetch"
+        //     ]
+        // },
+        // "weather": {
+        //     // https://github.com/modelcontextprotocol/quickstart-resources/tree/main/weather-server-python
+        //     "command": "uv",
+        //     "args": [
+        //         "--directory",
+        //         "${MCP_WEATHER_SERVER_DIR}/src",
+        //         "run",
+        //         "weather"
+        //     ]
+        // },
         // "brave-search": {
         //     "command": "npx",
         //     "args": [
