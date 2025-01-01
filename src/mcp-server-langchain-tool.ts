@@ -28,11 +28,11 @@ export async function convertMCPServersToLangChainTools(
   // Concurrently initialize all the MCP servers
   const results = await Promise.allSettled(
     Object.entries(configs).map(async ([name, config]) => {
-      console.log(`Initializing MCP server "${name}" with: `, config, '\n');
-      return {
-        name,
-        result: await convertMCPServerToLangChainTools(name, config)
-      };
+      // console.log(`Initializing MCP server "${name}" with: `, config, '\n');
+      console.log(`Initializing MCP server "${name}"`);
+      const result = await convertMCPServerToLangChainTools(name, config)
+      // console.log(`Initialized MCP server "${name}"\n`);
+      return {name, result};
     })
   );
   
@@ -60,6 +60,9 @@ export async function convertMCPServersToLangChainTools(
       });
     }
   }
+
+  console.log(`MCP Servers initialized and found ${allTools.length} tools in total:`);
+  allTools.forEach((tool) => console.log(`- ${tool.name}`));
 
   return { allTools, cleanup };
 }
@@ -97,16 +100,16 @@ async function convertMCPServerToLangChainTools(
     ListToolsResultSchema
   );
 
-  console.log(`Connected to server "${serverName}" with ${toolsResponse.tools.length} tools\n`);
+  console.log(`MCP Server "${serverName}": connected`);
 
-  const availableTools = toolsResponse.tools.map((tool: any) => (
+  const availableTools = toolsResponse.tools.map((tool) => (
     new DynamicStructuredTool({
       name: tool.name,
-      description: tool.description,
+      description: tool.description || '',
       schema: tool.inputSchema,
 
       func: async (input) => {
-        console.log(`\nTool "${tool.name}" received input:`, input);
+        console.log(`\nMCP Tool "${tool.name}" received input:`, input);
 
         if (Object.keys(input).length === 0) {
           return 'No input provided';
@@ -124,12 +127,19 @@ async function convertMCPServerToLangChainTools(
           CallToolResultSchema
         );
 
-        console.log(`Tool "${tool.name}" received result:`, result);
+        console.log(`MCP Tool "${tool.name}" received result:`, result);
 
-        return JSON.stringify(result.content);
+        const filteredResult = result.content.filter(content => content.type === 'text').map((content) => {
+          return content.text
+        }).join('\n\n');
+
+        // return JSON.stringify(result.content);
+        return filteredResult;
       },
     })
   ));
+
+  console.log(`MCP Server "${serverName}": found ${availableTools.length} tools`);
 
   async function cleanup(): Promise<void> {
     if (transport) {
@@ -138,5 +148,5 @@ async function convertMCPServerToLangChainTools(
     }
   }
 
-  return { availableTools, cleanup };
+  return { availableTools, cleanup }; // FIXME
 }

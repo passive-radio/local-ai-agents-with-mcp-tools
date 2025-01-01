@@ -15,17 +15,6 @@
     //     "temperature": 0.0
     // },
     "mcpServers": {
-        "brave-search": {
-            "command": "npx",
-            "args": [
-                "-y",
-                "@modelcontextprotocol/server-brave-search"
-            ],
-            "env": {
-                "PATH": "${PATH}",
-                "BRAVE_API_KEY": "${BRAVE_API_KEY}"
-            }
-        },
         "filesystem": {
             "command": "npx",
             "args": [
@@ -34,5 +23,34 @@
                 "."
             ]
         },
+        // "fetch": {
+        //     "command": "uv",
+        //     "args": [
+        //         "--directory",
+        //         "${MCP_FETCH_SERVER_DIR}/src",
+        //         "run",
+        //         "mcp_server_fetch"
+        //     ]
+        // },
+        // "weather": {
+        //     "command": "uv",
+        //     "args": [
+        //         "--directory",
+        //         "${MCP_WEATHER_SERVER_DIR}/src",
+        //         "run",
+        //         "weather"
+        //     ]
+        // },
+        // "brave-search": {
+        //     "command": "npx",
+        //     "args": [
+        //         "-y",
+        //         "@modelcontextprotocol/server-brave-search"
+        //     ],
+        //     "env": {
+        //         "PATH": "${PATH}",
+        //         "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+        //     }
+        // },
     }
 }

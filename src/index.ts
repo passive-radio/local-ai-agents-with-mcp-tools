@@ -59,9 +59,13 @@ async function main() {
     checkpointSaver: new MemorySaver(),
   });
 
+  console.log();
+
   const queries = [
-    'whats todays top news?',
     'how many files in the src directory?',
+    // 'read and briefly summarize the file ./LICENSE',
+    // 'whats written on cnn.com?',
+    // 'whats the weather in sf?',
   ]
 
   for (const query of queries) {
@@ -86,5 +90,7 @@ main().catch(async (error: unknown) => {
   } else {
     console.error('An unknown error occurred', error);
   }
-  await cleanupMCPConnections();
+  if (cleanupMCPConnections) {
+    await cleanupMCPConnections();
+  }
 });
