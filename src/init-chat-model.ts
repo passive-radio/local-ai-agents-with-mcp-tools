@@ -1,11 +1,11 @@
 // Copyright (C) 2024 Hideya Kawahara
 // SPDX-License-Identifier: MIT
 
-import { ChatOpenAI } from "@langchain/openai";
+import { ChatOpenAI } from '@langchain/openai';
 import { ChatAnthropic } from '@langchain/anthropic';
 import { ChatGroq } from '@langchain/groq';
-import { BaseChatModel } from "@langchain/core/language_models/chat_models";
-import { Tool } from "@langchain/core/tools";
+import { BaseChatModel } from '@langchain/core/language_models/chat_models';
+import { Tool } from '@langchain/core/tools';
 
 // FIXME: no typescript version of init_chat_model() yet?
 // Ref: https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html
@@ -43,6 +43,7 @@ export function initChatModel(config: InitChatModelConfig): BaseChatModel {
 
       case 'groq':
         // Groq library requires the API key set by the env variable
+        // process.env.GROQ_API_KEY = config.apiKey;
         model = new ChatGroq({
           modelName: config.modelName,
           temperature: config.temperature,

@@ -1,12 +1,12 @@
 // Copyright (C) 2024 Hideya Kawahara
 // SPDX-License-Identifier: MIT
 
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { CallToolResultSchema, ListToolsResultSchema } from "@modelcontextprotocol/sdk/types.js";
-import { DynamicStructuredTool, Tool } from "@langchain/core/tools";
-import { z } from "zod";
-
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { CallToolResultSchema, ListToolsResultSchema } from '@modelcontextprotocol/sdk/types.js';
+import { DynamicStructuredTool, Tool } from '@langchain/core/tools';
+import { z } from 'zod';
+// import { jsonSchemaToZod } from 'json-schema-to-zod';
 
 export type MCPServerConfig = {
   command: string;
@@ -108,8 +108,8 @@ async function convertMCPServerToLangChainTools(
     new DynamicStructuredTool({
       name: tool.name,
       description: tool.description || '',
+      // schema: jsonSchemaToZod(tool.inputSchema),
       schema: mcpSchemaToZodSchema(tool.inputSchema),
-      // schema: convertJsonSchemaToZod(tool.inputSchema),
 
       func: async (input) => {
         console.log(`\nMCP Tool "${tool.name}" received input:`, input);

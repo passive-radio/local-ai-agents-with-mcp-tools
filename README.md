@@ -67,11 +67,17 @@ const agent = createReactAgent({
       where comments and trailing commas are allowed.
     - The file format is further extended to
       replace `${...}` notations with the values of appropriate environment variables.
+    - Put all the credentials and perfonal info into the `.env` file
+      and refer to it with `${...}` notation if necessary.
 
 
 
 ## Usage
-Development mode:
+Development (watch) mode:
 ```bash
 npm run dev
+```
+Regular mode:
+```bash
+npm start
 ```

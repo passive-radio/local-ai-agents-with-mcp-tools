@@ -21,17 +21,13 @@ interface Arguments {
 
 const argv = yargs(hideBin(process.argv))
   .options({
-    config: {
-      type: 'string',
-      description: 'Path to config file',
-      demandOption: false,
-    }
+    config: {type: 'string', description: 'Path to config file', demandOption: false},
   })
   .help()
   .alias('help', 'h')
   .parseSync() as Arguments;
 
-const configPath = argv.config || './llm-mcp-config.json5';
+const configPath = argv.config || process.env.CONFIG_FILE || './llm-mcp-config.json5';
 
 let cleanupMCPConnections: () => Promise<void>;
 
@@ -62,9 +58,9 @@ async function main() {
   console.log();
 
   const queries = [
-    // 'how many files in the src directory?',
-    // 'read and briefly summarize the file ./LICENSE',
-    // 'whats written on cnn.com?',
+    // 'How many files in the src directory?',
+    // 'Read and briefly summarize the file ./LICENSE',
+    // 'Whats written on cnn.com?',
     'whats the weather in sf?',
   ]
 

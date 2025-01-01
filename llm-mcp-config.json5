@@ -1,3 +1,11 @@
+//
+// The configuration file format is [JSON5](https://json5.org/),
+// where comments and trailing commas are allowed.
+// The file format is further extended to replace `${...}` notations
+// with the values of appropriate environment variables.
+// Put all the credentials and perfonal into the `.env` file
+// and refer to it with `${...}` notation if necessary.
+//
 {
     // "llm": {
     //     "provider": "openai",
@@ -23,16 +31,18 @@
                 "."
             ]
         },
-        // "fetch": {
-        //     "command": "uv",
-        //     "args": [
-        //         "--directory",
-        //         "${MCP_FETCH_SERVER_DIR}/src",
-        //         "run",
-        //         "mcp_server_fetch"
-        //     ]
-        // },
+        "fetch": {
+            // https://github.com/modelcontextprotocol/servers/tree/main/src/fetch
+            "command": "uv",
+            "args": [
+                "--directory",
+                "${MCP_FETCH_SERVER_DIR}/src",
+                "run",
+                "mcp_server_fetch"
+            ]
+        },
         "weather": {
+            // https://github.com/modelcontextprotocol/quickstart-resources/tree/main/weather-server-python
             "command": "uv",
             "args": [
                 "--directory",
@@ -48,6 +58,7 @@
         //         "@modelcontextprotocol/server-brave-search"
         //     ],
         //     "env": {
+        //         // Somehow, PATH and BRAVE_API_KEY need to be explicitly specified here
         //         "PATH": "${PATH}",
         //         "BRAVE_API_KEY": "${BRAVE_API_KEY}"
         //     }
