@@ -62,10 +62,10 @@ async function main() {
   console.log();
 
   const queries = [
-    'how many files in the src directory?',
+    // 'how many files in the src directory?',
     // 'read and briefly summarize the file ./LICENSE',
     // 'whats written on cnn.com?',
-    // 'whats the weather in sf?',
+    'whats the weather in sf?',
   ]
 
   for (const query of queries) {

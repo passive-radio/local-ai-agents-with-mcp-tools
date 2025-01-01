@@ -1,7 +1,7 @@
 {
     // "llm": {
     //     "provider": "openai",
-    //     "model": "gpt-4o",
+    //     "model": "gpt-4o-mini",
     //     "temperature": 0.0
     // },
     "llm": {
@@ -11,7 +11,7 @@
     },
     // "llm": {
     //     "provider": "groq",
-    //     "model": "llama-3.3-70b-versatile",
+    //     "model": "gemma2-9b-it",
     //     "temperature": 0.0
     // },
     "mcpServers": {
@@ -32,15 +32,15 @@
         //         "mcp_server_fetch"
         //     ]
         // },
-        // "weather": {
-        //     "command": "uv",
-        //     "args": [
-        //         "--directory",
-        //         "${MCP_WEATHER_SERVER_DIR}/src",
-        //         "run",
-        //         "weather"
-        //     ]
-        // },
+        "weather": {
+            "command": "uv",
+            "args": [
+                "--directory",
+                "${MCP_WEATHER_SERVER_DIR}/src",
+                "run",
+                "weather"
+            ]
+        },
         // "brave-search": {
         //     "command": "npx",
         //     "args": [

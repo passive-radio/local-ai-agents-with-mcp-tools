@@ -5,6 +5,8 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { CallToolResultSchema, ListToolsResultSchema } from "@modelcontextprotocol/sdk/types.js";
 import { DynamicStructuredTool, Tool } from "@langchain/core/tools";
+import { z } from "zod";
+
 
 export type MCPServerConfig = {
   command: string;
@@ -106,7 +108,8 @@ async function convertMCPServerToLangChainTools(
     new DynamicStructuredTool({
       name: tool.name,
       description: tool.description || '',
-      schema: tool.inputSchema,
+      schema: mcpSchemaToZodSchema(tool.inputSchema),
+      // schema: convertJsonSchemaToZod(tool.inputSchema),
 
       func: async (input) => {
         console.log(`\nMCP Tool "${tool.name}" received input:`, input);
@@ -149,4 +152,86 @@ async function convertMCPServerToLangChainTools(
   }
 
   return { availableTools, cleanup }; // FIXME
+}
+
+
+/**
+ * Converts an MCP tool schema to a Zod schema for LangChain
+ * @param mcpSchema MCP tool input schema
+ * @returns Zod schema compatible with DynamicStructuredTool
+ */
+function mcpSchemaToZodSchema(mcpSchema: any): z.ZodType {
+  if (!mcpSchema || typeof mcpSchema !== 'object') {
+    throw new Error('Invalid schema');
+  }
+
+  // Handle enum types
+  if (mcpSchema.enum) {
+    return z.enum(mcpSchema.enum as [string, ...string[]]);
+  }
+
+  // Handle array types
+  if (mcpSchema.type === 'array' && mcpSchema.items) {
+    const itemSchema = mcpSchemaToZodSchema(mcpSchema.items);
+    return z.array(itemSchema);
+  }
+
+  // Handle object types
+  if (mcpSchema.type === 'object' && mcpSchema.properties) {
+    const shape: Record<string, z.ZodType> = {};
+    
+    // Convert each property
+    for (const [key, prop] of Object.entries(mcpSchema.properties)) {
+      shape[key] = mcpSchemaToZodSchema(prop as any);
+    }
+
+    // Handle required fields
+    let schema = z.object(shape);
+    if (Array.isArray(mcpSchema.required)) {
+      const required = mcpSchema.required;
+      schema = schema.required(required);
+    }
+
+    return schema;
+  }
+
+  // Handle basic types
+  if (mcpSchema.type) {
+    let schema = jsonTypeToZodType(mcpSchema.type);
+
+    // Add description if available
+    if (mcpSchema.description) {
+      schema = schema.describe(mcpSchema.description);
+    }
+
+    return schema;
+  }
+
+  return z.any();
+}
+
+/**
+ * Converts a JSON Schema type to a Zod type
+ * @param schemaType JSON Schema type string
+ * @returns Corresponding Zod type
+ */
+function jsonTypeToZodType(schemaType: string): z.ZodType {
+  switch (schemaType) {
+    case 'string':
+      return z.string();
+    case 'number':
+      return z.number();
+    case 'integer':
+      return z.number().int();
+    case 'boolean':
+      return z.boolean();
+    case 'null':
+      return z.null();
+    case 'array':
+      return z.array(z.any());
+    case 'object':
+      return z.object({});
+    default:
+      return z.any();
+  }
 }
