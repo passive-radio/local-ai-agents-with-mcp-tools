@@ -12,16 +12,16 @@
     //     "model": "gpt-4o-mini",
     //     "temperature": 0.0
     // },
-    "llm": {
-        "provider": "anthropic",
-        "model": "claude-3-5-haiku-latest",
-        "temperature": 0.0
-    },
     // "llm": {
-    //     "provider": "groq",
-    //     "model": "gemma2-9b-it",
+    //     "provider": "anthropic",
+    //     "model": "claude-3-5-haiku-latest",
     //     "temperature": 0.0
     // },
+    "llm": {
+        "provider": "groq",
+        "model": "gemma2-9b-it",
+        "temperature": 0.0
+    },
     "mcpServers": {
         "filesystem": {
             "command": "npx",

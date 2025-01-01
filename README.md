@@ -33,7 +33,8 @@ const {allTools, cleanup} = await convertMCPServersToLangChainTools(serverConfig
 ```
 
 The utility functoin initializes all the MCP server connections concurrently,
-and returns LangChain Tools (`allTools: Tool[]`) by gathering all the available MCP server tools,
+and returns LangChain Tools (`allTools: DynamicStructuredTool[]`)
+by gathering all the available MCP server tools,
 and by wrapping them into LangChain Tools (it also returns `cleanup` callback function
 that is used to close connections to MCP servers when finished).
 

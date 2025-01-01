@@ -11,6 +11,7 @@
     "@langchain/langgraph": "^0.2.36",
     "@langchain/openai": "^0.3.16",
     "@modelcontextprotocol/sdk": "^1.0.4",
+    "@n8n/json-schema-to-zod": "^1.1.0",
     "@types/yargs": "^17.0.33",
     "dotenv": "^16.4.7",
     "json5": "^2.2.3",

@@ -4,9 +4,9 @@
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { CallToolResultSchema, ListToolsResultSchema } from '@modelcontextprotocol/sdk/types.js';
-import { DynamicStructuredTool, Tool } from '@langchain/core/tools';
+import { DynamicStructuredTool } from '@langchain/core/tools';
 import { z } from 'zod';
-// import { jsonSchemaToZod } from 'json-schema-to-zod';
+import { jsonSchemaToZod } from '@n8n/json-schema-to-zod';
 
 export type MCPServerConfig = {
   command: string;
@@ -21,10 +21,10 @@ export type MCPServersConfig = {
 export async function convertMCPServersToLangChainTools(
   configs: MCPServersConfig
 ): Promise<{
-  allTools: Tool[];
+  allTools: DynamicStructuredTool[];
   cleanup: () => Promise<void>;
 }> {
-  const allTools: Tool[] = [];
+  const allTools: DynamicStructuredTool[] = [];
   const cleanupCallbacks: (() => Promise<void>)[] = [];
 
   const serverInitPromises = Object.entries(configs).map(async ([name, config]) => {
@@ -77,7 +77,7 @@ async function convertMCPServerToLangChainTools(
   serverName: string,
   config: MCPServerConfig
 ): Promise<{
-  availableTools: Tool[];
+  availableTools: DynamicStructuredTool[];
   cleanup: () => Promise<void>;
 }> {
 
@@ -155,7 +155,33 @@ async function convertMCPServerToLangChainTools(
     }
   }
 
-  return { availableTools, cleanup }; // FIXME
+  return { availableTools, cleanup };
+}
+
+
+/**
+ * Converts an MCP tool to a Zod schema for LangChain
+ * @param tool MCP tool
+ * @returns Zod schema compatible with DynamicStructuredTool
+ */
+// FIXME: ad-hoc implementation
+function mcpSchemaToZodSchemaAlt(tool: any): z.ZodObject<any> {
+  const schema = {
+    operation: z
+      .enum([tool.name])
+      .describe(tool.description),
+  };
+
+  for (const required of tool.inputSchema.required) {
+    const prop = tool.inputSchema.properties[required];
+    if (prop.type === 'number') {
+      schema[required] = z.number().describe(prop.description);
+    } else if (prop.type === 'string') {
+      schema[required] = z.string().describe(prop.description);
+    }
+  }
+
+  return z.object(schema);
 }
 
 
@@ -164,7 +190,14 @@ async function convertMCPServerToLangChainTools(
  * @param mcpSchema MCP tool input schema
  * @returns Zod schema compatible with DynamicStructuredTool
  */
-function mcpSchemaToZodSchema(mcpSchema: any): z.ZodType {
+// FIXME: not sure if the impl really correct...
+// It works OK as far as I tested...
+function mcpSchemaToZodSchema(mcpSchema: any): z.ZodObject<any> {
+  // the top level is an object for sure
+  return mcpSchemaToZodSchemaInner(mcpSchema) as z.ZodObject<any>;
+}
+
+function mcpSchemaToZodSchemaInner(mcpSchema: any): z.ZodType {
   if (!mcpSchema || typeof mcpSchema !== 'object') {
     throw new Error('Invalid schema');
   }
@@ -176,7 +209,7 @@ function mcpSchemaToZodSchema(mcpSchema: any): z.ZodType {
 
   // Handle array types
   if (mcpSchema.type === 'array' && mcpSchema.items) {
-    const itemSchema = mcpSchemaToZodSchema(mcpSchema.items);
+    const itemSchema = mcpSchemaToZodSchemaInner(mcpSchema.items);
     return z.array(itemSchema);
   }
 
@@ -186,7 +219,7 @@ function mcpSchemaToZodSchema(mcpSchema: any): z.ZodType {
     
     // Convert each property
     for (const [key, prop] of Object.entries(mcpSchema.properties)) {
-      shape[key] = mcpSchemaToZodSchema(prop as any);
+      shape[key] = mcpSchemaToZodSchemaInner(prop as any);
     }
 
     // Handle required fields
