@@ -9,6 +9,7 @@ import { convertMCPServersToLangChainTools } from './mcp-server-langchain-tool';
 import { loadConfig } from './load-config';
 import { initChatModel } from './init-chat-model';
 
+import readline from 'readline';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import dotenv from 'dotenv';
@@ -58,17 +59,52 @@ async function main() {
     checkpointSaver: new MemorySaver(),
   });
 
-  console.log();
+  console.log('\nConversation started. Type "exit" to end the conversation.\n');
 
-  const queries = [
+  const sampleQueries = [
     'How many files in the src directory?',
     'Read and briefly summarize the file ./LICENSE',
-    // 'Whats written on cnn.com?',
-    // 'whats the weather in sf?',
-  ]
+    // 'Whats the news headlines on cnn.com?',
+    // 'Whats the weather in sf?',
+  ];
 
-  for (const query of queries) {
-    console.log(`\x1b[33mQuery: ${query}\x1b[0m\n`);
+  if (sampleQueries.length > 0) {
+    console.log('Sampale Queries:');
+    sampleQueries.forEach(query => {
+      console.log(`- ${query}`);
+    });
+    console.log();
+  }
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+  
+  const getInput = (query: string): Promise<string> => 
+    new Promise<string>((resolve: (value: string) => void) => 
+      rl.question(query, resolve));  
+
+  while (true) {
+    let query = (await getInput('\x1b[33mQuery: ')).trim();
+
+    if (query.toLowerCase() === 'exit') {
+      console.log('\n\x1b[36mGoodbye!\x1b[0m\n');
+      rl.close();
+      break;
+    }
+
+    if (query === '') {
+      const sampleQuery = sampleQueries.shift();
+      if (!sampleQuery) {
+        console.log('\x1b[0m\nPlease enter a query, or "exit" to exit\n');
+        continue;
+      }
+      query = sampleQuery;
+      console.log(`\x1b[33mSampale Query: ${query}`);
+    }
+
+    console.log('\x1b[0m');
 
     const agentFinalState = await agent.invoke(
       { messages: [new HumanMessage(query)] },
