@@ -44,7 +44,10 @@ async function main() {
     temperature: llmConfig.temperature,
   });
 
-  const {allTools, cleanup} = await convertMCPServersToLangChainTools(config.mcpServers);
+  const { allTools, cleanup } = await convertMCPServersToLangChainTools(
+    config.mcpServers,
+    { logLevel: 'info' }
+  );
 
   cleanupMCPConnections = cleanup;
 
@@ -59,13 +62,13 @@ async function main() {
 
   const queries = [
     'How many files in the src directory?',
-    // 'Read and briefly summarize the file ./LICENSE',
+    'Read and briefly summarize the file ./LICENSE',
     // 'Whats written on cnn.com?',
     // 'whats the weather in sf?',
   ]
 
   for (const query of queries) {
-    console.log(`\x1b[33mQuery: ${query}\x1b[0m`);
+    console.log(`\x1b[33mQuery: ${query}\x1b[0m\n`);
 
     const agentFinalState = await agent.invoke(
       { messages: [new HumanMessage(query)] },
@@ -74,7 +77,7 @@ async function main() {
 
     const result = agentFinalState.messages[agentFinalState.messages.length - 1].content;
 
-    console.log(`\n\x1b[36m${result}\x1b[0m\n`);
+    console.log(`\x1b[36m${result}\x1b[0m\n`);
   }
 
   await cleanupMCPConnections();

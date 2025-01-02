@@ -7,31 +7,37 @@ import { CallToolResultSchema, ListToolsResultSchema } from '@modelcontextprotoc
 import { DynamicStructuredTool } from '@langchain/core/tools';
 import { jsonSchemaToZod, JsonSchema } from '@n8n/json-schema-to-zod';
 import { z } from 'zod';
+import { Logger } from './logger';
 
-type MCPServerConfig = {
+interface MCPServerConfig {
   command: string;
   args: string[];
   env?: Record<string, string>;
 }
 
-export type MCPServersConfig = {
+export interface MCPServersConfig {
   [key: string]: MCPServerConfig;
 }
 
+interface LogOptions {
+  logLevel?: 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace';
+}
+
 export async function convertMCPServersToLangChainTools(
-  configs: MCPServersConfig
+  configs: MCPServersConfig,
+  options?: LogOptions
 ): Promise<{
   allTools: DynamicStructuredTool[];
   cleanup: () => Promise<void>;
 }> {
   const allTools: DynamicStructuredTool[] = [];
   const cleanupCallbacks: (() => Promise<void>)[] = [];
+  const logger = new Logger({level: options?.logLevel || 'info'});
 
   const serverInitPromises = Object.entries(configs).map(async ([name, config]) => {
-    // console.log(`Initializing MCP server "${name}" with: `, config, '\n');
-    console.log(`Initializing MCP server "${name}"`);
-    const result = await convertMCPServerToLangChainTools(name, config)
-    // console.log(`Initialized MCP server "${name}"\n`);
+    logger.info(`Initializing MCP server "${name}"`);
+    logger.debug(`with config: `, config);
+    const result = await convertMCPServerToLangChainTools(name, config, logger);
     return {name, result};
   });
 
@@ -46,8 +52,8 @@ export async function convertMCPServersToLangChainTools(
   // Process successful initializations and log failures
   results.forEach((result, index) => {
     if (result.status === 'fulfilled') {
-      const { result: { availableTools, cleanup } } = result.value;
-      allTools.push(...availableTools);
+      const { result: { tools, cleanup } } = result.value;
+      allTools.push(...tools);
       cleanupCallbacks.push(cleanup);
     } else {
       console.error(`\x1b[31mERROR\x1b[0m: MCP server "${serverNames[index]}": failed to initialize: ${result.reason}`);
@@ -67,17 +73,18 @@ export async function convertMCPServersToLangChainTools(
     }
   }
 
-  console.log(`\nMCP servers initialized and found ${allTools.length} tool(s) in total:`);
-  allTools.forEach((tool) => console.log(`- ${tool.name}`));
+  logger.info(`MCP servers initialized and found ${allTools.length} tool(s) in total:`);
+  allTools.forEach((tool) => logger.info(`- ${tool.name}`));
 
   return { allTools, cleanup };
 }
 
 async function convertMCPServerToLangChainTools(
   serverName: string,
-  config: MCPServerConfig
+  config: MCPServerConfig,
+  logger: Logger
 ): Promise<{
-  availableTools: DynamicStructuredTool[];
+  tools: DynamicStructuredTool[];
   cleanup: () => Promise<void>;
 }> {
 
@@ -106,16 +113,16 @@ async function convertMCPServerToLangChainTools(
     ListToolsResultSchema
   );
 
-  console.log(`MCP server "${serverName}": connected`);
+  logger.info(`MCP server "${serverName}": connected`);
 
-  const availableTools = toolsResponse.tools.map((tool) => (
+  const tools = toolsResponse.tools.map((tool) => (
     new DynamicStructuredTool({
       name: tool.name,
       description: tool.description || '',
       schema: jsonSchemaToZod(tool.inputSchema as JsonSchema) as z.ZodObject<any>,
 
       func: async (input) => {
-        console.log(`\nMCP Tool "${tool.name}" received input:`, input);
+        logger.info(`MCP Tool "${tool.name}" received input:`, input);
 
         if (Object.keys(input).length === 0) {
           return 'No input provided';
@@ -133,7 +140,8 @@ async function convertMCPServerToLangChainTools(
           CallToolResultSchema
         );
 
-        console.log(`MCP Tool "${tool.name}" received result:`, result);
+        logger.info(`MCP Tool "${tool.name}" received result`);
+        logger.debug('result:', result);
 
         const filteredResult = result.content.filter(content => content.type === 'text').map((content) => {
           return content.text
@@ -145,14 +153,15 @@ async function convertMCPServerToLangChainTools(
     })
   ));
 
-  console.log(`MCP server "${serverName}": found ${availableTools.length} tool(s)`);
+  logger.info(`MCP server "${serverName}": found ${tools.length} tool(s)`);
+  tools.forEach((tool) => logger.debug(`- ${tool.name}`));
 
   async function cleanup(): Promise<void> {
     if (transport) {
       await transport.close();
-      console.log(`Closed MCP connection to "${serverName}"`);
+      logger.info(`Closed MCP connection to "${serverName}"`);
     }
   }
 
-  return { availableTools, cleanup };
+  return { tools, cleanup };
 }
