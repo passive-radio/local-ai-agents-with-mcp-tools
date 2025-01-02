@@ -4,128 +4,175 @@
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
 import { MemorySaver } from '@langchain/langgraph';
 import { HumanMessage } from '@langchain/core/messages';
-
-import { convertMCPServersToLangChainTools } from './mcp-server-langchain-tool';
-import { loadConfig } from './load-config';
+import { convertMCPServersToLangChainTools, MCPServerCleanupFunction } from './mcp-server-langchain-tool';
 import { initChatModel } from './init-chat-model';
-
+import { loadConfig, Config } from './load-config';
 import readline from 'readline';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import dotenv from 'dotenv';
+
+// Initialize environment variables
 dotenv.config();
 
+// Constants
+const DEFAULT_CONFIG_PATH = './llm-mcp-config.json5';
+
+const SAMPLE_QUERIES = [
+  'How many files in the src directory?',
+  'Read and briefly summarize the file ./LICENSE',
+  // 'Whats the news headlines on cnn.com?',
+  // 'Whats the weather in sf?',
+] as const;
+
+const CONSOLE_COLORS = {
+  YELLOW: '\x1b[33m',
+  CYAN: '\x1b[36m',
+  RESET: '\x1b[0m'
+} as const;
+
+// CLI argument setup
 interface Arguments {
   config: string;
   [key: string]: unknown;
 }
 
-const argv = yargs(hideBin(process.argv))
-  .options({
-    config: {type: 'string', description: 'Path to config file', demandOption: false},
-  })
-  .help()
-  .alias('help', 'h')
-  .parseSync() as Arguments;
+const parseArguments = (): Arguments => {
+  return yargs(hideBin(process.argv))
+    .options({
+      config: {
+        type: 'string',
+        description: 'Path to config file',
+        demandOption: false
+      },
+    })
+    .help()
+    .alias('help', 'h')
+    .parseSync() as Arguments;
+};
 
-const configPath = argv.config || process.env.CONFIG_FILE || './llm-mcp-config.json5';
-
-let cleanupMCPConnections: () => Promise<void>;
-
-async function main() {
-
-  const config = loadConfig(configPath);
-
-  const llmConfig = config.llm;
-
-  console.log('Initializing model...', llmConfig, '\n');
-  const llmModel = initChatModel({
-    modelName: llmConfig.model,
-    provider: llmConfig.provider,
-    temperature: llmConfig.temperature,
-  });
-
-  const { allTools, cleanup } = await convertMCPServersToLangChainTools(
-    config.mcpServers,
-    { logLevel: 'info' }
-  );
-
-  cleanupMCPConnections = cleanup;
-
-  const agent = createReactAgent({
-    llm: llmModel,
-    tools: allTools,
-    // Initialize memory to persist state between graph runs
-    checkpointSaver: new MemorySaver(),
-  });
-
-  console.log('\nConversation started. Type "exit" to end the conversation.\n');
-
-  const sampleQueries = [
-    'How many files in the src directory?',
-    'Read and briefly summarize the file ./LICENSE',
-    // 'Whats the news headlines on cnn.com?',
-    // 'Whats the weather in sf?',
-  ];
-
-  if (sampleQueries.length > 0) {
-    console.log('Sampale Queries:');
-    sampleQueries.forEach(query => {
-      console.log(`- ${query}`);
-    });
-    console.log();
-  }
-
-  const rl = readline.createInterface({
+// Input handling
+const createReadlineInterface = () => {
+  return readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
-  
-  const getInput = (query: string): Promise<string> => 
-    new Promise<string>((resolve: (value: string) => void) => 
-      rl.question(query, resolve));  
+};
 
+const getInput = (rl: readline.Interface, prompt: string): Promise<string> => {
+  return new Promise((resolve) => rl.question(prompt, resolve));
+};
+
+// Console output helpers
+const log = {
+  color: (text: string, color: keyof typeof CONSOLE_COLORS) => 
+    `${CONSOLE_COLORS[color]}${text}${CONSOLE_COLORS.RESET}`,
+  printSampleQueries: (queries: readonly string[]) => {
+    if (queries.length === 0) return;
+    console.log('Sample Queries (type just enter to supply them one by one):');
+    queries.forEach(query => console.log(`- ${query}`));
+    console.log();
+  }
+};
+
+// Conversation loop
+async function handleConversation(
+  agent: ReturnType<typeof createReactAgent>,
+  rl: readline.Interface,
+  remainingQueries: string[]
+): Promise<void> {
   while (true) {
-    let query = (await getInput('\x1b[33mQuery: ')).trim();
+    const input = await getInput(rl, log.color('Query: ', 'YELLOW'));
+    const query = input.trim();
 
     if (query.toLowerCase() === 'exit') {
-      console.log('\n\x1b[36mGoodbye!\x1b[0m\n');
+      console.log(log.color('\nGoodbye!\n', 'CYAN'));
       rl.close();
       break;
     }
 
     if (query === '') {
-      const sampleQuery = sampleQueries.shift();
+      const sampleQuery = remainingQueries.shift();
       if (!sampleQuery) {
-        console.log('\x1b[0m\nPlease enter a query, or "exit" to exit\n');
+        console.log('\nPlease enter a query, or "exit" to exit\n');
         continue;
       }
-      query = sampleQuery;
-      console.log(`\x1b[33mSampale Query: ${query}`);
+      console.log(log.color(`Sample Query: ${sampleQuery}`, 'YELLOW'));
+      await processQuery(agent, sampleQuery);
+      continue;
     }
 
-    console.log('\x1b[0m');
-
-    const agentFinalState = await agent.invoke(
-      { messages: [new HumanMessage(query)] },
-      { configurable: { thread_id: 'test-thread' } },
-    );
-
-    const result = agentFinalState.messages[agentFinalState.messages.length - 1].content;
-
-    console.log(`\x1b[36m${result}\x1b[0m\n`);
+    await processQuery(agent, query);
   }
-
-  await cleanupMCPConnections();
 }
 
-main().catch(async (error: unknown) => {
-  if (error instanceof Error) {
-    console.error(error.message);
-  } else {
-    console.error('An unknown error occurred', error);
+async function processQuery(
+  agent: ReturnType<typeof createReactAgent>,
+  query: string
+): Promise<void> {
+  console.log(CONSOLE_COLORS.RESET);
+  
+  const agentFinalState = await agent.invoke(
+    { messages: [new HumanMessage(query)] },
+    { configurable: { thread_id: 'test-thread' } }
+  );
+
+  const result = agentFinalState.messages[agentFinalState.messages.length - 1].content;
+  console.log(log.color(`${result}\n`, 'CYAN'));
+}
+
+// Application initialization
+async function initialize(config: Config) {
+  console.log('Initializing model...', config.llm, '\n');
+  const llmModel = initChatModel({
+    modelName: config.llm.model,
+    provider: config.llm.provider,
+    temperature: config.llm.temperature,
+  });
+
+  console.log(`Initializing ${Object.keys(config.mcpServers).length} MCP server(s)...\n`);
+  const { allTools, cleanup } = await convertMCPServersToLangChainTools(
+    config.mcpServers,
+    { logLevel: 'info' }
+  );
+
+  const agent = createReactAgent({
+    llm: llmModel,
+    tools: allTools,
+    checkpointSaver: new MemorySaver(),
+  });
+
+  return { agent, cleanup };
+}
+
+// Main
+async function main(): Promise<void> {
+  let mcpCleanup: MCPServerCleanupFunction | undefined;
+
+  try {
+    const argv = parseArguments();
+    const configPath = argv.config || process.env.CONFIG_FILE || DEFAULT_CONFIG_PATH;
+    const config = loadConfig(configPath);
+
+    const { agent, cleanup } = await initialize(config);
+    mcpCleanup = cleanup;
+
+    console.log('\nConversation started. Type "exit" to end the conversation.\n');
+    log.printSampleQueries(SAMPLE_QUERIES);
+
+    const rl = createReadlineInterface();
+    await handleConversation(agent, rl, [...SAMPLE_QUERIES]);
+    
+  } finally {
+    if (mcpCleanup) {
+      await mcpCleanup();
+    }
   }
-  if (cleanupMCPConnections) {
-    await cleanupMCPConnections();
-  }
+}
+
+// Application entry point with error handling
+main().catch((error: unknown) => {
+  const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+  console.error(errorMessage, error);
+  process.exit(1);
 });

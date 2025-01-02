@@ -6,26 +6,26 @@ type LogLevelString = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 enum LogLevel {
   TRACE = 0,
   DEBUG = 1,
-  INFO = 2,
-  WARN = 3,
+  INFO  = 2,
+  WARN  = 3,
   ERROR = 4,
   FATAL = 5
 }
 
 const LOG_COLORS = {
-  [LogLevel.TRACE]: '\x1b[90m',
-  [LogLevel.DEBUG]: '\x1b[90m',
-  [LogLevel.INFO]: '\x1b[90m',
-  [LogLevel.WARN]: '\x1b[93m',
-  [LogLevel.ERROR]: '\x1b[91m',
-  [LogLevel.FATAL]: '\x1b[101m',
+  [LogLevel.TRACE]: '\x1b[90m',  // Gray
+  [LogLevel.DEBUG]: '\x1b[90m',  // Gray
+  [LogLevel.INFO]:  '\x1b[90m',  // Gray
+  [LogLevel.WARN]:  '\x1b[93m',  // Bright Yellow
+  [LogLevel.ERROR]: '\x1b[91m',  // Bright Red
+  [LogLevel.FATAL]: '\x1b[101m', // Red background, white text
 } as const;
 
 const LOG_LEVEL_MAP: Record<LogLevelString, LogLevel> = {
   trace: LogLevel.TRACE,
   debug: LogLevel.DEBUG,
-  info: LogLevel.INFO,
-  warn: LogLevel.WARN,
+  info:  LogLevel.INFO,
+  warn:  LogLevel.WARN,
   error: LogLevel.ERROR,
   fatal: LogLevel.FATAL
 } as const;

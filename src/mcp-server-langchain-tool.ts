@@ -29,6 +29,10 @@ interface MCPError extends Error {
   details?: unknown;
 }
 
+export interface MCPServerCleanupFunction {
+  (): Promise<void>;
+}
+
 class MCPInitializationError extends Error implements MCPError {
   constructor(
     public serverName: string,
@@ -46,10 +50,10 @@ export async function convertMCPServersToLangChainTools(
   options?: LogOptions
 ): Promise<{
   allTools: DynamicStructuredTool[];
-  cleanup: () => Promise<void>;
+  cleanup: MCPServerCleanupFunction;
 }> {
   const allTools: DynamicStructuredTool[] = [];
-  const cleanupCallbacks: (() => Promise<void>)[] = [];
+  const cleanupCallbacks: MCPServerCleanupFunction[] = [];
   const logger = new Logger({level: options?.logLevel || 'info'});
 
   const serverInitPromises = Object.entries(configs).map(async ([name, config]) => {
@@ -103,7 +107,7 @@ async function convertMCPServerToLangChainTools(
   logger: Logger
 ): Promise<{
   tools: DynamicStructuredTool[];
-  cleanup: () => Promise<void>;
+  cleanup: MCPServerCleanupFunction;
 }> {
   let transport: StdioClientTransport | null = null;
   let client: Client | null = null;
