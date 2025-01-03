@@ -4,19 +4,20 @@
 import JSON5 from 'json5';
 import { readFileSync } from 'fs';
 
-export type LLMConfig = {
-  model: string;
+export interface LLMConfig {
   provider: string;
-  temperature: number;
+  modelName?: string;
+  temperature?: number;
+  maxTokens?: number;
 }
 
-export type MCPServerConfig = {
+export interface MCPServerConfig {
   command: string;
   args: string[];
   env?: Record<string, string>;
 }
 
-export type Config = {
+export interface Config {
   llm: LLMConfig;
   mcpServers: {
     [key: string]: MCPServerConfig;
@@ -78,16 +79,20 @@ function validateLLMConfig(config: unknown): asserts config is LLMConfig {
 
   const llmConfig = config as any;
   
-  if (typeof llmConfig.model !== 'string') {
-    throw new Error('LLM model must be a string');
-  }
-  
   if (typeof llmConfig.provider !== 'string') {
     throw new Error('LLM provider must be a string');
   }
+
+  if (llmConfig.modelName !== undefined && typeof llmConfig.modelName !== 'string') {
+    throw new Error('LLM modelName must be a string if provided');
+  }
   
-  if (typeof llmConfig.temperature !== 'number') {
-    throw new Error('LLM temperature must be a number');
+  if (llmConfig.temperature !== undefined && typeof llmConfig.temperature !== 'number') {
+    throw new Error('LLM temperature must be a number if provided');
+  }
+
+  if (llmConfig.maxTokens !== undefined && typeof llmConfig.maxTokens !== 'number') {
+    throw new Error('LLM maxTokens must be a number if provided');
   }
 }
 
@@ -110,7 +115,16 @@ function validateMCPServerConfig(config: unknown): asserts config is MCPServerCo
     throw new Error('All MCP server args must be strings');
   }
   
-  if (serverConfig.env !== undefined && (typeof serverConfig.env !== 'object' || serverConfig.env === null)) {
-    throw new Error('MCP server env must be an object if provided');
+  if (serverConfig.env !== undefined) {
+    if (typeof serverConfig.env !== 'object' || serverConfig.env === null) {
+      throw new Error('MCP server env must be an object if provided');
+    }
+
+    // Validate that all env values are strings
+    for (const [key, value] of Object.entries(serverConfig.env)) {
+      if (typeof value !== 'string') {
+        throw new Error('All MCP server env values must be strings');
+      }
+    }
   }
 }

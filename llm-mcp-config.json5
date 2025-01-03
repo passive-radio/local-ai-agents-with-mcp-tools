@@ -9,20 +9,24 @@
 {
     "llm": {
         "provider": "openai",
-        "model": "gpt-4o-mini",
-        "temperature": 0.0
+        "modelName": "gpt-4o-mini",
+        "temperature": 0.0,
+        "mexTokens": 1000,
     },
     // "llm": {
     //     "provider": "anthropic",
-    //     "model": "claude-3-5-haiku-latest",
-    //     "temperature": 0.0
+    //     "modelName": "claude-3-5-haiku-latest",
+    //     "temperature": 0.0,
+    //     "mexTokens": 1000,
     // },
     // "llm": {
     //     "provider": "groq",
-    //     "model": "gemma2-9b-it",
-    //     "temperature": 0.0
+    //     "modelName": "mixtral-8x7b-32768",
+    //     "temperature": 0.0,
+    //     "mexTokens": 1000,
     // },
     "mcpServers": {
+        // https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem
         "filesystem": {
             "command": "npx",
             "args": [
@@ -31,26 +35,17 @@
                 "."
             ]
         },
-        // "fetch": {
-        //     // https://github.com/modelcontextprotocol/servers/tree/main/src/fetch
-        //     "command": "uv",
-        //     "args": [
-        //         "--directory",
-        //         "${MCP_FETCH_SERVER_DIR}/src",
-        //         "run",
-        //         "mcp_server_fetch"
-        //     ]
+        // https://github.com/modelcontextprotocol/servers/tree/main/src/fetch
+        "fetch": {
+            "command": "uvx",
+            "args": ["mcp-server-fetch"]
+        },
+        // // https://github.com/modelcontextprotocol/servers/tree/main/src/puppeteer
+        // "puppeteer": {
+        //     "command": "npx",
+        //     "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
         // },
-        // "weather": {
-        //     // https://github.com/modelcontextprotocol/quickstart-resources/tree/main/weather-server-python
-        //     "command": "uv",
-        //     "args": [
-        //         "--directory",
-        //         "${MCP_WEATHER_SERVER_DIR}/src",
-        //         "run",
-        //         "weather"
-        //     ]
-        // },
+        // // https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search
         // "brave-search": {
         //     "command": "npx",
         //     "args": [
@@ -58,10 +53,19 @@
         //         "@modelcontextprotocol/server-brave-search"
         //     ],
         //     "env": {
-        //         // Somehow, PATH and BRAVE_API_KEY need to be explicitly specified here
-        //         "PATH": "${PATH}",
-        //         "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+        //         "BRAVE_API_KEY": "${BRAVE_API_KEY}",
+        //         "PATH": "${PATH}" // Somehow, PATH eed to be explicitly specified here
         //     }
+        // },
+        // // https://github.com/modelcontextprotocol/quickstart-resources/tree/main/weather-server-python
+        // "weather": {
+        //     "command": "uv",
+        //     "args": [
+        //         "--directory",
+        //         "${MCP_WEATHER_SERVER_DIR}/src",
+        //         "run",
+        //         "weather"
+        //     ]
         // },
     }
 }

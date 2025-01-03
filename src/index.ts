@@ -19,10 +19,10 @@ dotenv.config();
 const DEFAULT_CONFIG_PATH = './llm-mcp-config.json5';
 
 const SAMPLE_QUERIES = [
-  'How many files in the src directory?',
   'Read and briefly summarize the file ./LICENSE',
-  // 'Whats the news headlines on cnn.com?',
-  // 'Whats the weather in sf?',
+  'Read the news headlines on cnn.com?',
+  // 'Show me the page cnn.com',
+  // 'Whats the weather in SF?',
 ] as const;
 
 const CONSOLE_COLORS = {
@@ -85,7 +85,7 @@ async function handleConversation(
     const input = await getInput(rl, log.color('Query: ', 'YELLOW'));
     const query = input.trim();
 
-    if (query.toLowerCase() === 'exit') {
+    if (query.toLowerCase() === 'quit' || query.toLowerCase() === 'q') {
       console.log(log.color('\nGoodbye!\n', 'CYAN'));
       rl.close();
       break;
@@ -94,7 +94,7 @@ async function handleConversation(
     if (query === '') {
       const sampleQuery = remainingQueries.shift();
       if (!sampleQuery) {
-        console.log('\nPlease enter a query, or "exit" to exit\n');
+        console.log('\nPlease type a query, or "quit" or "q" to exit\n');
         continue;
       }
       console.log(log.color(`Sample Query: ${sampleQuery}`, 'YELLOW'));
@@ -118,17 +118,14 @@ async function processQuery(
   );
 
   const result = agentFinalState.messages[agentFinalState.messages.length - 1].content;
+
   console.log(log.color(`${result}\n`, 'CYAN'));
 }
 
 // Application initialization
 async function initialize(config: Config) {
   console.log('Initializing model...', config.llm, '\n');
-  const llmModel = initChatModel({
-    modelName: config.llm.model,
-    provider: config.llm.provider,
-    temperature: config.llm.temperature,
-  });
+  const llmModel = initChatModel(config.llm);
 
   console.log(`Initializing ${Object.keys(config.mcpServers).length} MCP server(s)...\n`);
   const { allTools, cleanup } = await convertMCPServersToLangChainTools(
@@ -157,7 +154,7 @@ async function main(): Promise<void> {
     const { agent, cleanup } = await initialize(config);
     mcpCleanup = cleanup;
 
-    console.log('\nConversation started. Type "exit" to end the conversation.\n');
+    console.log('\nConversation started. Type "quit" or "q" to end the conversation.\n');
     log.printSampleQueries(SAMPLE_QUERIES);
 
     const rl = createReadlineInterface();

@@ -16,9 +16,9 @@ const LOG_COLORS = {
   [LogLevel.TRACE]: '\x1b[90m',  // Gray
   [LogLevel.DEBUG]: '\x1b[90m',  // Gray
   [LogLevel.INFO]:  '\x1b[90m',  // Gray
-  [LogLevel.WARN]:  '\x1b[93m',  // Bright Yellow
-  [LogLevel.ERROR]: '\x1b[91m',  // Bright Red
-  [LogLevel.FATAL]: '\x1b[101m', // Red background, white text
+  [LogLevel.WARN]:  '\x1b[1;93m',  // Bold bright yellow
+  [LogLevel.ERROR]: '\x1b[1;91m',  // Bold bright red
+  [LogLevel.FATAL]: '\x1b[1;101m', // Red background, Bold text
 } as const;
 
 const LOG_LEVEL_MAP: Record<LogLevelString, LogLevel> = {

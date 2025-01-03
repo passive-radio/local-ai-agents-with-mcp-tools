@@ -11,43 +11,38 @@ import { Tool } from '@langchain/core/tools';
 // Ref: https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html
 // Ref: https://v03.api.js.langchain.com/classes/_langchain_core.language_models_chat_models.BaseChatModel.html
 
-interface InitChatModelConfig {
-  modelName: string;
+interface ChatModelConfig {
   provider: string;
-  // apiKey: string;
-  temperature: number;
+  apiKey?: string;
+  modelName?: string;
+  temperature?: number;
+  maxTokens?: number,
   tools?: Tool[];
 }
 
-export function initChatModel(config: InitChatModelConfig): BaseChatModel {
-
+export function initChatModel(config: ChatModelConfig): BaseChatModel {
   let model: BaseChatModel;
 
+  // remove unnecessary properties
+  const { provider, tools, ...llmConfig } = config;
+  
   try {
     switch (config.provider.toLowerCase()) {
       case 'openai':
-        model = new ChatOpenAI({
-          modelName: config.modelName,
-          temperature: config.temperature,
-          // openAIApiKey: config.apiKey,
-        });
+        model = new ChatOpenAI(llmConfig);
         break;
 
       case 'anthropic':
-        model = new ChatAnthropic({
-          modelName: config.modelName,
-          temperature: config.temperature,
-          // anthropicApiKey: config.apiKey,
-        });
+        model = new ChatAnthropic(llmConfig);
         break;
 
       case 'groq':
-        // Groq library requires the API key set by the env variable
-        // process.env.GROQ_API_KEY = config.apiKey;
-        model = new ChatGroq({
-          modelName: config.modelName,
-          temperature: config.temperature,
-        });
+        // somehow, the API key had to be set via the env variable,
+        // even though the constructor accepts `apiKey`
+        if (llmConfig.apiKey) {
+          process.env.GROQ_API_KEY = llmConfig.apiKey;
+        }
+        model = new ChatGroq(llmConfig);
         break;
 
       default:
