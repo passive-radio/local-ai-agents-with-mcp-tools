@@ -24,7 +24,7 @@ const serverConfig: MCPServersConfig = {
       '/Users/username/Desktop'
     ]
   },
-  other_mcp_server: {
+  another_mcp_server: {
     ...
   }
 };

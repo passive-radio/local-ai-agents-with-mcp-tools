@@ -4,9 +4,9 @@
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
 import { MemorySaver } from '@langchain/langgraph';
 import { HumanMessage } from '@langchain/core/messages';
-import { convertMCPServersToLangChainTools, MCPServerCleanupFunction } from './mcp-server-langchain-tool';
-import { initChatModel } from './init-chat-model';
-import { loadConfig, Config } from './load-config';
+import { convertMCPServersToLangChainTools, MCPServerCleanupFunction } from './mcp-server-langchain-tool.js';
+import { initChatModel } from './init-chat-model.js';
+import { loadConfig, Config } from './load-config.js';
 import readline from 'readline';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
@@ -65,7 +65,7 @@ const getInput = (rl: readline.Interface, prompt: string): Promise<string> => {
 
 // Console output helpers
 const log = {
-  color: (text: string, color: keyof typeof CONSOLE_COLORS) => 
+  color: (text: string, color: keyof typeof CONSOLE_COLORS) =>
     `${CONSOLE_COLORS[color]}${text}${CONSOLE_COLORS.RESET}`,
   printSampleQueries: (queries: readonly string[]) => {
     if (queries.length === 0) return;
@@ -111,7 +111,7 @@ async function processQuery(
   query: string
 ): Promise<void> {
   console.log(CONSOLE_COLORS.RESET);
-  
+
   const agentFinalState = await agent.invoke(
     { messages: [new HumanMessage(query)] },
     { configurable: { thread_id: 'test-thread' } }
@@ -159,7 +159,7 @@ async function main(): Promise<void> {
 
     const rl = createReadlineInterface();
     await handleConversation(agent, rl, [...SAMPLE_QUERIES]);
-    
+
   } finally {
     if (mcpCleanup) {
       await mcpCleanup();

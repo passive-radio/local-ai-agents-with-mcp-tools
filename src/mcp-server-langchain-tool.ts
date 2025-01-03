@@ -7,7 +7,7 @@ import { CallToolResultSchema, ListToolsResultSchema } from '@modelcontextprotoc
 import { DynamicStructuredTool } from '@langchain/core/tools';
 import { jsonSchemaToZod, JsonSchema } from '@n8n/json-schema-to-zod';
 import { z } from 'zod';
-import { Logger } from './logger';
+import { Logger } from './logger.js';
 
 interface MCPServerConfig {
   command: string;
@@ -54,13 +54,13 @@ export async function convertMCPServersToLangChainTools(
 }> {
   const allTools: DynamicStructuredTool[] = [];
   const cleanupCallbacks: MCPServerCleanupFunction[] = [];
-  const logger = new Logger({level: options?.logLevel || 'info'});
+  const logger = new Logger({ level: options?.logLevel || 'info' });
 
   const serverInitPromises = Object.entries(configs).map(async ([name, config]) => {
     logger.info(`Initializing MCP server "${name}"`);
     logger.debug(`with config: `, config);
     const result = await convertMCPServerToLangChainTools(name, config, logger);
-    return {name, result};
+    return { name, result };
   });
 
   // Track server names alongside their promises
@@ -70,7 +70,7 @@ export async function convertMCPServersToLangChainTools(
   const results = await Promise.allSettled(
     serverInitPromises
   );
-  
+
   // Process successful initializations and log failures
   results.forEach((result, index) => {
     if (result.status === 'fulfilled') {
@@ -85,7 +85,7 @@ export async function convertMCPServersToLangChainTools(
   async function cleanup(): Promise<void> {
     // Concurrently execute all the callbacks
     const results = await Promise.allSettled(cleanupCallbacks.map(callback => callback()));
-    
+
     // Log any cleanup failures
     const failures = results.filter(result => result.status === 'rejected');
     if (failures.length > 0) {
@@ -142,6 +142,8 @@ async function convertMCPServerToLangChainTools(
       new DynamicStructuredTool({
         name: tool.name,
         description: tool.description || '',
+        // FIXME
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         schema: jsonSchemaToZod(tool.inputSchema as JsonSchema) as z.ZodObject<any>,
 
         func: async (input) => {
@@ -188,13 +190,13 @@ async function convertMCPServerToLangChainTools(
     }
 
     return { tools, cleanup };
-  } catch (error) {
+  } catch (error: unknown) {
     // Proper cleanup in case of initialization error
     if (transport) await transport.close();
     throw new MCPInitializationError(
       serverName,
       'INIT_FAILED',
-      `Failed to initialize MCP server: ${error.message}`,
+      `Failed to initialize MCP server: ${error instanceof Error ? error.message : String(error)}`,
       error
     );
   }

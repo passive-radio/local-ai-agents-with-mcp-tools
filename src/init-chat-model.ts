@@ -7,7 +7,7 @@ import { ChatGroq } from '@langchain/groq';
 import { BaseChatModel } from '@langchain/core/language_models/chat_models';
 import { Tool } from '@langchain/core/tools';
 
-// FIXME: no typescript version of init_chat_model() yet?
+// FIXME: no typescript version of init_chat_model()? (or the Python version is gone?)
 // Ref: https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html
 // Ref: https://v03.api.js.langchain.com/classes/_langchain_core.language_models_chat_models.BaseChatModel.html
 
@@ -24,8 +24,9 @@ export function initChatModel(config: ChatModelConfig): BaseChatModel {
   let model: BaseChatModel;
 
   // remove unnecessary properties
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { provider, tools, ...llmConfig } = config;
-  
+
   try {
     switch (config.provider.toLowerCase()) {
       case 'openai':
@@ -52,7 +53,9 @@ export function initChatModel(config: ChatModelConfig): BaseChatModel {
     }
 
     if (typeof model?.bindTools === 'function') {
-      if (config.tools && config.tools.length > 0 ) {
+      if (config.tools && config.tools.length > 0) {
+        // FIXME
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
         model = (model as { bindTools: Function }).bindTools(config.tools);
       }
     } else {
