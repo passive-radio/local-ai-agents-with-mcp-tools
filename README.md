@@ -1,4 +1,4 @@
-# MCP Client Implementation In LangChain / TypeScript
+# MCP Client Implementation Using LangChain / TypeScript
 
 This simple app demonstrates
 [Model Context Protocol](https://modelcontextprotocol.io/) server invocations from
@@ -68,8 +68,8 @@ const agent = createReactAgent({
       where comments and trailing commas are allowed.
     - The file format is further extended to
       replace `${...}` notations with the values of appropriate environment variables.
-    - Put all the credentials and perfonal info into the `.env` file
-      and refer to it with `${...}` notation if necessary.
+    - Put all the credentials and personal info into the `.env` file
+      and refer to them with `${...}` notation if necessary.
 
 
 

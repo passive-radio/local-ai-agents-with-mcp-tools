@@ -3,8 +3,8 @@
 // where comments and trailing commas are allowed.
 // The file format is further extended to replace `${...}` notations
 // with the values of appropriate environment variables.
-// Put all the credentials and perfonal into the `.env` file
-// and refer to it with `${...}` notation if necessary.
+// Put all the credentials and personal into the `.env` file
+// and refer to them with `${...}` notation if necessary.
 //
 {
     "llm": {
@@ -40,6 +40,15 @@
             "command": "uvx",
             "args": ["mcp-server-fetch"]
         },
+        // https://github.com/modelcontextprotocol/quickstart-resources/tree/main/weather-server-python
+        "weather": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@h1deya/mcp-server-weather"
+            ]
+
+        },
         // // https://github.com/modelcontextprotocol/servers/tree/main/src/puppeteer
         // "puppeteer": {
         //     "command": "npx",
@@ -54,18 +63,8 @@
         //     ],
         //     "env": {
         //         "BRAVE_API_KEY": "${BRAVE_API_KEY}",
-        //         "PATH": "${PATH}" // Somehow, PATH eed to be explicitly specified here
+        //         "PATH": "${PATH}" // Somehow, PATH need to be explicitly specified here
         //     }
-        // },
-        // // https://github.com/modelcontextprotocol/quickstart-resources/tree/main/weather-server-python
-        // "weather": {
-        //     "command": "uv",
-        //     "args": [
-        //         "--directory",
-        //         "${MCP_WEATHER_SERVER_DIR}/src",
-        //         "run",
-        //         "weather"
-        //     ]
         // },
     }
 }
