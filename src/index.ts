@@ -25,7 +25,7 @@ const SAMPLE_QUERIES = [
   // 'Show me the page cnn.com',
 ] as const;
 
-const CONSOLE_COLORS = {
+const COLORS = {
   YELLOW: '\x1b[33m',
   CYAN: '\x1b[36m',
   RESET: '\x1b[0m'
@@ -63,67 +63,67 @@ const getInput = (rl: readline.Interface, prompt: string): Promise<string> => {
   return new Promise((resolve) => rl.question(prompt, resolve));
 };
 
-// Console output helpers
-const log = {
-  color: (text: string, color: keyof typeof CONSOLE_COLORS) =>
-    `${CONSOLE_COLORS[color]}${text}${CONSOLE_COLORS.RESET}`,
-  printSampleQueries: (queries: readonly string[]) => {
-    if (queries.length === 0) return;
-    console.log('Sample Queries (type just enter to supply them one by one):');
-    queries.forEach(query => console.log(`- ${query}`));
-    console.log();
+async function getUserQuery(
+  rl: readline.Interface,
+  remainingQueries: string[]
+): Promise<string | undefined> {
+  const input = await getInput(rl, `${COLORS.YELLOW}Query: `);
+  process.stdout.write(COLORS.RESET);
+  const query = input.trim();
+
+  if (query.toLowerCase() === 'quit' || query.toLowerCase() === 'q') {
+    rl.close();
+    return undefined;
   }
-};
+
+  if (query === '') {
+    const sampleQuery = remainingQueries.shift();
+    if (!sampleQuery) {
+      console.log('\nPlease type a query, or "quit" or "q" to exit\n');
+      return await getUserQuery(rl, remainingQueries);
+    }
+    process.stdout.write('\x1b[1A\x1b[2K'); // Move up and clear the line
+    console.log(`${COLORS.YELLOW}Sample Query: ${sampleQuery}${COLORS.RESET}`);
+    return sampleQuery;
+  }
+
+  return query;
+}
 
 // Conversation loop
 async function handleConversation(
   agent: ReturnType<typeof createReactAgent>,
-  rl: readline.Interface,
   remainingQueries: string[]
 ): Promise<void> {
+  console.log('\nConversation started. Type "quit" or "q" to end the conversation.\n');
+  console.log('Sample Queries (type just enter to supply them one by one):');
+  remainingQueries.forEach(query => console.log(`- ${query}`));
+  console.log();
+
+  const rl = createReadlineInterface();
+ 
   while (true) {
-    const input = await getInput(rl, log.color('Query: ', 'YELLOW'));
-    const query = input.trim();
+    const query = await getUserQuery(rl, remainingQueries);
+    console.log();
 
-    if (query.toLowerCase() === 'quit' || query.toLowerCase() === 'q') {
-      console.log(log.color('\nGoodbye!\n', 'CYAN'));
-      rl.close();
-      break;
+    if (!query) {
+      console.log(`${COLORS.CYAN}Goodbye!${COLORS.RESET}\n`);
+      return;
     }
 
-    if (query === '') {
-      const sampleQuery = remainingQueries.shift();
-      if (!sampleQuery) {
-        console.log('\nPlease type a query, or "quit" or "q" to exit\n');
-        continue;
-      }
-      console.log(log.color(`Sample Query: ${sampleQuery}`, 'YELLOW'));
-      await processQuery(agent, sampleQuery);
-      continue;
-    }
+    const agentFinalState = await agent.invoke(
+      { messages: [new HumanMessage(query)] },
+      { configurable: { thread_id: 'test-thread' } }
+    );
 
-    await processQuery(agent, query);
+    const result = agentFinalState.messages[agentFinalState.messages.length - 1].content;
+
+    console.log(`${COLORS.CYAN}${result}${COLORS.RESET}\n`);
   }
 }
 
-async function processQuery(
-  agent: ReturnType<typeof createReactAgent>,
-  query: string
-): Promise<void> {
-  console.log(CONSOLE_COLORS.RESET);
-
-  const agentFinalState = await agent.invoke(
-    { messages: [new HumanMessage(query)] },
-    { configurable: { thread_id: 'test-thread' } }
-  );
-
-  const result = agentFinalState.messages[agentFinalState.messages.length - 1].content;
-
-  console.log(log.color(`${result}\n`, 'CYAN'));
-}
-
 // Application initialization
-async function initialize(config: Config) {
+async function initializeReactAgent(config: Config) {
   console.log('Initializing model...', config.llm, '\n');
   const llmModel = initChatModel(config.llm);
 
@@ -151,14 +151,10 @@ async function main(): Promise<void> {
     const configPath = argv.config || process.env.CONFIG_FILE || DEFAULT_CONFIG_PATH;
     const config = loadConfig(configPath);
 
-    const { agent, cleanup } = await initialize(config);
+    const { agent, cleanup } = await initializeReactAgent(config);
     mcpCleanup = cleanup;
 
-    console.log('\nConversation started. Type "quit" or "q" to end the conversation.\n');
-    log.printSampleQueries(SAMPLE_QUERIES);
-
-    const rl = createReadlineInterface();
-    await handleConversation(agent, rl, [...SAMPLE_QUERIES]);
+    await handleConversation(agent, [...SAMPLE_QUERIES]);
 
   } finally {
     if (mcpCleanup) {

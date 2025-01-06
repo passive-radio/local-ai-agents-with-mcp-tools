@@ -165,7 +165,8 @@ async function convertMCPServerToLangChainTools(
             CallToolResultSchema
           );
 
-          logger.info(`MCP Tool "${tool.name}" received result`);
+          const roughLength = JSON.stringify(result).length;
+          logger.info(`MCP Tool "${tool.name}" received result (length: ${roughLength})`);
           logger.debug('result:', result);
 
           const filteredResult = result?.content

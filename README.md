@@ -68,7 +68,7 @@ const agent = createReactAgent({
       where comments and trailing commas are allowed.
     - The file format is further extended to
       replace `${...}` notations with the values of appropriate environment variables.
-    - Put all the credentials and personal info into the `.env` file
+    - Put all the credentials and private info into the `.env` file
       and refer to them with `${...}` notation if necessary.
 
 
