@@ -6,19 +6,16 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "@h1deya/mcp-langchain-tools": "^0.0.16",
     "@langchain/anthropic": "^0.3.11",
-    "@langchain/community": "^0.3.20",
-    "@langchain/core": "^0.3.26",
+    "@langchain/core": "^0.3.27",
     "@langchain/groq": "^0.1.2",
-    "@langchain/langgraph": "^0.2.36",
+    "@langchain/langgraph": "^0.2.39",
     "@langchain/openai": "^0.3.16",
-    "@modelcontextprotocol/sdk": "^1.0.4",
-    "@n8n/json-schema-to-zod": "^1.1.0",
     "@types/yargs": "^17.0.33",
     "dotenv": "^16.4.7",
     "json5": "^2.2.3",
-    "yargs": "^17.7.2",
-    "zod": "^3.24.1"
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

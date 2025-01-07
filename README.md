@@ -1,52 +1,13 @@
-# MCP Client Implementation Using LangChain / TypeScript
+# MCP Client Implementation Using LangChain / TypeScript [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/hideya/react/blob/main/LICENSE)
 
-This simple app demonstrates
+This simple MCP-client demonstrates
 [Model Context Protocol](https://modelcontextprotocol.io/) server invocations from
 LangChain ReAct Agent by wrapping MCP server tools into LangChain Tools.
 
+It leverages a utility function `convertMCPServersToLangChainTools()`
+from [`@h1deya/mcp-langchain-tools`](https://www.npmjs.com/package/@h1deya/mcp-langchain-tools)
+
 LLMs from OpenAI, Anthropic and Groq are currently supported.
-
-## Features
-
-A utility function `convertMCPServersToLangChainTools()` was introduced to simplify the work.
-
-It accepts the MCP server configuration in the same format
-as [Claude for Desktop](https://modelcontextprotocol.io/quickstart/user);
-a JS Object version of its JSON configuration file, e.g.:
-
-```ts
-const serverConfig: MCPServersConfig = {
-  filesystem: {
-    command: 'npx',
-    args: [
-      '-y',
-      '@modelcontextprotocol/server-filesystem',
-      '/Users/username/Desktop'
-    ]
-  },
-  another_mcp_server: {
-    ...
-  }
-};
-
-const {allTools, cleanup} = await convertMCPServersToLangChainTools(serverConfig);
-```
-
-The utility functoin initializes all the MCP server connections concurrently,
-and returns LangChain Tools (`allTools: DynamicStructuredTool[]`)
-by gathering all the available MCP server tools,
-and by wrapping them into LangChain Tools (it also returns `cleanup` callback function
-that is used to close connections to MCP servers when finished).
-
-The returned tools can be used by LangChain, e.g.:
-
-```ts
-const agent = createReactAgent({
-  llm: llmModel,
-  tools: allTools,
-  checkpointSaver: new MemorySaver()
-});
-```
 
 ## Setup
 1. Install dependencies:
@@ -64,13 +25,14 @@ const agent = createReactAgent({
 
 3. Configure LLM and MCP Servers settings `llm-mcp-config.json5` as needed.
 
-    - The configuration file format is [JSON5](https://json5.org/),
-      where comments and trailing commas are allowed.
-    - The file format is further extended to
-      replace `${...}` notations with the values of appropriate environment variables.
-    - Put all the credentials and private info into the `.env` file
-      and refer to them with `${...}` notation if necessary.
-
+    - The configuration file format for MCP servers is the same as
+      [Claude for Desktop](https://modelcontextprotocol.io/quickstart/user) 
+    - However, the format used for this app is more flexible [JSON5](https://json5.org/),
+      which allows comments and trailing commas.
+    - The file format is also extended to
+      replace `${...}` notations with the values of corresponding environment variables.
+    - Keep all the credentials and private info in the `.env` file
+      and refer to them with `${...}` notation as needed.
 
 
 ## Usage
@@ -82,3 +44,5 @@ Regular mode:
 ```bash
 npm start
 ```
+
+At the prompt, you can simply press Enter to use sample queries that perform MCP server tool invocations.

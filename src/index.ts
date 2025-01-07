@@ -4,7 +4,7 @@
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
 import { MemorySaver } from '@langchain/langgraph';
 import { HumanMessage } from '@langchain/core/messages';
-import { convertMCPServersToLangChainTools, MCPServerCleanupFunction } from './mcp-server-langchain-tool.js';
+import { convertMCPServersToLangChainTools, MCPServerCleanupFunction } from '@h1deya/mcp-langchain-tools';
 import { initChatModel } from './init-chat-model.js';
 import { loadConfig, Config } from './load-config.js';
 import readline from 'readline';
@@ -21,7 +21,7 @@ const DEFAULT_CONFIG_PATH = './llm-mcp-config.json5';
 const SAMPLE_QUERIES = [
   'Whats the weather like in SF?',
   'Read and briefly summarize the file ./LICENSE',
-  'Read the news headlines on cnn.com?',
+  'Read the news headlines on cnn.com',
   // 'Show me the page cnn.com',
 ] as const;
 
@@ -125,17 +125,17 @@ async function handleConversation(
 // Application initialization
 async function initializeReactAgent(config: Config) {
   console.log('Initializing model...', config.llm, '\n');
-  const llmModel = initChatModel(config.llm);
+  const llm = initChatModel(config.llm);
 
   console.log(`Initializing ${Object.keys(config.mcpServers).length} MCP server(s)...\n`);
-  const { allTools, cleanup } = await convertMCPServersToLangChainTools(
+  const { tools, cleanup } = await convertMCPServersToLangChainTools(
     config.mcpServers,
     { logLevel: 'info' }
   );
 
   const agent = createReactAgent({
-    llm: llmModel,
-    tools: allTools,
+    llm,
+    tools,
     checkpointSaver: new MemorySaver(),
   });
 
@@ -165,7 +165,6 @@ async function main(): Promise<void> {
 
 // Application entry point with error handling
 main().catch((error: unknown) => {
-  const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-  console.error(errorMessage, error);
+  console.error(error);
   process.exit(1);
 });
