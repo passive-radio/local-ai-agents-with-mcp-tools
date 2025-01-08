@@ -21,7 +21,7 @@ const DEFAULT_CONFIG_PATH = './llm-mcp-config.json5';
 const SAMPLE_QUERIES = [
   'Whats the weather like in SF tomorrow?',
   'Read and briefly summarize the LICENSE file',
-  'Read the headlines on cnn.com',
+  'Read the news headlines on cnn.com',
   // 'Show me the page cnn.com',
 ] as const;
 
