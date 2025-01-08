@@ -6,7 +6,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@h1deya/mcp-langchain-tools": "^0.0.16",
+    "@h1deya/mcp-langchain-tools": "^0.1.0",
     "@langchain/anthropic": "^0.3.11",
     "@langchain/core": "^0.3.27",
     "@langchain/groq": "^0.1.2",
