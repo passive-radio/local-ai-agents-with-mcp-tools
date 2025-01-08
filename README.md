@@ -7,7 +7,15 @@ LangChain ReAct Agent by wrapping MCP server tools into LangChain Tools.
 It leverages a utility function `convertMCPServersToLangChainTools()`
 from [`@h1deya/mcp-langchain-tools`](https://www.npmjs.com/package/@h1deya/mcp-langchain-tools)
 
-LLMs from OpenAI, Anthropic and Groq are currently supported.
+LLMs from Anthropic, OpenAI and Groq are currently supported.
+
+## Requirements
+
+- Node.js version 16 or higher installed
+- API keys from [Anthropic](https://console.anthropic.com/settings/keys),
+  [OpenAI](https://platform.openai.com/api-keys), and/or
+  [Groq](https://console.groq.com/keys)
+  as needed.
 
 ## Setup
 1. Install dependencies:

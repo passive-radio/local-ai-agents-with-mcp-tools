@@ -8,14 +8,14 @@
 //
 {
     "llm": {
-        "provider": "openai",
-        "modelName": "gpt-4o-mini",
+        "provider": "anthropic",
+        "modelName": "claude-3-5-haiku-latest",
         "temperature": 0.0,
         "mexTokens": 1000,
     },
     // "llm": {
-    //     "provider": "anthropic",
-    //     "modelName": "claude-3-5-haiku-latest",
+    //     "provider": "openai",
+    //     "modelName": "gpt-4o-mini",
     //     "temperature": 0.0,
     //     "mexTokens": 1000,
     // },
