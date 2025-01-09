@@ -1,6 +1,3 @@
-// Copyright (C) 2024 Hideya Kawahara
-// SPDX-License-Identifier: MIT
-
 import JSON5 from 'json5';
 import { readFileSync } from 'fs';
 
@@ -19,6 +16,7 @@ export interface MCPServerConfig {
 
 export interface Config {
   llm: LLMConfig;
+  sampleQueries: string[];
   mcpServers: {
     [key: string]: MCPServerConfig;
   }
@@ -47,17 +45,30 @@ export function loadConfig(path: string): Config {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function validateConfig(config: any): asserts config is Config {
+function validateConfig(config: unknown): asserts config is Config {
   if (typeof config !== 'object' || config === null) {
     throw new Error('Configuration must be an object');
   }
 
-  if (!config.llm) {
+  if (!('llm' in config)) {
     throw new Error('LLM configuration is required');
   }
   validateLLMConfig(config.llm);
 
+  if (!('sampleQueries' in config)) {
+    throw new Error('sampleQueries is required');
+  }
+  if (!Array.isArray(config.sampleQueries)) {
+    throw new Error('sampleQueries must be an array');
+  }
+
+  if (config.sampleQueries.some((query: unknown) => typeof query !== 'string')) {
+    throw new Error('All sample queries must be strings');
+  }
+
+  if (!('mcpServers' in config)) {
+    throw new Error('mcpServers configuration is required');
+  }
   if (typeof config.mcpServers !== 'object' || config.mcpServers === null) {
     throw new Error('mcpServers must be an object');
   }
@@ -71,40 +82,38 @@ function validateConfig(config: any): asserts config is Config {
   });
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function validateLLMConfig(llmConfig: any): asserts llmConfig is LLMConfig {
+function validateLLMConfig(llmConfig: unknown): asserts llmConfig is LLMConfig {
   if (typeof llmConfig !== 'object' || llmConfig === null) {
     throw new Error('LLM configuration must be an object');
   }
 
-  if (typeof llmConfig.provider !== 'string') {
+  if (!('provider' in llmConfig) || typeof llmConfig.provider !== 'string') {
     throw new Error('LLM provider must be a string');
   }
 
-  if (llmConfig.modelName !== undefined && typeof llmConfig.modelName !== 'string') {
+  if ('modelName' in llmConfig && typeof llmConfig.modelName !== 'string') {
     throw new Error('LLM modelName must be a string if provided');
   }
 
-  if (llmConfig.temperature !== undefined && typeof llmConfig.temperature !== 'number') {
+  if ('temperature' in llmConfig && typeof llmConfig.temperature !== 'number') {
     throw new Error('LLM temperature must be a number if provided');
   }
 
-  if (llmConfig.maxTokens !== undefined && typeof llmConfig.maxTokens !== 'number') {
+  if ('maxTokens' in llmConfig && typeof llmConfig.maxTokens !== 'number') {
     throw new Error('LLM maxTokens must be a number if provided');
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function validateMCPServerConfig(serverConfig: any): asserts serverConfig is MCPServerConfig {
+function validateMCPServerConfig(serverConfig: unknown): asserts serverConfig is MCPServerConfig {
   if (typeof serverConfig !== 'object' || serverConfig === null) {
     throw new Error('MCP server configuration must be an object');
   }
 
-  if (typeof serverConfig.command !== 'string') {
+  if (!('command' in serverConfig) || typeof serverConfig.command !== 'string') {
     throw new Error('MCP server command must be a string');
   }
 
-  if (!Array.isArray(serverConfig.args)) {
+  if (!('args' in serverConfig) || !Array.isArray(serverConfig.args)) {
     throw new Error('MCP server args must be an array');
   }
 
@@ -112,7 +121,7 @@ function validateMCPServerConfig(serverConfig: any): asserts serverConfig is MCP
     throw new Error('All MCP server args must be strings');
   }
 
-  if (serverConfig.env !== undefined) {
+  if ('env' in serverConfig && serverConfig.env !== undefined) {
     if (typeof serverConfig.env !== 'object' || serverConfig.env === null) {
       throw new Error('MCP server env must be an object if provided');
     }

@@ -1,6 +1,3 @@
-// Copyright (C) 2024 Hideya Kawahara
-// SPDX-License-Identifier: MIT
-
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
 import { MemorySaver } from '@langchain/langgraph';
 import { HumanMessage } from '@langchain/core/messages';
@@ -17,13 +14,6 @@ dotenv.config();
 
 // Constants
 const DEFAULT_CONFIG_PATH = './llm-mcp-config.json5';
-
-const SAMPLE_QUERIES = [
-  'Whats the weather like in SF tomorrow?',
-  'Read and briefly summarize the LICENSE file',
-  'Read the news headlines on cnn.com',
-  // 'Show me the page cnn.com',
-] as const;
 
 const COLORS = {
   YELLOW: '\x1b[33m',
@@ -96,7 +86,7 @@ async function handleConversation(
   remainingQueries: string[]
 ): Promise<void> {
   console.log('\nConversation started. Type "quit" or "q" to end the conversation.\n');
-  console.log('Sample Queries (type just enter to supply them one by one):');
+  console.log('Sample Queries (just type Enter to supply them one by one):');
   remainingQueries.forEach(query => console.log(`- ${query}`));
   console.log();
 
@@ -154,7 +144,7 @@ async function main(): Promise<void> {
     const { agent, cleanup } = await initializeReactAgent(config);
     mcpCleanup = cleanup;
 
-    await handleConversation(agent, [...SAMPLE_QUERIES]);
+    await handleConversation(agent, [...config.sampleQueries]);
 
   } finally {
     if (mcpCleanup) {

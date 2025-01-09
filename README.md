@@ -54,3 +54,5 @@ npm start
 ```
 
 At the prompt, you can simply press Enter to use sample queries that perform MCP server tool invocations.
+
+Sample queries can be configured in  `llm-mcp-config.json5`

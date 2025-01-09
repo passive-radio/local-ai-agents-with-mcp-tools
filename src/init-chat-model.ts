@@ -1,15 +1,10 @@
-// Copyright (C) 2024 Hideya Kawahara
-// SPDX-License-Identifier: MIT
-
-import { ChatOpenAI } from '@langchain/openai';
 import { ChatAnthropic } from '@langchain/anthropic';
+import { ChatOpenAI } from '@langchain/openai';
 import { ChatGroq } from '@langchain/groq';
-import { BaseChatModel } from '@langchain/core/language_models/chat_models';
-import { Tool } from '@langchain/core/tools';
+import { BaseChatModel, BindToolsInput } from '@langchain/core/language_models/chat_models';
 
-// FIXME: no typescript version of init_chat_model()? (or the Python version is gone?)
+// FIXME: no typescript version of init_chat_model()?
 // Ref: https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html
-// Ref: https://v03.api.js.langchain.com/classes/_langchain_core.language_models_chat_models.BaseChatModel.html
 
 interface ChatModelConfig {
   provider: string;
@@ -17,7 +12,7 @@ interface ChatModelConfig {
   modelName?: string;
   temperature?: number;
   maxTokens?: number,
-  tools?: Tool[];
+  tools?: BindToolsInput[];
 }
 
 export function initChatModel(config: ChatModelConfig): BaseChatModel {
