@@ -1,7 +1,7 @@
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
 import { MemorySaver } from '@langchain/langgraph';
 import { HumanMessage } from '@langchain/core/messages';
-import { convertMCPServersToLangChainTools, MCPServerCleanupFunction } from '@h1deya/mcp-langchain-tools';
+import { convertMCPServersToLangChainTools, MCPServerCleanupFunction } from '@h1deya/langchain-mcp-tools';
 import { initChatModel } from './init-chat-model.js';
 import { loadConfig, Config } from './load-config.js';
 import readline from 'readline';
