@@ -1,7 +1,7 @@
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
 import { MemorySaver } from '@langchain/langgraph';
 import { HumanMessage } from '@langchain/core/messages';
-import { convertMCPServersToLangChainTools, MCPServerCleanupFunction } from '@h1deya/langchain-mcp-tools';
+import { convertMcpToLangchainTools, McpServerCleanupFunction } from '@h1deya/langchain-mcp-tools';
 import { initChatModel } from './init-chat-model.js';
 import { loadConfig, Config } from './load-config.js';
 import readline from 'readline';
@@ -117,10 +117,16 @@ async function handleConversation(
 // Application initialization
 async function initializeReactAgent(config: Config) {
   console.log('Initializing model...', config.llm, '\n');
-  const llm = initChatModel(config.llm);
+  const llmConfig = {
+    modelProvider: config.llm.model_provider,
+    model: config.llm.model,
+    temperature: config.llm.temperature,
+    maxTokens: config.llm.max_tokens,
+  }
+  const llm = initChatModel(llmConfig);
 
   console.log(`Initializing ${Object.keys(config.mcp_servers).length} MCP server(s)...\n`);
-  const { tools, cleanup } = await convertMCPServersToLangChainTools(
+  const { tools, cleanup } = await convertMcpToLangchainTools(
     config.mcp_servers,
     { logLevel: 'info' }
   );
@@ -136,7 +142,7 @@ async function initializeReactAgent(config: Config) {
 
 // Main
 async function main(): Promise<void> {
-  let mcpCleanup: MCPServerCleanupFunction | undefined;
+  let mcpCleanup: McpServerCleanupFunction | undefined;
 
   try {
     const argv = parseArguments();
@@ -146,8 +152,8 @@ async function main(): Promise<void> {
     const { agent, cleanup } = await initializeReactAgent(config);
     mcpCleanup = cleanup;
 
-    const sample_queries = [...(config.sample_queries ? config.sample_queries : [])]
-    await handleConversation(agent, sample_queries);
+    const sampleQueries = [...(config.sample_queries ? config.sample_queries : [])]
+    await handleConversation(agent, sampleQueries);
 
   } finally {
     if (mcpCleanup) {

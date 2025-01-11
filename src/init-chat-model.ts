@@ -7,43 +7,35 @@ import { BaseChatModel, BindToolsInput } from '@langchain/core/language_models/c
 // Ref: https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html
 
 interface ChatModelConfig {
-  model_provider: string;
-  model_name?: string;
+  modelProvider: string;
+  model?: string;
   temperature?: number;
-  max_tokens?: number,
+  maxTokens?: number,
   tools?: BindToolsInput[];
 }
 
 export function initChatModel(config: ChatModelConfig): BaseChatModel {
   let model: BaseChatModel;
 
-  // remove unnecessary properties
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { model_provider, tools, ...llmConfig } = config;
-
-  const llmConfigTs = {
-    model: llmConfig.model_name,
-    temperature: llmConfig.temperature,
-    maxTokens: llmConfig.max_tokens,
-  }
+  const { modelProvider, tools, ...llmConfig } = config;
 
   try {
-    switch (config.model_provider.toLowerCase()) {
+    switch (modelProvider.toLowerCase()) {
       case 'openai':
-        model = new ChatOpenAI(llmConfigTs);
+        model = new ChatOpenAI(llmConfig);
         break;
 
       case 'anthropic':
-        model = new ChatAnthropic(llmConfigTs);
+        model = new ChatAnthropic(llmConfig);
         break;
 
       case 'groq':
-        model = new ChatGroq(llmConfigTs);
+        model = new ChatGroq(llmConfig);
         break;
 
       default:
         throw new Error(
-          `Unsupported model_provider: ${config.model_provider}`,
+          `Unsupported model_provider: ${modelProvider}`,
         );
     }
 
@@ -55,7 +47,7 @@ export function initChatModel(config: ChatModelConfig): BaseChatModel {
       }
     } else {
       throw new Error(
-        `Tool calling unsupported by model_provider: ${config.model_provider}`,
+        `Tool calling unsupported by model_provider: ${modelProvider}`,
       );
     }
 

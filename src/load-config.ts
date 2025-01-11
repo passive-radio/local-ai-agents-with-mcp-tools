@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 
 export interface LLMConfig {
   model_provider: string;
-  model_name?: string;
+  model?: string;
   temperature?: number;
   max_tokens?: number;
 }
@@ -89,8 +89,8 @@ function validateLLMConfig(llmConfig: unknown): asserts llmConfig is LLMConfig {
     throw new Error('LLM model_provider must be a string');
   }
 
-  if ('model_name' in llmConfig && typeof llmConfig.model_name !== 'string') {
-    throw new Error('LLM model_name must be a string if provided');
+  if ('model' in llmConfig && typeof llmConfig.model !== 'string') {
+    throw new Error('LLM model must be a string if provided');
   }
 
   if ('temperature' in llmConfig && typeof llmConfig.temperature !== 'number') {

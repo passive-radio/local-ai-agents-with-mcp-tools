@@ -1,11 +1,13 @@
 # MCP Client Implementation Using LangChain / TypeScript [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/hideya/mcp-langchain-client-ts/blob/main/LICENSE)
 
-This simple MCP-client demonstrates
-[Model Context Protocol](https://modelcontextprotocol.io/) server invocations from
-LangChain ReAct Agent by wrapping MCP server tools into LangChain Tools.
+This simple [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
+client demonstrates MCP server invocations by LangChain ReAct Agent.
 
-It leverages a utility function `convertMCPServersToLangChainTools()`
-from [`@h1deya/mcp-langchain-tools`](https://www.npmjs.com/package/@h1deya/mcp-langchain-tools)
+It leverages a utility function `convertMCPServersToLangChainTools()` from
+[`@h1deya/langchain-mcp-tools`](https://www.npmjs.com/package/@h1deya/langchain-mcp-tools),
+which initializes specified MCP servers,
+and returns [LangChain Tools](https://js.langchain.com/docs/how_to/tool_calling/)
+that wrap all the tools found in the MCP servers.
 
 LLMs from Anthropic, OpenAI and Groq are currently supported.
 
@@ -48,11 +50,8 @@ LLMs from Anthropic, OpenAI and Groq are currently supported.
 
 
 ## Usage
-Development (watch) mode:
-```bash
-npm run dev
-```
-Regular mode:
+
+Run the app:
 ```bash
 npm start
 ```
