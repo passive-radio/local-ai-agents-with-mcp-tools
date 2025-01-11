@@ -31,14 +31,18 @@ LLMs from Anthropic, OpenAI and Groq are currently supported.
     - `.gitignore` is configured to ignore `.env`
       to prevent accidental commits of the credentials.
 
-3. Configure LLM and MCP Servers settings `llm-mcp-config.json5` as needed.
+3. Configure LLM and MCP Servers settings `llm_mcp_config.json5` as needed.
 
-    - The configuration file format for MCP servers is the same as
-      [Claude for Desktop](https://modelcontextprotocol.io/quickstart/user) 
-    - However, the format used for this app is more flexible [JSON5](https://json5.org/),
-      which allows comments and trailing commas.
-    - The file format is also extended to
-      replace `${...}` notations with the values of corresponding environment variables.
+    - [The configuration file format](https://github.com/hideya/mcp-client-langchain-ts/blob/main/llm_mcp_config.json5)
+      for MCP servers follows the same structure as
+      [Claude for Desktop](https://modelcontextprotocol.io/quickstart/user),
+      with one difference: the key name `mcpServers` has been changed
+      to `mcp_servers` to follow the snake_case convention
+      commonly used in JSON configuration files.
+    - The file format is [JSON5](https://json5.org/),
+      where comments and trailing commas are allowed.
+    - The format is further extended to replace `${...}` notations
+      with the values of corresponding environment variables.
     - Keep all the credentials and private info in the `.env` file
       and refer to them with `${...}` notation as needed.
 
@@ -55,4 +59,4 @@ npm start
 
 At the prompt, you can simply press Enter to use sample queries that perform MCP server tool invocations.
 
-Sample queries can be configured in  `llm-mcp-config.json5`
+Sample queries can be configured in  `llm_mcp_config.json5`

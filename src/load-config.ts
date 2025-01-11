@@ -2,10 +2,10 @@ import JSON5 from 'json5';
 import { readFileSync } from 'fs';
 
 export interface LLMConfig {
-  provider: string;
-  modelName?: string;
+  model_provider: string;
+  model_name?: string;
   temperature?: number;
-  maxTokens?: number;
+  max_tokens?: number;
 }
 
 export interface MCPServerConfig {
@@ -16,8 +16,8 @@ export interface MCPServerConfig {
 
 export interface Config {
   llm: LLMConfig;
-  sampleQueries: string[];
-  mcpServers: {
+  sample_queries?: string[];
+  mcp_servers: {
     [key: string]: MCPServerConfig;
   }
 }
@@ -55,25 +55,23 @@ function validateConfig(config: unknown): asserts config is Config {
   }
   validateLLMConfig(config.llm);
 
-  if (!('sampleQueries' in config)) {
-    throw new Error('sampleQueries is required');
-  }
-  if (!Array.isArray(config.sampleQueries)) {
-    throw new Error('sampleQueries must be an array');
-  }
-
-  if (config.sampleQueries.some((query: unknown) => typeof query !== 'string')) {
-    throw new Error('All sample queries must be strings');
+  if ('sample_queries' in config) {
+    if (!Array.isArray(config.sample_queries)) {
+      throw new Error('sample_queries must be an array if provided');
+    }
+    if (config.sample_queries.some((query: unknown) => typeof query !== 'string')) {
+      throw new Error('All sample queries must be strings');
+    }
   }
 
-  if (!('mcpServers' in config)) {
-    throw new Error('mcpServers configuration is required');
+  if (!('mcp_servers' in config)) {
+    throw new Error('mcp_servers configuration is required');
   }
-  if (typeof config.mcpServers !== 'object' || config.mcpServers === null) {
-    throw new Error('mcpServers must be an object');
+  if (typeof config.mcp_servers !== 'object' || config.mcp_servers === null) {
+    throw new Error('mcp_servers must be an object');
   }
 
-  Object.entries(config.mcpServers).forEach(([key, value]) => {
+  Object.entries(config.mcp_servers).forEach(([key, value]) => {
     try {
       validateMCPServerConfig(value);
     } catch (error) {
@@ -87,20 +85,20 @@ function validateLLMConfig(llmConfig: unknown): asserts llmConfig is LLMConfig {
     throw new Error('LLM configuration must be an object');
   }
 
-  if (!('provider' in llmConfig) || typeof llmConfig.provider !== 'string') {
-    throw new Error('LLM provider must be a string');
+  if (!('model_provider' in llmConfig) || typeof llmConfig.model_provider !== 'string') {
+    throw new Error('LLM model_provider must be a string');
   }
 
-  if ('modelName' in llmConfig && typeof llmConfig.modelName !== 'string') {
-    throw new Error('LLM modelName must be a string if provided');
+  if ('model_name' in llmConfig && typeof llmConfig.model_name !== 'string') {
+    throw new Error('LLM model_name must be a string if provided');
   }
 
   if ('temperature' in llmConfig && typeof llmConfig.temperature !== 'number') {
     throw new Error('LLM temperature must be a number if provided');
   }
 
-  if ('maxTokens' in llmConfig && typeof llmConfig.maxTokens !== 'number') {
-    throw new Error('LLM maxTokens must be a number if provided');
+  if ('max_tokens' in llmConfig && typeof llmConfig.max_tokens !== 'number') {
+    throw new Error('LLM max_tokens must be a number if provided');
   }
 }
 

@@ -7,11 +7,10 @@ import { BaseChatModel, BindToolsInput } from '@langchain/core/language_models/c
 // Ref: https://python.langchain.com/api_reference/langchain/chat_models/langchain.chat_models.base.init_chat_model.html
 
 interface ChatModelConfig {
-  provider: string;
-  apiKey?: string;
-  modelName?: string;
+  model_provider: string;
+  model_name?: string;
   temperature?: number;
-  maxTokens?: number,
+  max_tokens?: number,
   tools?: BindToolsInput[];
 }
 
@@ -20,30 +19,31 @@ export function initChatModel(config: ChatModelConfig): BaseChatModel {
 
   // remove unnecessary properties
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { provider, tools, ...llmConfig } = config;
+  const { model_provider, tools, ...llmConfig } = config;
+
+  const llmConfigTs = {
+    model: llmConfig.model_name,
+    temperature: llmConfig.temperature,
+    maxTokens: llmConfig.max_tokens,
+  }
 
   try {
-    switch (config.provider.toLowerCase()) {
+    switch (config.model_provider.toLowerCase()) {
       case 'openai':
-        model = new ChatOpenAI(llmConfig);
+        model = new ChatOpenAI(llmConfigTs);
         break;
 
       case 'anthropic':
-        model = new ChatAnthropic(llmConfig);
+        model = new ChatAnthropic(llmConfigTs);
         break;
 
       case 'groq':
-        // somehow, the API key had to be set via the env variable,
-        // even though the constructor accepts `apiKey`
-        if (llmConfig.apiKey) {
-          process.env.GROQ_API_KEY = llmConfig.apiKey;
-        }
-        model = new ChatGroq(llmConfig);
+        model = new ChatGroq(llmConfigTs);
         break;
 
       default:
         throw new Error(
-          `Unsupported provider: ${config.provider}`,
+          `Unsupported model_provider: ${config.model_provider}`,
         );
     }
 
@@ -55,7 +55,7 @@ export function initChatModel(config: ChatModelConfig): BaseChatModel {
       }
     } else {
       throw new Error(
-        `Tool calling unsupported by provider: ${config.provider}`,
+        `Tool calling unsupported by model_provider: ${config.model_provider}`,
       );
     }
 

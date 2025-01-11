@@ -13,7 +13,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Constants
-const DEFAULT_CONFIG_PATH = './llm-mcp-config.json5';
+const DEFAULT_CONFIG_PATH = './llm_mcp_config.json5';
 
 const COLORS = {
   YELLOW: '\x1b[33m',
@@ -86,9 +86,11 @@ async function handleConversation(
   remainingQueries: string[]
 ): Promise<void> {
   console.log('\nConversation started. Type "quit" or "q" to end the conversation.\n');
-  console.log('Sample Queries (just type Enter to supply them one by one):');
-  remainingQueries.forEach(query => console.log(`- ${query}`));
-  console.log();
+  if (remainingQueries && remainingQueries.length > 0) {
+    console.log('Sample Queries (just type Enter to supply them one by one):');
+    remainingQueries.forEach(query => console.log(`- ${query}`));
+    console.log();
+  }
 
   const rl = createReadlineInterface();
  
@@ -117,9 +119,9 @@ async function initializeReactAgent(config: Config) {
   console.log('Initializing model...', config.llm, '\n');
   const llm = initChatModel(config.llm);
 
-  console.log(`Initializing ${Object.keys(config.mcpServers).length} MCP server(s)...\n`);
+  console.log(`Initializing ${Object.keys(config.mcp_servers).length} MCP server(s)...\n`);
   const { tools, cleanup } = await convertMCPServersToLangChainTools(
-    config.mcpServers,
+    config.mcp_servers,
     { logLevel: 'info' }
   );
 
@@ -144,7 +146,8 @@ async function main(): Promise<void> {
     const { agent, cleanup } = await initializeReactAgent(config);
     mcpCleanup = cleanup;
 
-    await handleConversation(agent, [...config.sampleQueries]);
+    const sample_queries = [...(config.sample_queries ? config.sample_queries : [])]
+    await handleConversation(agent, sample_queries);
 
   } finally {
     if (mcpCleanup) {
