@@ -13,8 +13,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Constants
-const DEFAULT_CONFIG_PATH = './llm_mcp_config.json5';
-
 const COLORS = {
   YELLOW: '\x1b[33m',
   CYAN: '\x1b[36m',
@@ -24,6 +22,7 @@ const COLORS = {
 // CLI argument setup
 interface Arguments {
   config: string;
+  verbose: boolean;
   [key: string]: unknown;
 }
 
@@ -33,7 +32,16 @@ const parseArguments = (): Arguments => {
       config: {
         type: 'string',
         description: 'Path to config file',
-        demandOption: false
+        demandOption: false,
+        default: 'llm_mcp_config.json5',
+        alias: 'c',
+      },
+      verbose: {
+        type: 'boolean',
+        description: 'Run with verbose logging',
+        demandOption: false,
+        default: false,
+        alias: 'v',
       },
     })
     .help()
@@ -83,7 +91,8 @@ async function getUserQuery(
 // Conversation loop
 async function handleConversation(
   agent: ReturnType<typeof createReactAgent>,
-  remainingQueries: string[]
+  remainingQueries: string[],
+  verbose: boolean
 ): Promise<void> {
   console.log('\nConversation started. Type "quit" or "q" to end the conversation.\n');
   if (remainingQueries && remainingQueries.length > 0) {
@@ -93,7 +102,7 @@ async function handleConversation(
   }
 
   const rl = createReadlineInterface();
- 
+
   while (true) {
     const query = await getUserQuery(rl, remainingQueries);
     console.log();
@@ -108,14 +117,19 @@ async function handleConversation(
       { configurable: { thread_id: 'test-thread' } }
     );
 
+    // the last message is an AIMessage
     const result = agentFinalState.messages[agentFinalState.messages.length - 1].content;
+    const messageOneBefore = agentFinalState.messages[agentFinalState.messages.length - 2]
+    if (messageOneBefore.constructor.name === 'ToolMessage') {
+      console.log(); // new line after tool call output
+    }
 
     console.log(`${COLORS.CYAN}${result}${COLORS.RESET}\n`);
   }
 }
 
 // Application initialization
-async function initializeReactAgent(config: Config) {
+async function initializeReactAgent(config: Config, verbose: boolean) {
   console.log('Initializing model...', config.llm, '\n');
   const llmConfig = {
     modelProvider: config.llm.model_provider,
@@ -128,7 +142,7 @@ async function initializeReactAgent(config: Config) {
   console.log(`Initializing ${Object.keys(config.mcp_servers).length} MCP server(s)...\n`);
   const { tools, cleanup } = await convertMcpToLangchainTools(
     config.mcp_servers,
-    { logLevel: 'info' }
+    { logLevel: verbose ? 'trace' : 'info' }
   );
 
   const agent = createReactAgent({
@@ -146,14 +160,12 @@ async function main(): Promise<void> {
 
   try {
     const argv = parseArguments();
-    const configPath = argv.config || process.env.CONFIG_FILE || DEFAULT_CONFIG_PATH;
-    const config = loadConfig(configPath);
+    const config = loadConfig(argv.config);
 
-    const { agent, cleanup } = await initializeReactAgent(config);
+    const { agent, cleanup } = await initializeReactAgent(config, argv.verbose);
     mcpCleanup = cleanup;
 
-    const sampleQueries = [...(config.sample_queries ? config.sample_queries : [])]
-    await handleConversation(agent, sampleQueries);
+    await handleConversation(agent, config.sample_queries ?? [], argv.verbose);
 
   } finally {
     if (mcpCleanup) {
