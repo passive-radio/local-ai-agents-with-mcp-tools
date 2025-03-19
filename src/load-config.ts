@@ -6,6 +6,7 @@ export interface LLMConfig {
   model?: string;
   temperature?: number;
   max_tokens?: number;
+  max_completion_tokens?: number;
 }
 
 export interface MCPServerConfig {
@@ -99,6 +100,10 @@ function validateLLMConfig(llmConfig: unknown): asserts llmConfig is LLMConfig {
 
   if ('max_tokens' in llmConfig && typeof llmConfig.max_tokens !== 'number') {
     throw new Error('LLM max_tokens must be a number if provided');
+  }
+
+  if ('max_completion_tokens' in llmConfig && typeof llmConfig.max_completion_tokens !== 'number') {
+    throw new Error('LLM max_completion_tokens must be a number if provided');
   }
 }
 
