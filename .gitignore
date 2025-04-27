@@ -1,5 +1,7 @@
 
 .env
+.env.local
+chat_history/**/*
 node_modules/
 .DS_Store
 *.deb
