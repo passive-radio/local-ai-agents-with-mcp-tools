@@ -1,77 +1,133 @@
-# MCP Client Using LangChain / TypeScript [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/hideya/mcp-langchain-client-ts/blob/main/LICENSE)
+# MCP Client Web UI with LangChain Integration [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/hideya/mcp-langchain-client-ts/blob/main/LICENSE)
 
-This simple [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
-client demonstrates the use of MCP server tools by LangChain ReAct Agent.
+[README(日本語)](docs/README_ja.md)
 
-It leverages a utility function `convertMcpToLangchainTools()` from
-[`@h1deya/langchain-mcp-tools`](https://www.npmjs.com/package/@h1deya/langchain-mcp-tools).  
-This function handles parallel initialization of specified multiple MCP servers
-and converts their available tools into an array of LangChain-compatible tools
-([`StructuredTool[]`](https://api.js.langchain.com/classes/_langchain_core.tools.StructuredTool.html)).
+This application provides a web UI for an AI agent that autonomously executes tasks by calling multiple [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) servers. The agent leverages LangChain's ReAct framework for reasoning and task execution.
 
-LLMs from Anthropic, OpenAI and Groq are currently supported.
+## Key Features
 
-A python version of this MCP client is available
-[here](https://github.com/hideya/mcp-client-langchain-py)
+- **Modern Web Interface**: Clean, responsive UI with dark mode support
+- **Session Management**: Create and manage multiple conversation sessions
+- **Multiple LLM Support**: Switch between different language models including:
+  - OpenAI GPT-4.1
+  - Google Gemini 2.5 Flash
+  - Anthropic Claude 3.7 Sonnet
+  - And other configurable options
+- **Tool Integration**: Uses multiple MCP servers for enhanced functionality:
+  - Web browsing and search via Brave Search
+  - File system operations
+  - Playwright browser automation
+  - Weather data retrieval
+  - Google Calendar integration
+  - Time services
+  - Sequential thinking tools
+  - Memory persistence
+- **Persistent Chat History**: Conversations saved in YAML format
+- **Customizable System Prompt**: Modify the agent's behavior through system prompts
 
 ## Prerequisites
 
 - Node.js 16+
-- npm 7+ (`npx`) to run Node.js-based MCP servers
-- [optional] [`uv` (`uvx`)](https://docs.astral.sh/uv/getting-started/installation/)
-  installed to run Python-based MCP servers
-- API keys from [Anthropic](https://console.anthropic.com/settings/keys),
-  [OpenAI](https://platform.openai.com/api-keys), and/or
-  [Groq](https://console.groq.com/keys)
-  as needed.
+- npm 7+ (`npx`) for Node.js-based MCP servers
+- `uv` (`uvx`) for Python-based MCP servers
+- Docker (for some MCP servers)
+- API keys for OpenAI, Google, Anthropic, or OpenRouter
+- Brave API key for web search capabilities
+- Google Cloud project with Calendar API enabled (for Google Calendar integration)
 
 ## Setup
+
 1. Install dependencies:
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
-2. Setup API keys:
-    ```bash
-    cp .env.template .env
-    ```
-    - Update `.env` as needed.
-    - `.gitignore` is configured to ignore `.env`
-      to prevent accidental commits of the credentials.
+2. Configure API keys:
+   ```bash
+   cp .env.template .env
+   ```
+   Update the `.env` file with your API keys. This file is gitignored to protect credentials.
 
-3. Configure LLM and MCP Servers settings `llm_mcp_config.json5` as needed.
+3. Configure LLM and MCP Servers in `llm_mcp_config.json5`:
+   - The configuration uses [JSON5](https://json5.org/) format (supports comments and trailing commas)
+   - Environment variables can be referenced using `${VAR_NAME}` syntax
+   - Configure multiple LLM options under the `llms` section
+   - Define MCP servers under the `mcp_servers` section
 
-    - [The configuration file format](https://github.com/hideya/mcp-client-langchain-ts/blob/main/llm_mcp_config.json5)
-      for MCP servers follows the same structure as
-      [Claude for Desktop](https://modelcontextprotocol.io/quickstart/user),
-      with one difference: the key name `mcpServers` has been changed
-      to `mcp_servers` to follow the snake_case convention
-      commonly used in JSON configuration files.
-    - The file format is [JSON5](https://json5.org/),
-      where comments and trailing commas are allowed.
-    - The format is further extended to replace `${...}` notations
-      with the values of corresponding environment variables.
-    - Keep all the credentials and private info in the `.env` file
-      and refer to them with `${...}` notation as needed.
+## Running the Application
 
-
-## Usage
-
-Run the app:
+Start the web server and UI:
 ```bash
 npm start
 ```
 
-Run in verbose mode:
+Run in verbose mode for additional logging:
 ```bash
 npm run start:v
 ```
 
-See commandline options:
+View command-line options:
 ```bash
 npm run start:h
 ```
 
-At the prompt, you can simply press Enter to use example queries that perform MCP server tool invocations.
+The web UI will be available at http://localhost:3000 by default.
 
-Example queries can be configured in  `llm_mcp_config.json5`
+## MCP Server Integration
+
+### Google Calendar Integration
+
+This application uses [google-calendar-mcp](https://github.com/nspady/google-calendar-mcp) by nspady for Google Calendar integration. To use this feature:
+
+1. Clone the Google Calendar MCP repository:
+   ```bash
+   git clone https://github.com/nspady/google-calendar-mcp.git
+   cd google-calendar-mcp
+   ```
+
+2. Set up the Google Calendar MCP server:
+   - Follow the instructions in the repository to set up a Google Cloud project and enable the Calendar API
+   - Create OAuth 2.0 credentials (Client ID and Client Secret)
+   - Download your OAuth credentials to `gcp-oauth.keys.json`
+   - Install dependencies with `npm install`
+   - Run the authentication flow with `npm run auth`
+   - Build the project with `npm run build`
+
+3. Update your `llm_mcp_config.json5` to include the local Google Calendar MCP server:
+   ```json
+   "google-calendar": {
+     "command": "node",
+     "args": ["<absolute-path-to-project-folder>/build/index.js"]
+   }
+   ```
+   Replace `<absolute-path-to-project-folder>` with the actual path to your google-calendar-mcp directory.
+
+4. The agent will now be able to create, read, update and search for calendar events through natural language commands.
+
+## Usage
+
+1. Open the web interface in your browser
+2. Select or create a conversation session
+3. Choose your preferred LLM model
+4. Type your message and send
+5. The agent will analyze your request and use appropriate tools to fulfill it
+6. For complex tasks, the agent will break them down into subtasks using the sequential thinking tool
+
+## Example Queries
+
+- "What's tomorrow's weather in San Francisco?"
+- "Find and summarize the latest news about AI technology"
+- "Find a restaurant with availability for 4 people tomorrow evening in Shibuya"
+- "Create a calendar event for a team meeting next Monday at 2pm"
+- "Read and explain the content of a specific file in this project"
+- "Show me my schedule for next week and identify any conflicts"
+- "Add a reminder for my dentist appointment on Friday at 3pm"
+- "Find a suitable time for a meeting with the team next week"
+
+## Configuration
+
+You can customize the agent's behavior by modifying the system prompt in the settings panel. The application supports different language models which can be configured in the `llm_mcp_config.json5` file.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
