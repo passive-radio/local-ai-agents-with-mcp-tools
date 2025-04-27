@@ -21,7 +21,11 @@
     "start:v": "tsx src/index.ts -v",
     "dev": "tsx watch src/index.ts",
     "lint": "eslint src",
-    "clean": "git clean -fdxn -e .env && read -p 'OK?' && git clean -fdx -e .env"
+    "clean": "git clean -fdxn -e .env && read -p 'OK?' && git clean -fdx -e .env",
+    "web:build": "cd src/web-ui && vite build",
+    "web:dev": "cd src/web-ui && vite",
+    "web:server": "tsx src/web-server/server.ts",
+    "web": "npm run web:build && npm run web:server"
   },
   "dependencies": {
     "@h1deya/langchain-mcp-tools": "^0.1.20",
@@ -34,19 +38,41 @@
     "@modelcontextprotocol/sdk": "^1.0.4",
     "@n8n/json-schema-to-zod": "^1.1.0",
     "@types/yargs": "^17.0.33",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "express": "^4.18.2",
+    "fs-extra": "^11.3.0",
     "json5": "^2.2.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "yaml": "^2.7.1",
     "yargs": "^17.7.2",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+    "@h1deya/mcp-server-weather": "^0.1.3",
+    "@modelcontextprotocol/server-brave-search": "^0.6.2",
+    "@modelcontextprotocol/server-filesystem": "^2025.3.28",
+    "@modelcontextprotocol/server-memory": "^2025.4.25",
+    "@modelcontextprotocol/server-sequential-thinking": "^0.6.2",
+    "@playwright/mcp": "^0.0.15",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.10.5",
-    "@typescript-eslint/eslint-plugin": "^8.19.0",
-    "@typescript-eslint/parser": "^8.19.0",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^8.31.0",
+    "@typescript-eslint/parser": "^8.31.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^9.17.0",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.19.0"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.19.0",
+    "vite": "^5.0.8"
   }
 }

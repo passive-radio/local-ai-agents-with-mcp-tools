@@ -24,7 +24,18 @@ export function initChatModel(config: ChatModelConfig): BaseChatModel {
       case 'openai':
         model = new ChatOpenAI(llmConfig);
         break;
-
+      case 'openrouter':
+        const openRouterConfig = {
+          ...llmConfig,
+          streaming: true,
+          openAIApiKey: process.env.OPENROUTER_API_KEY,
+        };
+        model = new ChatOpenAI(openRouterConfig,
+          {
+            basePath: 'https://openrouter.ai/api/v1',
+          }
+        );
+        break;
       case 'anthropic':
         model = new ChatAnthropic(llmConfig);
         break;

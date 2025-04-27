@@ -5,24 +5,45 @@
 // Keep all the credentials and private into the `.env` file
 // and refer to them with `${...}` notation as needed.
 {
-    // "llm": {
-    //     "model_provider": "anthropic",
-    //     "model": "claude-3-7-sonnet-latest",
-    //     // "temperature": 0.0,
-    //     // "max_tokens": 10000,
-    // },
-    "llm": {
-        "model_provider": "openai",
-        "model": "o3-mini",
-        // "temperature": 0.0,  //  'temperature' is not supported with this model
-        // "max_completion_tokens": 10000,  //  Use 'max_completion_tokens' instead of 'max_tokens'
+    "default_llm": "Google Gemini 2.5 Flash Preview",
+    "llms": {
+        "OpenAI o3 Mini High": {
+            "model": "openai/o3-mini-high",
+            "model_provider": "openrouter",
+            "name": "OpenAI o3 Mini High",
+            "description": "OpenAI o3-mini-high is the same model as o3-mini with reasoning_effort set to high. o3-mini is a cost-efficient language model optimized for STEM reasoning tasks, particularly excelling in science, mathematics, and coding."
+        },
+        "OpenAI GPT-4.1": {
+            "model": "openai/gpt-4.1",
+            "model_provider": "openrouter",
+            "name": "OpenAI GPT-4.1",
+            "description": "OpenAIの最新モデル。高度な自然言語理解と推論能力を持つ"
+        },
+        "Google Gemini 2.5 Flash Preview": {
+            "model": "google/gemini-2.5-flash-preview",
+            "model_provider": "openrouter",
+            "name": "Google Gemini 2.5 Flash Preview",
+            "description": "Googleの最新モデル。高度な自然言語理解と推論能力を持つ"
+        },
+        "gpt4.1_nano": {
+            "name": "GPT-4 Nano",
+            "model_provider": "openrouter",
+            "model": "openai/gpt-4.1-nano",
+            "description": "OpenAIの軽量モデル。速度と性能のバランスが良い"
+        },
+        "Google Gemini 2.0 Flash": {
+            "model": "google/gemini-2.0-flash-001",
+            "model_provider": "openrouter",
+            "name": "Google Gemini 2.0 Flash",
+            "description": "Googleの高性能モデル。複雑な理解と会話に優れる"
+        },
+        "Anthropic Claude 3.7 Sonnet": {
+            "model": "anthropic/claude-3.7-sonnet",
+            "model_provider": "openrouter",
+            "name": "Anthropic Claude 3.7 Sonnet",
+            "description": "Anthropicの高性能モデル。特にコーディングに優れる"
+        }
     },
-    // "llm": {
-    //     "model_provider": "groq",
-    //     "model": "llama-3.3-70b-versatile",
-    //     // "temperature": 0.0,
-    //     // "max_tokens": 10000,
-    // },
     "example_queries": [
         "Tomorrow's weather in SF?",
         "Read and briefly summarize the LICENSE file",
@@ -34,8 +55,17 @@
             "command": "npx",
             "args": [
                 "-y",
-                "@modelcontextprotocol/server-filesystem",
-                "."
+                "@modelcontextprotocol/server-filesystem@latest",
+                "/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/",
+            ]
+        },
+        "time": {
+            "command": "docker",
+            "args": [
+                "run",
+                "-i",
+                "--rm",
+                "mcp/time"
             ]
         },
         // https://github.com/modelcontextprotocol/servers/tree/main/src/fetch
@@ -45,32 +75,51 @@
                 "mcp-server-fetch"
             ]
         },
+        "sequentialthinking": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-sequential-thinking"
+            ]
+        },
         // https://github.com/modelcontextprotocol/quickstart-resources/tree/main/weather-server-python
         "weather": {
             "command": "npx",
             "args": [
                 "-y",
-                "@h1deya/mcp-server-weather"
+                "@h1deya/mcp-server-weather@latest"
             ]
         },
-        // // https://github.com/microsoft/playwright-mcp
-        // "playwright": {
-        //     "command": "npx",
-        //     "args": [
-        //         "-y",
-        //         "@playwright/mcp@latest"
-        //     ]
-        // },
-        // // https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search
-        // "brave-search": {
-        //     "command": "npx",
-        //     "args": [
-        //         "-y",
-        //         "@modelcontextprotocol/server-brave-search"
-        //     ],
-        //     "env": {
-        //         "BRAVE_API_KEY": "${BRAVE_API_KEY}"
-        //     }
-        // },
+        // https://github.com/microsoft/playwright-mcp
+        "playwright": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@playwright/mcp@latest",
+                "--headless"
+            ]
+        },
+        // https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search
+        "brave-search": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-brave-search@latest"
+            ],
+            "env": {
+                "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+            }
+        },
+        "google-calendar": {
+            "command": "node",
+            "args": ["/home/passiveradio/dev/personal/ai-agents/mcps/google-calendar-mcp/build/index.js"]
+        },
+        "memory": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-memory"
+            ]
+        }
     }
 }

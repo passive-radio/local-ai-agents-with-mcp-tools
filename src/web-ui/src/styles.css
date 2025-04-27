@@ -1,0 +1,18 @@
+.send-button {
+  background: none;
+  border: none;
+  color: #8e8ea0;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stop-button {
+  color: #ff4b4b;
+}
+
+.shortcut-hint {
+  /* ... existing code ... */
+} 

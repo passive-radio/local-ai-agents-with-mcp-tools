@@ -2,8 +2,10 @@ import JSON5 from 'json5';
 import { readFileSync } from 'fs';
 
 export interface LLMConfig {
+  name: string;
   model_provider: string;
-  model?: string;
+  model: string;
+  description?: string;
   temperature?: number;
   max_tokens?: number;
   max_completion_tokens?: number;
@@ -16,11 +18,27 @@ export interface MCPServerConfig {
 }
 
 export interface Config {
-  llm: LLMConfig;
-  example_queries?: string[];
+  llm?: {
+    model_provider: string;
+    model: string;
+    temperature?: number;
+    max_tokens?: number;
+    max_completion_tokens?: number;
+  };
+  llms?: {
+    [key: string]: LLMConfig;
+  };
+  default_llm?: string;
   mcp_servers: {
-    [key: string]: MCPServerConfig;
-  }
+    [key: string]: {
+      command: string;
+      args: string[];
+      env?: {
+        [key: string]: string;
+      };
+    };
+  };
+  example_queries?: string[];
 }
 
 export function loadConfig(path: string): Config {
@@ -51,10 +69,22 @@ function validateConfig(config: unknown): asserts config is Config {
     throw new Error('Configuration must be an object');
   }
 
-  if (!('llm' in config)) {
-    throw new Error('LLM configuration is required');
+  if ('llm' in config) {
+    validateLLMConfig(config.llm);
   }
-  validateLLMConfig(config.llm);
+
+  if ('llms' in config) {
+    if (typeof config.llms !== 'object' || config.llms === null) {
+      throw new Error('llms must be an object');
+    }
+    Object.entries(config.llms).forEach(([key, value]) => {
+      validateLLMConfig(value);
+    });
+  }
+
+  if ('default_llm' in config && typeof config.default_llm !== 'string') {
+    throw new Error('default_llm must be a string if provided');
+  }
 
   if ('example_queries' in config) {
     if (!Array.isArray(config.example_queries)) {
