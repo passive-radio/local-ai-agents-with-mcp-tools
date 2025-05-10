@@ -129,18 +129,32 @@ async function handleConversation(
 
 // Application initialization
 async function initializeReactAgent(config: Config, verbose: boolean) {
-  console.log('Initializing model...', config.llm, '\n');
+  // Default LLM configuration
+  const defaultLLMConfig = {
+    modelProvider: 'openrouter',
+    model: 'google/gemini-2.5-flash-preview',
+    temperature: 0.1,
+    maxTokens: 5000,
+  };
+
+  console.log('Initializing model...');
+  
+  // Create LLM config with safe fallbacks
   const llmConfig = {
-    modelProvider: config.llm.model_provider,
-    model: config.llm.model,
-    temperature: config.llm.temperature,
-    maxTokens: config.llm.max_tokens,
-  }
+    modelProvider: config?.llm?.model_provider || defaultLLMConfig.modelProvider,
+    model: config?.llm?.model || defaultLLMConfig.model,
+    temperature: config?.llm?.temperature || defaultLLMConfig.temperature,
+    maxTokens: config?.llm?.max_tokens || defaultLLMConfig.maxTokens,
+  };
+  
+  console.log('Using LLM config:', llmConfig);
   const llm = initChatModel(llmConfig);
 
-  console.log(`Initializing ${Object.keys(config.mcp_servers).length} MCP server(s)...\n`);
+  // Safely access MCP servers with fallback
+  const mcpServers = config?.mcp_servers || {};
+  console.log(`Initializing ${Object.keys(mcpServers).length} MCP server(s)...\n`);
   const { tools, cleanup } = await convertMcpToLangchainTools(
-    config.mcp_servers,
+    mcpServers,
     { logLevel: verbose ? 'debug' : 'info' }
   );
 
@@ -159,12 +173,42 @@ async function main(): Promise<void> {
 
   try {
     const argv = parseArguments();
-    const config = loadConfig(argv.config);
+    let config: Config;
+    
+    try {
+      config = loadConfig(argv.config);
+      console.log("Config loaded successfully");
+    } catch (error) {
+      console.error("Error loading config:", error);
+      // Use default config when loading fails
+      config = {
+        llm: {
+          name: 'Default LLM',
+          model_provider: 'openrouter',
+          model: 'google/gemini-2.5-flash-preview',
+          temperature: 0.1,
+          max_tokens: 5000,
+        },
+        llms: {
+          'default': {
+            name: 'Default LLM',
+            model_provider: 'openrouter',
+            model: 'google/gemini-2.5-flash-preview',
+          }
+        },
+        default_llm: 'default',
+        mcp_servers: {},
+        example_queries: []
+      };
+      console.warn("Using default configuration");
+    }
 
     const { agent, cleanup } = await initializeReactAgent(config, argv.verbose);
     mcpCleanup = cleanup;
 
-    await handleConversation(agent, config.example_queries ?? []);
+    // Safely access example queries with fallback
+    const exampleQueries = config.example_queries || [];
+    await handleConversation(agent, exampleQueries);
 
   } finally {
     await mcpCleanup?.();

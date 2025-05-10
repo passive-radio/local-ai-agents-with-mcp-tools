@@ -4,15 +4,12 @@ import {
   FiSettings, FiRefreshCw, FiSend, 
   FiMenu, FiX, FiCpu, 
   FiMessageSquare, FiPlus, FiTrash2,
-  FiSliders, FiSquare
+  FiSliders, FiSquare,
+  FiEye
 } from 'react-icons/fi';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-
-interface Message {
-  role: string;
-  content: string;
-}
+import { Message } from "../../@types/index.js";
 
 interface LLMModel {
   name: string;
@@ -44,6 +41,76 @@ function App() {
   const [showNewSessionInput, setShowNewSessionInput] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [abortController, setAbortController] = useState<AbortController | null>(null);
+  const [sseConnection, setSseConnection] = useState<EventSource | null>(null);
+
+  // SSE接続を確立
+  useEffect(() => {
+    if (sessionId) {
+      // 既存のSSE接続をクローズ
+      if (sseConnection) {
+        sseConnection.close();
+      }
+      
+      // 新しいSSE接続を作成
+      const eventSource = new EventSource(`/api/stream/${sessionId}`);
+      
+      // 接続イベント
+      eventSource.onopen = () => {
+        console.log(`SSE connection opened for session ${sessionId}`);
+      };
+      
+      // メッセージ受信イベント
+      eventSource.onmessage = (event) => {
+        console.log("SSE arrived. parsing..");
+        try {
+          const data = JSON.parse(event.data);
+          
+          // キープアライブメッセージは無視
+          if (data.type === 'keep-alive') {
+            console.log("sse arrived. type:", data.type);
+            return;
+          }
+          
+          console.log('SSE message received:', data);
+          
+          // ツール呼び出しやAI思考プロセスを受信した場合
+          if (data.type === 'tool_call' || data.type === 'tool_result' || data.type === 'thought') {
+            // メッセージが存在し、すでに表示されていない場合のみ追加
+            if (data.message && !messages.some(m => 
+              m.content === data.message.content && 
+              m.role === data.message.role
+            )) {
+              console.log("appending messages to history")
+              // Make sure displayMessage is set to false for streaming messages to show full content
+              const newMessage = {
+                ...data.message,
+                displayMessage: false // Set to false to ensure the full content is shown
+              };
+              setMessages(prev => [...prev, newMessage]);
+              // Force scroll to bottom when new messages arrive
+              setTimeout(scrollToBottom, 10);
+            }
+          }
+        } catch (error) {
+          console.error('Error parsing SSE message:', error);
+        }
+      };
+      
+      // エラーイベント
+      eventSource.onerror = (error) => {
+        console.error('SSE connection error:', error);
+        eventSource.close();
+      };
+      
+      // ステート更新
+      setSseConnection(eventSource);
+      
+      // クリーンアップ関数
+      return () => {
+        eventSource.close();
+      };
+    }
+  }, [sessionId]);
 
   // チャット履歴の読み込み
   useEffect(() => {
@@ -74,10 +141,41 @@ function App() {
     try {
       const response = await fetch('/api/llms');
       const data = await response.json();
-      setLlmConfig(data);
-      setSelectedLlm(data.defaultLlm);
+      
+      if (data.error) {
+        console.error('Error from server:', data.error);
+        // Set a default config if server returns an error
+        setLlmConfig({
+          defaultLlm: 'default',
+          llms: {
+            'default': {
+              name: 'Default LLM',
+              model_provider: 'openrouter',
+              model: 'google/gemini-2.5-flash-preview',
+              description: 'Default model when configuration could not be loaded'
+            }
+          }
+        });
+        setSelectedLlm('default');
+      } else {
+        setLlmConfig(data);
+        setSelectedLlm(data.defaultLlm);
+      }
     } catch (error) {
       console.error('Error fetching LLM config:', error);
+      // Set a default config in case of network error
+      setLlmConfig({
+        defaultLlm: 'default',
+        llms: {
+          'default': {
+            name: 'Default LLM',
+            model_provider: 'openrouter',
+            model: 'google/gemini-2.5-flash-preview',
+            description: 'Default model when server is unreachable'
+          }
+        }
+      });
+      setSelectedLlm('default');
     }
   };
 
@@ -110,6 +208,8 @@ function App() {
 
   // チャット送信
   const sendMessage = async (e: React.FormEvent) => {
+    const currentTimestamp = new Date().toISOString();
+    const parentId = `${currentTimestamp}-user`;
     e.preventDefault();
     if (!input.trim()) return;
 
@@ -121,7 +221,10 @@ function App() {
     
     try {
       // ユーザーメッセージを追加
-      const userMessage = { role: 'user', content: input };
+      const userMessage = { role: 'user', content: input, 
+          parentId: parentId, isFinalMessage: true, isToolCall: false,
+          displayMessage: true
+      };
       const currentInput = input;
       setMessages((prev) => [...prev, userMessage]);
       setInput('');
@@ -134,6 +237,7 @@ function App() {
         },
         body: JSON.stringify({ 
           message: currentInput,
+          parentId: parentId,
           llmKey: selectedLlm,
           sessionId
         }),
@@ -347,6 +451,13 @@ function App() {
     });
   };
 
+  const toggleMessageVisibility = (message: Message) => {
+    // Toggle the display state
+    message.displayMessage = !message.displayMessage;
+    // Create a new array to force re-rendering
+    setMessages(messages.map(m => m === message ? {...m} : m));
+  }
+
   return (
     <div className="app-container">
       {/* サイドバートグルボタン（モバイル用） */}
@@ -520,23 +631,38 @@ function App() {
               >
                 <div className="message-role">{message.role === 'user' ? 'あなた' : 
                   message.role === 'tool' ? 'ツール実行' : 'AI'}</div>
-                <div className={`message-content ${message.role === 'tool' ? 'tool-message-content' : ''}`}>
-                  {message.role === 'assistant' || message.role === 'tool' ? (
-                    <ReactMarkdown 
-                      remarkPlugins={[remarkGfm]}
-                      components={{
-                        // リストのレンダリングをカスタマイズ
-                        ul: ({node, ...props}) => <ul className="md-list" {...props} />,
-                        ol: ({node, ...props}) => <ol className="md-list" {...props} />,
-                        li: ({node, ...props}) => <li className="md-list-item" {...props} />
-                      }}
-                    >
+                {message.isFinalMessage ? (
+                  <div className="message-content">
+                    <span className="text-xl text-blue-800 font-bold">[debug] last message</span>
+                    <div className="message-content-final">
                       {message.content}
-                    </ReactMarkdown>
-                  ) : (
-                    message.content
-                  )}
-                </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={`w-full relative message-content ${message.role === 'tool' ? 'tool-message-content' : ''}`}>
+                    <div className="absolute right-0 top-0 p-2 max-w-4 max-h-4 toggle-hide-button">
+                      <FiEye className="relative w-full h-full" onClick={() => toggleMessageVisibility(message)}/>
+                    </div>
+                    {message.displayMessage ? 
+                    <ReactMarkdown 
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      // リストのレンダリングをカスタマイズ
+                      ul: ({node, ...props}) => <ul className="md-list" {...props} />,
+                      ol: ({node, ...props}) => <ol className="md-list" {...props} />,
+                      li: ({node, ...props}) => <li className="md-list-item" {...props} />
+                    }}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
+                  :
+                    <div className="message-content-only-header">
+                      {message.content.slice(0,30).concat("...")}
+                    </div>
+                    
+                  }
+                  </div>
+                )}
               </div>
             ))
           )}

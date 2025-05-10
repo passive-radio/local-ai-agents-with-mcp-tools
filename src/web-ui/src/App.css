@@ -367,6 +367,16 @@ body {
   line-height: 1.5;
 }
 
+.message-content-final {
+  font-size: 1.0rem;
+  color: #131313;
+}
+
+.message-content-only-header {
+  font-size: 0.9rem;
+  color: #292929;
+}
+
 /* リストのスタイル修正 */
 .message-content ul,
 .message-content ol,

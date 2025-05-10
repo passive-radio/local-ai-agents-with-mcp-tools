@@ -1,0 +1,518 @@
+{"level":20,"time":1746413279001,"pid":26587,"hostname":"cavalier","msg":"test of file out"}
+{"level":30,"time":1746413279014,"pid":26587,"hostname":"cavalier","msg":"Server running on http://localhost:3000"}
+{"level":30,"time":1746413279014,"pid":26587,"hostname":"cavalier","msg":"Chat history directory: /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history"}
+{"level":30,"time":1746413279014,"pid":26587,"hostname":"cavalier","msg":"Environment variables loaded:"}
+{"level":30,"time":1746413279015,"pid":26587,"hostname":"cavalier","msg":"- OPENROUTER_API_KEY=present"}
+{"level":30,"time":1746413279015,"pid":26587,"hostname":"cavalier","msg":"- ANTHROPIC_API_KEY=missing"}
+{"level":30,"time":1746413279015,"pid":26587,"hostname":"cavalier","msg":"- GROQ_API_KEY=missing"}
+{"level":30,"time":1746413279015,"pid":26587,"hostname":"cavalier","msg":"Using custom system prompt: あなたは私が雇っている世界最高峰の秘書であり、私からの質問や依頼に忠実かつ専門的に応えます。\n\n##..."}
+{"level":30,"time":1746413303886,"pid":26587,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:48:23.885Z"}
+{"level":20,"time":1746413311682,"pid":26587,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746412895","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746412895.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746412895.yaml"}
+{"level":20,"time":1746413311690,"pid":26587,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746412895","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746412895.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746412895.yaml"}
+{"level":30,"time":1746413817071,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:56:57.070Z"}
+{"level":30,"time":1746413817075,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:56:57.075Z"}
+{"level":30,"time":1746413817086,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:56:57.086Z"}
+{"level":30,"time":1746413817090,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:56:57.090Z"}
+{"level":30,"time":1746413817098,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:56:57.098Z"}
+{"level":30,"time":1746413817103,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:56:57.103Z"}
+{"level":30,"time":1746413817108,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:56:57.108Z"}
+{"level":30,"time":1746413817114,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:56:57.114Z"}
+{"level":30,"time":1746413817119,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:56:57.119Z"}
+{"level":30,"time":1746413847115,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746413868125,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:57:48.125Z"}
+{"level":30,"time":1746413868126,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:57:48.126Z"}
+{"level":30,"time":1746413868126,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:57:48.126Z"}
+{"level":30,"time":1746413868127,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:57:48.127Z"}
+{"level":30,"time":1746413868127,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:57:48.127Z"}
+{"level":30,"time":1746413868150,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:57:48.150Z"}
+{"level":30,"time":1746413868158,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:57:48.158Z"}
+{"level":30,"time":1746413868160,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:57:48.160Z"}
+{"level":30,"time":1746413868162,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:57:48.162Z"}
+{"level":30,"time":1746413898139,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746413928143,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746413946352,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:06.352Z"}
+{"level":30,"time":1746413946354,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:06.354Z"}
+{"level":30,"time":1746413946358,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:06.358Z"}
+{"level":30,"time":1746413946369,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:06.369Z"}
+{"level":30,"time":1746413946375,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:06.375Z"}
+{"level":30,"time":1746413946377,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:06.377Z"}
+{"level":30,"time":1746413946385,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:06.385Z"}
+{"level":30,"time":1746413946390,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:06.390Z"}
+{"level":30,"time":1746413946395,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:06.395Z"}
+{"level":30,"time":1746413949994,"pid":26587,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:09.994Z"}
+{"level":20,"time":1746413949997,"pid":26587,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746413949","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746413949.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746413949.yaml"}
+{"level":30,"time":1746413950020,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:10.020Z"}
+{"level":30,"time":1746413950035,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:10.035Z"}
+{"level":30,"time":1746413950056,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746413949","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:10.056Z"}
+{"level":30,"time":1746413950057,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:10.057Z"}
+{"level":30,"time":1746413950062,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:10.062Z"}
+{"level":30,"time":1746413950072,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746413949","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T02:59:10.072Z"}
+{"level":30,"time":1746413980107,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414010133,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414040160,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414070186,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414100213,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414130239,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414160266,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414190293,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414220320,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414249932,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:09.932Z"}
+{"level":30,"time":1746414249940,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746413949","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:09.940Z"}
+{"level":30,"time":1746414249956,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:09.956Z"}
+{"level":30,"time":1746414249960,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:09.960Z"}
+{"level":30,"time":1746414249965,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746413949","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:09.965Z"}
+{"level":30,"time":1746414267926,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:27.926Z"}
+{"level":30,"time":1746414267931,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746413949","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:27.931Z"}
+{"level":30,"time":1746414267934,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:27.933Z"}
+{"level":30,"time":1746414267945,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:27.945Z"}
+{"level":30,"time":1746414267951,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746413949","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:27.951Z"}
+{"level":30,"time":1746414268919,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:28.919Z"}
+{"level":30,"time":1746414268927,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746413949","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:28.927Z"}
+{"level":30,"time":1746414268941,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:28.941Z"}
+{"level":30,"time":1746414268945,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:28.945Z"}
+{"level":30,"time":1746414268954,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746413949","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:28.953Z"}
+{"level":30,"time":1746414290461,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:50.461Z"}
+{"level":30,"time":1746414290462,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:50.462Z"}
+{"level":30,"time":1746414290463,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:50.463Z"}
+{"level":30,"time":1746414290463,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:50.463Z"}
+{"level":30,"time":1746414290479,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:50.479Z"}
+{"level":30,"time":1746414290496,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:50.496Z"}
+{"level":30,"time":1746414290499,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:50.499Z"}
+{"level":30,"time":1746414290515,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:50.515Z"}
+{"level":30,"time":1746414290516,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:04:50.516Z"}
+{"level":30,"time":1746414301714,"pid":26587,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:05:01.714Z"}
+{"level":20,"time":1746414301716,"pid":26587,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414301","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414301.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414301.yaml"}
+{"level":30,"time":1746414301735,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:05:01.735Z"}
+{"level":30,"time":1746414301750,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:05:01.750Z"}
+{"level":30,"time":1746414301754,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:05:01.754Z"}
+{"level":30,"time":1746414301764,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:05:01.764Z"}
+{"level":30,"time":1746414301772,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:05:01.772Z"}
+{"level":30,"time":1746414301777,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:05:01.777Z"}
+{"level":30,"time":1746414331797,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414361814,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414370409,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:06:10.409Z"}
+{"level":30,"time":1746414370414,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:06:10.414Z"}
+{"level":30,"time":1746414370426,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:06:10.426Z"}
+{"level":30,"time":1746414370430,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:06:10.430Z"}
+{"level":30,"time":1746414370435,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:06:10.435Z"}
+{"level":30,"time":1746414373252,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:06:13.252Z"}
+{"level":30,"time":1746414373257,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:06:13.257Z"}
+{"level":30,"time":1746414373269,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:06:13.269Z"}
+{"level":30,"time":1746414373270,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:06:13.270Z"}
+{"level":30,"time":1746414373278,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:06:13.278Z"}
+{"level":30,"time":1746414401535,"pid":26587,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:06:41.535Z"}
+{"level":30,"time":1746414403282,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":20,"time":1746414415241,"pid":26587,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414301","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414301.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414301.yaml"}
+{"level":20,"time":1746414415243,"pid":26587,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414301","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414301.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414301.yaml"}
+{"level":30,"time":1746414432521,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414462531,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414492562,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414522567,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414552597,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414582626,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414612655,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414642076,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414672106,"pid":26587,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414684927,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:11:24.927Z"}
+{"level":30,"time":1746414684928,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:11:24.928Z"}
+{"level":30,"time":1746414684929,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:11:24.929Z"}
+{"level":30,"time":1746414684934,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:11:24.934Z"}
+{"level":30,"time":1746414684952,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:11:24.952Z"}
+{"level":30,"time":1746414684953,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:11:24.953Z"}
+{"level":30,"time":1746414684956,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:11:24.956Z"}
+{"level":30,"time":1746414684958,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:11:24.958Z"}
+{"level":30,"time":1746414684960,"pid":26587,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:11:24.960Z"}
+{"level":30,"time":1746414695554,"pid":26587,"hostname":"cavalier","msg":"Shutting down MCP servers..."}
+{"level":20,"time":1746414706148,"pid":34237,"hostname":"cavalier","msg":"test of file out"}
+{"level":30,"time":1746414706160,"pid":34237,"hostname":"cavalier","msg":"Server running on http://localhost:3000"}
+{"level":30,"time":1746414706160,"pid":34237,"hostname":"cavalier","msg":"Chat history directory: /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history"}
+{"level":30,"time":1746414706160,"pid":34237,"hostname":"cavalier","msg":"Environment variables loaded:"}
+{"level":30,"time":1746414706161,"pid":34237,"hostname":"cavalier","msg":"- OPENROUTER_API_KEY=present"}
+{"level":30,"time":1746414706161,"pid":34237,"hostname":"cavalier","msg":"- ANTHROPIC_API_KEY=missing"}
+{"level":30,"time":1746414706161,"pid":34237,"hostname":"cavalier","msg":"- GROQ_API_KEY=missing"}
+{"level":30,"time":1746414706161,"pid":34237,"hostname":"cavalier","msg":"Using custom system prompt: あなたは私が雇っている世界最高峰の秘書であり、私からの質問や依頼に忠実かつ専門的に応えます。\n\n##..."}
+{"level":30,"time":1746414735806,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:12:15.804Z"}
+{"level":30,"time":1746414735875,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:12:15.875Z"}
+{"level":30,"time":1746414735907,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:12:15.907Z"}
+{"level":30,"time":1746414735923,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:12:15.923Z"}
+{"level":30,"time":1746414735929,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:12:15.929Z"}
+{"level":30,"time":1746414735940,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:12:15.940Z"}
+{"level":30,"time":1746414765177,"pid":34237,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414776142,"pid":34237,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:12:56.142Z"}
+{"level":30,"time":1746414795180,"pid":34237,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414825181,"pid":34237,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414838166,"pid":34237,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:13:58.166Z"}
+{"level":20,"time":1746414838173,"pid":34237,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414838","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414838.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414838.yaml"}
+{"level":30,"time":1746414838196,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:13:58.196Z"}
+{"level":30,"time":1746414838211,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414838","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:13:58.211Z"}
+{"level":30,"time":1746414838220,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:13:58.220Z"}
+{"level":30,"time":1746414838244,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:13:58.239Z"}
+{"level":30,"time":1746414838252,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:13:58.252Z"}
+{"level":30,"time":1746414838255,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414838","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:13:58.255Z"}
+{"level":20,"time":1746414844746,"pid":34237,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414301","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414301.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414301.yaml"}
+{"level":30,"time":1746414847169,"pid":34237,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:14:07.169Z"}
+{"level":30,"time":1746414867660,"pid":34237,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":20,"time":1746414870497,"pid":34237,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414838","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414838.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414838.yaml"}
+{"level":20,"time":1746414870499,"pid":34237,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414838","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414838.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414838.yaml"}
+{"level":30,"time":1746414897675,"pid":34237,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414927690,"pid":34237,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414947809,"pid":34237,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:15:47.809Z"}
+{"level":20,"time":1746414947812,"pid":34237,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414947","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414947.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414947.yaml"}
+{"level":30,"time":1746414947838,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:15:47.838Z"}
+{"level":30,"time":1746414947862,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414947","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:15:47.862Z"}
+{"level":30,"time":1746414947864,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:15:47.864Z"}
+{"level":30,"time":1746414947880,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:15:47.880Z"}
+{"level":30,"time":1746414947899,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:15:47.899Z"}
+{"level":30,"time":1746414947912,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414947","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:15:47.912Z"}
+{"level":30,"time":1746414956314,"pid":34237,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:15:56.314Z"}
+{"level":20,"time":1746414960793,"pid":34237,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414947","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414947.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414947.yaml"}
+{"level":20,"time":1746414960797,"pid":34237,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414947","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414947.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414947.yaml"}
+{"level":30,"time":1746414977141,"pid":34237,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746414991881,"pid":34237,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:16:31.881Z"}
+{"level":20,"time":1746414991883,"pid":34237,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414991","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414991.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414991.yaml"}
+{"level":30,"time":1746414991905,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:16:31.905Z"}
+{"level":30,"time":1746414991925,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:16:31.925Z"}
+{"level":30,"time":1746414991933,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414991","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:16:31.933Z"}
+{"level":30,"time":1746414991934,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:16:31.934Z"}
+{"level":30,"time":1746414991948,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:16:31.948Z"}
+{"level":30,"time":1746414991957,"pid":34237,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414991","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:16:31.957Z"}
+{"level":30,"time":1746414998350,"pid":34237,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:16:38.350Z"}
+{"level":20,"time":1746415000996,"pid":34237,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414991","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414991.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414991.yaml"}
+{"level":20,"time":1746415001003,"pid":34237,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414991","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414991.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414991.yaml"}
+{"level":30,"time":1746415018032,"pid":34237,"hostname":"cavalier","msg":"Shutting down MCP servers..."}
+{"level":20,"time":1746415026144,"pid":38086,"hostname":"cavalier","msg":"test of file out"}
+{"level":30,"time":1746415026155,"pid":38086,"hostname":"cavalier","msg":"Server running on http://localhost:3000"}
+{"level":30,"time":1746415026156,"pid":38086,"hostname":"cavalier","msg":"Chat history directory: /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history"}
+{"level":30,"time":1746415026156,"pid":38086,"hostname":"cavalier","msg":"Environment variables loaded:"}
+{"level":30,"time":1746415026156,"pid":38086,"hostname":"cavalier","msg":"- OPENROUTER_API_KEY=present"}
+{"level":30,"time":1746415026156,"pid":38086,"hostname":"cavalier","msg":"- ANTHROPIC_API_KEY=missing"}
+{"level":30,"time":1746415026156,"pid":38086,"hostname":"cavalier","msg":"- GROQ_API_KEY=missing"}
+{"level":30,"time":1746415026157,"pid":38086,"hostname":"cavalier","msg":"Using custom system prompt: あなたは私が雇っている世界最高峰の秘書であり、私からの質問や依頼に忠実かつ専門的に応えます。\n\n##..."}
+{"level":30,"time":1746415039816,"pid":38086,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:17:19.816Z"}
+{"level":20,"time":1746415042996,"pid":38086,"hostname":"cavalier","msg":"Sending request to MCP Agent with custom system prompt"}
+{"level":20,"time":1746415045869,"pid":38086,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746414991","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414991.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746414991.yaml"}
+{"level":30,"time":1746415103016,"pid":38086,"hostname":"cavalier","msg":"Shutting down MCP servers..."}
+{"level":20,"time":1746415112383,"pid":39375,"hostname":"cavalier","msg":"test of file out"}
+{"level":30,"time":1746415112393,"pid":39375,"hostname":"cavalier","msg":"Server running on http://localhost:3000"}
+{"level":30,"time":1746415112393,"pid":39375,"hostname":"cavalier","msg":"Chat history directory: /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history"}
+{"level":30,"time":1746415112393,"pid":39375,"hostname":"cavalier","msg":"Environment variables loaded:"}
+{"level":30,"time":1746415112394,"pid":39375,"hostname":"cavalier","msg":"- OPENROUTER_API_KEY=present"}
+{"level":30,"time":1746415112394,"pid":39375,"hostname":"cavalier","msg":"- ANTHROPIC_API_KEY=missing"}
+{"level":30,"time":1746415112394,"pid":39375,"hostname":"cavalier","msg":"- GROQ_API_KEY=missing"}
+{"level":30,"time":1746415112394,"pid":39375,"hostname":"cavalier","msg":"Using custom system prompt: あなたは私が雇っている世界最高峰の秘書であり、私からの質問や依頼に忠実かつ専門的に応えます。\n\n##..."}
+{"level":30,"time":1746415116324,"pid":39375,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:18:36.323Z"}
+{"level":30,"time":1746415141526,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:01.526Z"}
+{"level":30,"time":1746415141541,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:01.541Z"}
+{"level":30,"time":1746415141553,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:01.553Z"}
+{"level":30,"time":1746415141573,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:01.573Z"}
+{"level":30,"time":1746415141580,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:01.580Z"}
+{"level":30,"time":1746415141589,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:01.589Z"}
+{"level":30,"time":1746415141593,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:01.593Z"}
+{"level":30,"time":1746415141605,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:01.605Z"}
+{"level":30,"time":1746415141620,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:01.620Z"}
+{"level":30,"time":1746415145365,"pid":39375,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:05.364Z"}
+{"level":20,"time":1746415145373,"pid":39375,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746415145","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746415145.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746415145.yaml"}
+{"level":30,"time":1746415145395,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:05.395Z"}
+{"level":30,"time":1746415145427,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746415145","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:05.427Z"}
+{"level":30,"time":1746415145430,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:05.430Z"}
+{"level":30,"time":1746415145447,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:05.447Z"}
+{"level":30,"time":1746415145455,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:05.455Z"}
+{"level":30,"time":1746415145484,"pid":39375,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746415145","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:05.484Z"}
+{"level":30,"time":1746415149893,"pid":39375,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:19:09.893Z"}
+{"level":30,"time":1746415175489,"pid":39375,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415200308,"pid":39375,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:20:00.308Z"}
+{"level":30,"time":1746415205492,"pid":39375,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415235496,"pid":39375,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415265498,"pid":39375,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415286780,"pid":39375,"hostname":"cavalier","msg":"Shutting down MCP servers..."}
+{"level":20,"time":1746415295024,"pid":42544,"hostname":"cavalier","msg":"test of file out"}
+{"level":30,"time":1746415295036,"pid":42544,"hostname":"cavalier","msg":"Server running on http://localhost:3000"}
+{"level":30,"time":1746415295036,"pid":42544,"hostname":"cavalier","msg":"Chat history directory: /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history"}
+{"level":30,"time":1746415295036,"pid":42544,"hostname":"cavalier","msg":"Environment variables loaded:"}
+{"level":30,"time":1746415295036,"pid":42544,"hostname":"cavalier","msg":"- OPENROUTER_API_KEY=present"}
+{"level":30,"time":1746415295036,"pid":42544,"hostname":"cavalier","msg":"- ANTHROPIC_API_KEY=missing"}
+{"level":30,"time":1746415295036,"pid":42544,"hostname":"cavalier","msg":"- GROQ_API_KEY=missing"}
+{"level":30,"time":1746415295037,"pid":42544,"hostname":"cavalier","msg":"Using custom system prompt: あなたは私が雇っている世界最高峰の秘書であり、私からの質問や依頼に忠実かつ専門的に応えます。\n\n##..."}
+{"level":30,"time":1746415298026,"pid":42544,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:21:38.025Z"}
+{"level":20,"time":1746415298057,"pid":42544,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746415298","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746415298.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746415298.yaml"}
+{"level":30,"time":1746415298085,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:21:38.085Z"}
+{"level":30,"time":1746415298113,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:21:38.113Z"}
+{"level":30,"time":1746415298132,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746415298","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:21:38.132Z"}
+{"level":30,"time":1746415298147,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:21:38.147Z"}
+{"level":30,"time":1746415298158,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:21:38.158Z"}
+{"level":30,"time":1746415298160,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746415298","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:21:38.160Z"}
+{"level":30,"time":1746415301469,"pid":42544,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T03:21:41.469Z"}
+{"level":20,"time":1746415309594,"pid":42544,"hostname":"cavalier","msg":"Sending request to MCP Agent with custom system prompt"}
+{"level":20,"time":1746415309595,"pid":42544,"hostname":"cavalier","msg":"current connections alive:"}
+{"level":20,"time":1746415311343,"pid":42544,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746415298","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746415298.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746415298.yaml"}
+{"level":30,"time":1746415328196,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415358200,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415387640,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415417644,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415447647,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415477650,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415507079,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415536512,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746415565741,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746424788483,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T05:59:48.483Z"}
+{"level":30,"time":1746424788485,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T05:59:48.485Z"}
+{"level":30,"time":1746424788486,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T05:59:48.486Z"}
+{"level":30,"time":1746424788517,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T05:59:48.517Z"}
+{"level":30,"time":1746424788524,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T05:59:48.524Z"}
+{"level":30,"time":1746424788529,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T05:59:48.529Z"}
+{"level":30,"time":1746424788532,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T05:59:48.531Z"}
+{"level":30,"time":1746424788534,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T05:59:48.534Z"}
+{"level":30,"time":1746424788536,"pid":42544,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-05T05:59:48.536Z"}
+{"level":30,"time":1746424817371,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746424845995,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746424874679,"pid":42544,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":20,"time":1746869089293,"pid":5758,"hostname":"cavalier","msg":"test of file out"}
+{"level":30,"time":1746869089304,"pid":5758,"hostname":"cavalier","msg":"Server running on http://localhost:3000"}
+{"level":30,"time":1746869089304,"pid":5758,"hostname":"cavalier","msg":"Chat history directory: /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history"}
+{"level":30,"time":1746869089304,"pid":5758,"hostname":"cavalier","msg":"Environment variables loaded:"}
+{"level":30,"time":1746869089304,"pid":5758,"hostname":"cavalier","msg":"- OPENROUTER_API_KEY=present"}
+{"level":30,"time":1746869089304,"pid":5758,"hostname":"cavalier","msg":"- ANTHROPIC_API_KEY=missing"}
+{"level":30,"time":1746869089304,"pid":5758,"hostname":"cavalier","msg":"- GROQ_API_KEY=missing"}
+{"level":30,"time":1746869089304,"pid":5758,"hostname":"cavalier","msg":"Using custom system prompt: あなたは私が雇っている世界最高峰の秘書であり、私からの質問や依頼に忠実かつ専門的に応えます。\n\n##..."}
+{"level":30,"time":1746869323845,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:43.844Z"}
+{"level":30,"time":1746869323860,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:43.860Z"}
+{"level":30,"time":1746869323887,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:43.887Z"}
+{"level":30,"time":1746869323891,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:43.891Z"}
+{"level":30,"time":1746869323926,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:43.926Z"}
+{"level":30,"time":1746869323929,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:43.929Z"}
+{"level":30,"time":1746869323937,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:43.937Z"}
+{"level":30,"time":1746869323940,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:43.940Z"}
+{"level":30,"time":1746869323952,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:43.952Z"}
+{"level":30,"time":1746869333949,"pid":5758,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:53.949Z"}
+{"level":20,"time":1746869333969,"pid":5758,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746869333","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869333.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869333.yaml"}
+{"level":30,"time":1746869333985,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:53.985Z"}
+{"level":30,"time":1746869333990,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746869333","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:53.990Z"}
+{"level":30,"time":1746869333994,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:53.993Z"}
+{"level":30,"time":1746869333997,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:53.997Z"}
+{"level":30,"time":1746869334003,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:54.002Z"}
+{"level":30,"time":1746869334012,"pid":5758,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746869333","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:28:54.012Z"}
+{"level":30,"time":1746869341782,"pid":5758,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:29:01.782Z"}
+{"level":20,"time":1746869344536,"pid":5758,"hostname":"cavalier","msg":"Sending request to MCP Agent with custom system prompt"}
+{"level":20,"time":1746869344536,"pid":5758,"hostname":"cavalier","msg":"current connections alive:"}
+{"level":20,"time":1746869346548,"pid":5758,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746869333","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869333.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869333.yaml"}
+{"level":30,"time":1746869364010,"pid":5758,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746869394019,"pid":5758,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746869424020,"pid":5758,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746869454029,"pid":5758,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746869484038,"pid":5758,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746869513863,"pid":5758,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746869544039,"pid":5758,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746869574049,"pid":5758,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746869604053,"pid":5758,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746869634056,"pid":5758,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746869664062,"pid":5758,"hostname":"cavalier","msg":"data: {\"type\":\"keep-alive\"}\n"}
+{"level":30,"time":1746869699859,"pid":5758,"hostname":"cavalier","msg":"Shutting down MCP servers..."}
+{"level":20,"time":1746869691365,"pid":13543,"hostname":"cavalier","msg":"test of file out"}
+{"level":30,"time":1746869691376,"pid":13543,"hostname":"cavalier","msg":"Server running on http://localhost:3000"}
+{"level":30,"time":1746869691376,"pid":13543,"hostname":"cavalier","msg":"Chat history directory: /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history"}
+{"level":30,"time":1746869691376,"pid":13543,"hostname":"cavalier","msg":"Environment variables loaded:"}
+{"level":30,"time":1746869691376,"pid":13543,"hostname":"cavalier","msg":"- OPENROUTER_API_KEY=present"}
+{"level":30,"time":1746869691376,"pid":13543,"hostname":"cavalier","msg":"- ANTHROPIC_API_KEY=missing"}
+{"level":30,"time":1746869691376,"pid":13543,"hostname":"cavalier","msg":"- GROQ_API_KEY=missing"}
+{"level":30,"time":1746869691376,"pid":13543,"hostname":"cavalier","msg":"Using custom system prompt: あなたは私が雇っている世界最高峰の秘書であり、私からの質問や依頼に忠実かつ専門的に応えます。\n\n##..."}
+{"level":30,"time":1746869696704,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:34:56.703Z"}
+{"level":30,"time":1746869696718,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:34:56.718Z"}
+{"level":30,"time":1746869696747,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:34:56.747Z"}
+{"level":30,"time":1746869696756,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:34:56.756Z"}
+{"level":30,"time":1746869696774,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:34:56.774Z"}
+{"level":30,"time":1746869696778,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:34:56.778Z"}
+{"level":30,"time":1746869696783,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:34:56.783Z"}
+{"level":30,"time":1746869696789,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:34:56.789Z"}
+{"level":30,"time":1746869696794,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:34:56.794Z"}
+{"level":30,"time":1746869705892,"pid":13543,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:35:05.892Z"}
+{"level":20,"time":1746869705911,"pid":13543,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746869705","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869705.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869705.yaml"}
+{"level":30,"time":1746869705922,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:35:05.922Z"}
+{"level":30,"time":1746869705932,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:35:05.932Z"}
+{"level":30,"time":1746869705935,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746869705","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:35:05.935Z"}
+{"level":30,"time":1746869705937,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:35:05.937Z"}
+{"level":30,"time":1746869705947,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:35:05.947Z"}
+{"level":30,"time":1746869705952,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746869705","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:35:05.952Z"}
+{"level":30,"time":1746869726400,"pid":13543,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:35:26.400Z"}
+{"level":20,"time":1746869730714,"pid":13543,"hostname":"cavalier","msg":"Sending request to MCP Agent with custom system prompt"}
+{"level":20,"time":1746869730714,"pid":13543,"hostname":"cavalier","msg":"current connections alive:"}
+{"level":20,"time":1746869732341,"pid":13543,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746869705","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869705.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869705.yaml"}
+{"level":20,"time":1746869735938,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869705"}
+{"level":20,"time":1746869765959,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869705"}
+{"level":20,"time":1746869795968,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869705"}
+{"level":30,"time":1746869807292,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746869333","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:47.292Z"}
+{"level":30,"time":1746869807304,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:47.304Z"}
+{"level":30,"time":1746869807308,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:47.308Z"}
+{"level":30,"time":1746869807312,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:47.312Z"}
+{"level":30,"time":1746869807317,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746869333","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:47.317Z"}
+{"level":30,"time":1746869807325,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746869333","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:47.325Z"}
+{"level":30,"time":1746869808891,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746415145","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:48.891Z"}
+{"level":30,"time":1746869808902,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:48.902Z"}
+{"level":30,"time":1746869808904,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:48.904Z"}
+{"level":30,"time":1746869808913,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:48.913Z"}
+{"level":30,"time":1746869808922,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746415145","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:48.922Z"}
+{"level":30,"time":1746869808924,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746415145","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:48.924Z"}
+{"level":30,"time":1746869810024,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414991","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:50.024Z"}
+{"level":30,"time":1746869810037,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:50.037Z"}
+{"level":30,"time":1746869810040,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:50.040Z"}
+{"level":30,"time":1746869810045,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:50.045Z"}
+{"level":30,"time":1746869810053,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414991","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:50.053Z"}
+{"level":30,"time":1746869810057,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414991","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:50.057Z"}
+{"level":30,"time":1746869811651,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414947","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:51.651Z"}
+{"level":30,"time":1746869811662,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:51.662Z"}
+{"level":30,"time":1746869811665,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:51.665Z"}
+{"level":30,"time":1746869811669,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:51.669Z"}
+{"level":30,"time":1746869811676,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414947","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:51.676Z"}
+{"level":30,"time":1746869811678,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414947","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:51.678Z"}
+{"level":30,"time":1746869817782,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414838","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:57.782Z"}
+{"level":30,"time":1746869817792,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:57.792Z"}
+{"level":30,"time":1746869817802,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:57.802Z"}
+{"level":30,"time":1746869817804,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:57.804Z"}
+{"level":30,"time":1746869817808,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414838","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:57.808Z"}
+{"level":30,"time":1746869817811,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414838","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:57.811Z"}
+{"level":30,"time":1746869819043,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.043Z"}
+{"level":30,"time":1746869819052,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.052Z"}
+{"level":30,"time":1746869819059,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.059Z"}
+{"level":30,"time":1746869819063,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.063Z"}
+{"level":30,"time":1746869819068,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.068Z"}
+{"level":30,"time":1746869819071,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.071Z"}
+{"level":30,"time":1746869819495,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414838","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.495Z"}
+{"level":30,"time":1746869819505,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.505Z"}
+{"level":30,"time":1746869819508,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.508Z"}
+{"level":30,"time":1746869819511,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.511Z"}
+{"level":30,"time":1746869819518,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414838","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.518Z"}
+{"level":30,"time":1746869819522,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414838","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:36:59.522Z"}
+{"level":30,"time":1746869822618,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:02.618Z"}
+{"level":30,"time":1746869822625,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:02.625Z"}
+{"level":30,"time":1746869822628,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:02.628Z"}
+{"level":30,"time":1746869822630,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:02.630Z"}
+{"level":30,"time":1746869822638,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:02.638Z"}
+{"level":30,"time":1746869822641,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746414301","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:02.641Z"}
+{"level":30,"time":1746869823952,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746413949","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:03.952Z"}
+{"level":30,"time":1746869823958,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:03.958Z"}
+{"level":30,"time":1746869823962,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:03.962Z"}
+{"level":30,"time":1746869823966,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:03.966Z"}
+{"level":30,"time":1746869823976,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746413949","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:03.976Z"}
+{"level":30,"time":1746869823978,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746413949","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:03.978Z"}
+{"level":30,"time":1746869824482,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746412895","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:04.482Z"}
+{"level":30,"time":1746869824493,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:04.493Z"}
+{"level":30,"time":1746869824496,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:04.496Z"}
+{"level":30,"time":1746869824500,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:04.500Z"}
+{"level":30,"time":1746869824507,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746412895","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:04.507Z"}
+{"level":30,"time":1746869824510,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746412895","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:04.510Z"}
+{"level":30,"time":1746869829134,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746412347","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.134Z"}
+{"level":30,"time":1746869829136,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.136Z"}
+{"level":30,"time":1746869829138,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.138Z"}
+{"level":30,"time":1746869829142,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.142Z"}
+{"level":30,"time":1746869829147,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746412347","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.147Z"}
+{"level":30,"time":1746869829149,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746412347","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.149Z"}
+{"level":30,"time":1746869829676,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.676Z"}
+{"level":30,"time":1746869829681,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.681Z"}
+{"level":30,"time":1746869829685,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.685Z"}
+{"level":30,"time":1746869829690,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746412721","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.690Z"}
+{"level":30,"time":1746869829700,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746412721","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.700Z"}
+{"level":30,"time":1746869829706,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746412721","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:09.706Z"}
+{"level":30,"time":1746869830985,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:10.985Z"}
+{"level":30,"time":1746869830998,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:10.998Z"}
+{"level":30,"time":1746869831002,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:11.002Z"}
+{"level":30,"time":1746869831004,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:11.004Z"}
+{"level":30,"time":1746869831013,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:11.013Z"}
+{"level":30,"time":1746869831019,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:11.019Z"}
+{"level":30,"time":1746869835044,"pid":13543,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:15.044Z"}
+{"level":20,"time":1746869835045,"pid":13543,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746869835","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869835.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869835.yaml"}
+{"level":30,"time":1746869835057,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:15.056Z"}
+{"level":30,"time":1746869835067,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:15.067Z"}
+{"level":30,"time":1746869835070,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746869835","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:15.070Z"}
+{"level":30,"time":1746869835073,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:15.073Z"}
+{"level":30,"time":1746869835076,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:15.076Z"}
+{"level":30,"time":1746869835081,"pid":13543,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746869835","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:15.081Z"}
+{"level":30,"time":1746869839950,"pid":13543,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:37:19.950Z"}
+{"level":20,"time":1746869839954,"pid":13543,"hostname":"cavalier","msg":"Sending request to MCP Agent with custom system prompt"}
+{"level":20,"time":1746869839954,"pid":13543,"hostname":"cavalier","msg":"current connections alive:"}
+{"level":20,"time":1746869865082,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746869895090,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746869925086,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746869926231,"pid":13543,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746869835","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869835.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869835.yaml"}
+{"level":20,"time":1746869926244,"pid":13543,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746869835","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869835.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869835.yaml"}
+{"level":20,"time":1746869955107,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":30,"time":1746869962750,"pid":13543,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:39:22.750Z"}
+{"level":20,"time":1746869962757,"pid":13543,"hostname":"cavalier","msg":"Sending request to MCP Agent with custom system prompt"}
+{"level":20,"time":1746869962757,"pid":13543,"hostname":"cavalier","msg":"current connections alive:"}
+{"level":20,"time":1746869964172,"pid":13543,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746869835","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869835.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869835.yaml"}
+{"level":20,"time":1746869964174,"pid":13543,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746869835","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869835.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746869835.yaml"}
+{"level":20,"time":1746869985121,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870015145,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870045161,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870091696,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870105206,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870135219,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870165242,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870195264,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870225296,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870255315,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870285338,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870315354,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870345372,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":20,"time":1746870375333,"pid":13543,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746869835"}
+{"level":30,"time":1746870392372,"pid":13543,"hostname":"cavalier","msg":"Shutting down MCP servers..."}
+{"level":20,"time":1746870399627,"pid":23345,"hostname":"cavalier","msg":"test of file out"}
+{"level":30,"time":1746870399638,"pid":23345,"hostname":"cavalier","msg":"Server running on http://localhost:3000"}
+{"level":30,"time":1746870399638,"pid":23345,"hostname":"cavalier","msg":"Chat history directory: /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history"}
+{"level":30,"time":1746870399638,"pid":23345,"hostname":"cavalier","msg":"Environment variables loaded:"}
+{"level":30,"time":1746870399638,"pid":23345,"hostname":"cavalier","msg":"- OPENROUTER_API_KEY=present"}
+{"level":30,"time":1746870399638,"pid":23345,"hostname":"cavalier","msg":"- ANTHROPIC_API_KEY=missing"}
+{"level":30,"time":1746870399638,"pid":23345,"hostname":"cavalier","msg":"- GROQ_API_KEY=missing"}
+{"level":30,"time":1746870399638,"pid":23345,"hostname":"cavalier","msg":"Using custom system prompt: あなたは私が雇っている世界最高峰の秘書であり、私からの質問や依頼に忠実かつ専門的に応えます。\n\n##..."}
+{"level":30,"time":1746870420965,"pid":23345,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:47:00.964Z"}
+{"level":20,"time":1746870420987,"pid":23345,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746870420","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746870420.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746870420.yaml"}
+{"level":30,"time":1746870421003,"pid":23345,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:47:01.003Z"}
+{"level":30,"time":1746870421019,"pid":23345,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:47:01.018Z"}
+{"level":30,"time":1746870421026,"pid":23345,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746870420","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:47:01.026Z"}
+{"level":30,"time":1746870421034,"pid":23345,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:47:01.034Z"}
+{"level":30,"time":1746870404525,"pid":23345,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:46:44.524Z"}
+{"level":30,"time":1746870404539,"pid":23345,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746870420","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:46:44.539Z"}
+{"level":30,"time":1746870407357,"pid":23345,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:46:47.357Z"}
+{"level":20,"time":1746870451058,"pid":23345,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870420"}
+{"level":20,"time":1746870458000,"pid":23345,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746870420","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746870420.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746870420.yaml"}
+{"level":20,"time":1746870458002,"pid":23345,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746870420","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746870420.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746870420.yaml"}
+{"level":20,"time":1746870481057,"pid":23345,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870420"}
+{"level":20,"time":1746870511063,"pid":23345,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870420"}
+{"level":20,"time":1746870541067,"pid":23345,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870420"}
+{"level":20,"time":1746870571072,"pid":23345,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870420"}
+{"level":20,"time":1746870601077,"pid":23345,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870420"}
+{"level":20,"time":1746870614571,"pid":23345,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870420"}
+{"level":30,"time":1746870628140,"pid":23345,"hostname":"cavalier","msg":"Shutting down MCP servers..."}
+{"level":20,"time":1746870635422,"pid":26924,"hostname":"cavalier","msg":"test of file out"}
+{"level":30,"time":1746870635431,"pid":26924,"hostname":"cavalier","msg":"Server running on http://localhost:3000"}
+{"level":30,"time":1746870635432,"pid":26924,"hostname":"cavalier","msg":"Chat history directory: /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history"}
+{"level":30,"time":1746870635432,"pid":26924,"hostname":"cavalier","msg":"Environment variables loaded:"}
+{"level":30,"time":1746870635432,"pid":26924,"hostname":"cavalier","msg":"- OPENROUTER_API_KEY=present"}
+{"level":30,"time":1746870635432,"pid":26924,"hostname":"cavalier","msg":"- ANTHROPIC_API_KEY=missing"}
+{"level":30,"time":1746870635432,"pid":26924,"hostname":"cavalier","msg":"- GROQ_API_KEY=missing"}
+{"level":30,"time":1746870635432,"pid":26924,"hostname":"cavalier","msg":"Using custom system prompt: あなたは私が雇っている世界最高峰の秘書であり、私からの質問や依頼に忠実かつ専門的に応えます。\n\n##..."}
+{"level":30,"time":1746870656181,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:50:56.181Z"}
+{"level":30,"time":1746870656185,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:50:56.185Z"}
+{"level":30,"time":1746870656212,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:50:56.212Z"}
+{"level":30,"time":1746870656216,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:50:56.216Z"}
+{"level":30,"time":1746870656226,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:50:56.226Z"}
+{"level":30,"time":1746870656230,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:50:56.230Z"}
+{"level":30,"time":1746870656232,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/default","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:50:56.232Z"}
+{"level":30,"time":1746870656234,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:50:56.234Z"}
+{"level":30,"time":1746870656243,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:50:56.243Z"}
+{"level":30,"time":1746870661172,"pid":26924,"hostname":"cavalier","type":"request","method":"POST","url":"/api/new-chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:51:01.172Z"}
+{"level":20,"time":1746870661188,"pid":26924,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746870661","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746870661.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746870661.yaml"}
+{"level":30,"time":1746870661200,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:51:01.200Z"}
+{"level":30,"time":1746870661220,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/sessions","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:51:01.220Z"}
+{"level":30,"time":1746870661223,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/history/chat_1746870661","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:51:01.223Z"}
+{"level":30,"time":1746870661226,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/status","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:51:01.226Z"}
+{"level":30,"time":1746870661233,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/llms","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:51:01.233Z"}
+{"level":30,"time":1746870661237,"pid":26924,"hostname":"cavalier","type":"request","method":"GET","url":"/api/stream/chat_1746870661","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:51:01.237Z"}
+{"level":30,"time":1746870667471,"pid":26924,"hostname":"cavalier","type":"request","method":"POST","url":"/api/chat","ip":"::ffff:127.0.0.1","timestamp":"2025-05-10T09:51:07.471Z"}
+{"level":20,"time":1746870691240,"pid":26924,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870661"}
+{"level":20,"time":1746870683158,"pid":26924,"hostname":"cavalier","type":"history_saved","sessionId":"chat_1746870661","filePath":"/home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746870661.yaml","msg":"Chat history saved to /home/passiveradio/dev/personal/ai-agents/mcp-client-langchain-ts/chat_history/chat_1746870661.yaml"}
+{"level":20,"time":1746870704728,"pid":26924,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870661"}
+{"level":20,"time":1746870734743,"pid":26924,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870661"}
+{"level":20,"time":1746870764647,"pid":26924,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870661"}
+{"level":20,"time":1746870794757,"pid":26924,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870661"}
+{"level":20,"time":1746870824767,"pid":26924,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870661"}
+{"level":20,"time":1746870854564,"pid":26924,"hostname":"cavalier","msg":"Keep-alive sent to session chat_1746870661"}
+{"level":30,"time":1746870875573,"pid":26924,"hostname":"cavalier","msg":"Shutting down MCP servers..."}

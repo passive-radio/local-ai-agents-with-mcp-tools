@@ -18,17 +18,11 @@ export interface MCPServerConfig {
 }
 
 export interface Config {
-  llm?: {
-    model_provider: string;
-    model: string;
-    temperature?: number;
-    max_tokens?: number;
-    max_completion_tokens?: number;
-  };
-  llms?: {
+  llm: LLMConfig;
+  llms: {
     [key: string]: LLMConfig;
   };
-  default_llm?: string;
+  default_llm: string;
   mcp_servers: {
     [key: string]: {
       command: string;
@@ -40,6 +34,25 @@ export interface Config {
   };
   example_queries?: string[];
 }
+
+const defaultLLMConfig: LLMConfig = {
+  name: 'Google Gemini 2.5 Flash Preview',
+  model_provider: 'openrouter',
+  model: 'google/gemini-2.5-flash-preview',
+  temperature: 0.1,
+  max_tokens: 5000,
+  max_completion_tokens: 5000
+}
+
+const defaultConfig: Config = {
+  llm: defaultLLMConfig,
+  llms: {
+    [defaultLLMConfig.name]: defaultLLMConfig,
+  },
+  default_llm: defaultLLMConfig.name,
+  mcp_servers: {},
+  example_queries: []
+};
 
 export function loadConfig(path: string): Config {
   try {
@@ -57,10 +70,9 @@ export function loadConfig(path: string): Config {
 
     return config;
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(`Failed to load configuration from "${path}": ${error.message}`);
-    }
-    throw error;
+    console.log(`Failed to load configuration from "${path}": ${error instanceof Error ? error.message : String(error)}`);
+    console.log('Using default configuration');
+    return defaultConfig;
   }
 }
 

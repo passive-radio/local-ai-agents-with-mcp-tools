@@ -8,7 +8,7 @@ import { BaseChatModel, BindToolsInput } from '@langchain/core/language_models/c
 
 interface ChatModelConfig {
   modelProvider: string;
-  model?: string;
+  model: string;
   temperature?: number;
   maxTokens?: number,
   tools?: BindToolsInput[];
@@ -45,9 +45,8 @@ export function initChatModel(config: ChatModelConfig): BaseChatModel {
         break;
 
       default:
-        throw new Error(
-          `Unsupported model_provider: ${modelProvider}`,
-        );
+        model = new ChatOpenAI(llmConfig);
+        break;
     }
 
     if (typeof model?.bindTools === 'function') {

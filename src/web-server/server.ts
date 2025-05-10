@@ -6,13 +6,26 @@ import { HumanMessage, AIMessage, SystemMessage } from '@langchain/core/messages
 import { BaseMessage } from '@langchain/core/messages';
 import { convertMcpToLangchainTools } from '@h1deya/langchain-mcp-tools';
 import { initChatModel } from '../init-chat-model.js';
-import { loadConfig } from '../load-config.js';
+import { loadConfig, Config, LLMConfig } from '../load-config.js';
 import dotenv from 'dotenv';
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
 import { MemorySaver } from '@langchain/langgraph';
+import { Message } from "../@types/index.js";
 import { ChatOpenAI } from '@langchain/openai';
 import fs from 'fs-extra';
 import YAML from 'yaml';
+import { pino } from 'pino';
+
+fs.ensureDirSync('./logs');
+
+const streams = [
+  { stream: process.stdout, level: 'debug' },
+  { stream: fs.createWriteStream('./logs/server.log', { flags: 'a' }), level: 'debug' },
+];
+
+const logger = pino({ level: 'debug' }, pino.multistream(streams));
+
+logger.debug('test of file out');
 
 // プロセスの起動時にLANGCHAIN DEBUGモードを有効化
 process.env.LANGCHAIN_TRACING = "false";
@@ -102,7 +115,7 @@ function generateSessionId(): string {
 }
 
 // YAMLからチャット履歴を読み込む関数
-function loadChatHistoryFromYaml(sessionId: string): { role: string; content: string }[] {
+function loadChatHistoryFromYaml(sessionId: string): Message[] {
   try {
     const filePath = path.join(CHAT_HISTORY_DIR, `${sessionId}.yaml`);
     if (!fs.existsSync(filePath)) {
@@ -113,7 +126,14 @@ function loadChatHistoryFromYaml(sessionId: string): { role: string; content: st
     const parsedData = YAML.parse(yamlContent);
     return Array.isArray(parsedData) ? parsedData : [];
   } catch (error) {
-    console.error(`Error loading chat history from YAML for session ${sessionId}:`, error);
+    logger.error(
+      { 
+        type: 'history_load_error', 
+        sessionId, 
+        error: error instanceof Error ? error.message : String(error)
+      }, 
+      `Error loading chat history from YAML for session ${sessionId}`
+    );
     return [];
   }
 }
@@ -121,15 +141,22 @@ function loadChatHistoryFromYaml(sessionId: string): { role: string; content: st
 // チャット履歴をYAMLに保存する関数
 function saveChatHistoryToYaml(
   sessionId: string, 
-  history: { role: string; content: string }[]
+  history: Message[]
 ): void {
   try {
     const filePath = path.join(CHAT_HISTORY_DIR, `${sessionId}.yaml`);
     const yamlContent = YAML.stringify(history);
     fs.writeFileSync(filePath, yamlContent, 'utf8');
-    console.log(`Chat history saved to ${filePath}`);
+    logger.debug({ type: 'history_saved', sessionId, filePath }, `Chat history saved to ${filePath}`);
   } catch (error) {
-    console.error(`Error saving chat history to YAML for session ${sessionId}:`, error);
+    logger.error(
+      { 
+        type: 'history_save_error', 
+        sessionId, 
+        error: error instanceof Error ? error.message : String(error)
+      }, 
+      `Error saving chat history to YAML for session ${sessionId}`
+    );
   }
 }
 
@@ -154,7 +181,13 @@ function listChatSessions(): string[] {
 
 // Add request logging middleware
 app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  logger.info({
+    type: 'request',
+    method: req.method,
+    url: req.url,
+    ip: req.ip,
+    timestamp: new Date().toISOString()
+  });
   next();
 });
 
@@ -165,7 +198,7 @@ app.use(express.static(path.join(__dirname, '../../dist')));
 
 // クライアント別にセッション管理（メモリ内）
 interface SessionData {
-  chatHistory: { role: string; content: string }[];
+  chatHistory: Message[];
   langChainMessages: BaseMessage[];
   systemPrompt: string;
 }
@@ -253,16 +286,37 @@ console.log = function(...args: any[]) {
 // MCP初期化関数
 async function initializeMcp(llmKey?: string) {
   try {
-    const config = loadConfig('llm_mcp_config.json5');
+    // Default values in case config loading fails
+    const defaultLlmConfig: LLMConfig = {
+      name: 'Default LLM',
+      model_provider: 'openrouter',
+      model: 'google/gemini-2.5-flash-preview',
+    };
+
+    // Load configuration with error handling
+    let config: Config;
+    try {
+      config = loadConfig('llm_mcp_config.json5');
+      console.log("Config loaded successfully");
+    } catch (error) {
+      console.error("Error loading config:", error);
+      config = {
+        llm: defaultLlmConfig,
+        llms: { 'default': defaultLlmConfig },
+        default_llm: 'default',
+        mcp_servers: {}
+      };
+      console.warn("Using default config instead");
+    }
     
-    // 使用するLLMの選択
-    const llmConfig = llmKey && config.llms?.[llmKey] 
-      ? config.llms[llmKey] 
-      : config.llms?.[config.default_llm || ''] || {
-          name: 'Default LLM',
-          model_provider: 'openrouter',
-          model: 'openai/gpt-4.1-nano',
-        };
+    // 使用するLLMの選択 - with safety checks
+    let llmConfig = defaultLlmConfig;
+    
+    if (llmKey && config.llms && config.llms[llmKey]) {
+      llmConfig = config.llms[llmKey];
+    } else if (config.default_llm && config.llms && config.llms[config.default_llm]) {
+      llmConfig = config.llms[config.default_llm];
+    }
     
     console.log(`Using LLM: ${llmConfig.name} (${llmConfig.model})`);
     
@@ -272,8 +326,9 @@ async function initializeMcp(llmKey?: string) {
       return { config, tools: mcpTools, llmConfig };
     }
     
-    console.log(`Initializing ${Object.keys(config.mcp_servers).length} MCP server(s)...`);
-    const { tools, cleanup } = await convertMcpToLangchainTools(config.mcp_servers);
+    const mcpServers = config.mcp_servers || {};
+    console.log(`Initializing ${Object.keys(mcpServers).length} MCP server(s)...`);
+    const { tools, cleanup } = await convertMcpToLangchainTools(mcpServers);
     
     // 特定のツールに対してサイズ制限を適用
     const wrappedTools = tools.map(tool => {
@@ -340,6 +395,120 @@ async function initializeMcp(llmKey?: string) {
   }
 }
 
+// アクティブなSSE接続を保持するオブジェクト
+type SSEConnection = {
+  res: express.Response;
+  intervalId: NodeJS.Timeout;
+};
+
+const sseConnections: Record<string, SSEConnection[]> = {};
+
+// SSEのためのエンドポイント
+app.get('/api/stream/:sessionId', (req, res) => {
+  const sessionId = req.params.sessionId || DEFAULT_SESSION_ID;
+  
+  // SSEヘッダーを設定
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+  });
+  
+  // クライアント接続時のメッセージ
+  res.write(`data: ${JSON.stringify({ type: 'connected', message: 'Stream connected' })}\n\n`);
+  
+  // このセッション用のSSEハンドラーを保存
+  const intervalId = setInterval(() => {
+    try {
+      // Check if connection is still writable
+      if (res.writable) {
+        res.write(`data: ${JSON.stringify({ type: 'keep-alive' })}\n\n`);
+        logger.debug(`Keep-alive sent to session ${sessionId}`);
+        if (res.flushHeaders && typeof res.flushHeaders === 'function') {
+          res.flushHeaders();
+        }
+      } else {
+        // Connection not writable anymore
+        clearInterval(intervalId);
+        logger.info(`SSE connection for session ${sessionId} no longer writable, cleaning up`);
+        // Remove from connections list
+        removeConnection(sessionId, res);
+      }
+    } catch (error) {
+      // Error handling if write fails
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error(`Error sending keep-alive to session ${sessionId}: ${errorMessage}`);
+      clearInterval(intervalId);
+      removeConnection(sessionId, res);
+    }
+  }, 30000);
+  
+  // 接続を保存
+  if (!sseConnections[sessionId]) {
+    sseConnections[sessionId] = [];
+  }
+  sseConnections[sessionId].push({ res, intervalId });
+  
+  console.log(`New SSE connection established for session ${sessionId}. Total connections: ${sseConnections[sessionId].length}`);
+  
+  // クライアント切断時のクリーンアップ
+  req.on('close', () => {
+    if (sseConnections[sessionId]) {
+      // この接続を削除
+      sseConnections[sessionId] = sseConnections[sessionId].filter(conn => {
+        if (conn.res === res) {
+          clearInterval(conn.intervalId);
+          return false;
+        }
+        return true;
+      });
+      
+      if (sseConnections[sessionId].length === 0) {
+        delete sseConnections[sessionId];
+      }
+    }
+    console.log(`SSE connection closed for session ${sessionId}`);
+  });
+});
+
+// メッセージをSSEクライアントに送信する関数
+function sendSSEMessage(sessionId: string, message: any) {
+  const connections = sseConnections[sessionId];
+  if (!connections || connections.length === 0) {
+    logger.warn(`No active SSE connections for session ${sessionId}`);
+    return;
+  }
+  
+  logger.debug(`Sending message to ${connections.length} connections for session ${sessionId}`);
+  
+  const data = JSON.stringify(message);
+  const eventString = `data: ${data}\n\n`;
+  
+  let activeConnections = 0;
+  connections.forEach(conn => {
+    try {
+      if (conn.res.writable) {
+        conn.res.write(eventString);
+        activeConnections++;
+        if (conn.res.flushHeaders && typeof conn.res.flushHeaders === 'function') {
+          conn.res.flushHeaders();
+        }
+      } else {
+        logger.warn(`Connection not writable for session ${sessionId}, removing`);
+        removeConnection(sessionId, conn.res);
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error({ type: 'sse_error', sessionId, error: errorMessage }, 
+        `Error sending SSE message to session ${sessionId}`);
+      removeConnection(sessionId, conn.res);
+    }
+  });
+  
+  logger.info({ type: 'sse_message_sent', sessionId, activeConnections }, 
+    `Message sent to ${activeConnections}/${connections.length} connections for session-${sessionId}`);
+}
+
 // 新しいチャットセッションを作成するエンドポイント
 app.post('/api/new-chat', async (req, res) => {
   try {
@@ -354,7 +523,7 @@ app.post('/api/new-chat', async (req, res) => {
     
     res.json({ 
       success: true, 
-      sessionId: newSessionId 
+      sessionId: newSessionId,
     });
   } catch (error) {
     console.error('Error creating new chat:', error);
@@ -374,6 +543,9 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).json({ error: 'Message is required' });
     }
 
+    const userParentId = req.body.parentId;
+    const agentParentId = userParentId.replace("-user", "-ai");
+
     // 同じセッションの既存リクエストがあれば停止
     if (activeRequests[sessionId]) {
       abortChatRequest(sessionId);
@@ -388,7 +560,7 @@ app.post('/api/chat', async (req, res) => {
     const { chatHistory, langChainMessages } = sessionData;
 
     // ユーザーメッセージをチャット履歴に追加
-    chatHistory.push({ role: 'user', content: message });
+    chatHistory.push({ role: 'user', content: message, parentId: userParentId, isFinalMessage: true, isToolCall: false, displayMessage: true });
     
     // ユーザーメッセージをLangChain形式で追加
     const userMessage = new HumanMessage(message);
@@ -412,15 +584,189 @@ app.post('/api/chat', async (req, res) => {
     }
     
     try {
-      // ReactAgentを使用してMCPツールとの対話を可能にする
-      console.log('Sending request to MCP Agent with custom system prompt');
+      // Add at the beginning of the agent call:
+      const stepTimeouts: {[key: string]: NodeJS.Timeout} = {};
+      let lastStepTime = Date.now();
+
+      // カレントタイムスタンプをParentIDに設定
+      const currentTimestamp = new Date().toISOString();
+      const parentId = userParentId;
+      
+      // ツール呼び出しや思考プロセスの監視用ハンドラー
+      let lastToolName = '';
+      let toolCallCount = 0;
+      
+      // ステップハンドラーを定義
+      const handleAgentStep = (step: any) => {
+        try {
+          logger.debug(`Agent step received: ${JSON.stringify({
+            actionType: step.action?.type,
+            hasTool: !!step.action?.tool,
+            hasObservation: step.observation !== undefined
+          })}`);
+          
+          // ステップタイプを確認
+          logger.info("current agent action type:", step.action);
+          if (step.action) {
+            logger.info("agent called tool:", step.action.tool)
+            if (step.action.tool) {
+              toolCallCount++;
+              const toolName = step.action.tool;
+              lastToolName = toolName;
+              
+              // ツール呼び出しメッセージを作成
+              const toolInputStr = typeof step.action.toolInput === 'object' 
+                ? JSON.stringify(step.action.toolInput, null, 2)
+                : String(step.action.toolInput || '');
+              
+              const toolCallMessage = {
+                role: 'tool',
+                content: `🔧 **ツール実行**: ${toolName}\n\n**入力パラメータ**:\n\`\`\`json\n${toolInputStr}\n\`\`\``,
+                parentId,
+                isToolCall: true,
+                isFinalMessage: false,
+                displayMessage: true
+              };
+              
+              // チャット履歴に追加
+              chatHistory.push(toolCallMessage);
+              
+              // SSEでリアルタイム通知
+              sendSSEMessage(sessionId, {
+                type: 'tool_call',
+                message: toolCallMessage
+              });
+
+              logger.debug(`SSE message for tool call ${toolName} sent to session ${sessionId}`);
+              
+              console.log(`Tool execution: ${toolName} (${toolCallCount})`);
+            } else if (step.action.log) {
+              // 思考プロセスメッセージを作成
+              const thoughtMessage = {
+                role: 'assistant',
+                content: `💭 **思考プロセス**:\n${step.action.log}`,
+                parentId,
+                isToolCall: false,
+                isFinalMessage: false,
+                displayMessage: true
+              };
+              
+              // チャット履歴に追加
+              chatHistory.push(thoughtMessage);
+              
+              // SSEでリアルタイム通知
+              sendSSEMessage(sessionId, {
+                type: 'thought',
+                message: thoughtMessage
+              });
+              
+              console.log(`Thought process detected`);
+            }
+          }
+          
+          // ツール実行結果がある場合
+          if (step.observation !== undefined && lastToolName) {
+            let observationText = typeof step.observation === 'object'
+              ? JSON.stringify(step.observation, null, 2)
+              : String(step.observation);
+              
+            // 長すぎる出力は省略（UIで表示しきれない）
+            const isLongOutput = observationText.length > 3000;
+            const displayText = isLongOutput
+              ? observationText.substring(0, 3000) + '... (省略されました)'
+              : observationText;
+            
+            // ツール結果メッセージを作成
+            const toolResultMessage = {
+              role: 'tool',
+              content: `📊 **ツール実行結果** (${lastToolName}):\n\n${displayText}`,
+              parentId,
+              isToolCall: false,
+              isFinalMessage: false,
+              displayMessage: true
+            };
+            
+            // チャット履歴に追加
+            chatHistory.push(toolResultMessage);
+            
+            // SSEでリアルタイム通知
+            sendSSEMessage(sessionId, {
+              type: 'tool_result',
+              message: toolResultMessage
+            });
+            
+            console.log(`Tool result received for ${lastToolName}`);
+            logger.info(`Tool result received for ${lastToolName}`);
+            lastToolName = ''; // ツール名をリセット
+          }
+          
+          // YAMLファイルに中間履歴を保存（リアルタイム更新用）
+          saveChatHistoryToYaml(sessionId, chatHistory);
+          
+          // Add to the step handler:
+          const stepId = `step-${Date.now()}`;
+          lastStepTime = Date.now();
+
+          // Clear any previous step timeout
+          if (stepTimeouts[sessionId]) {
+            clearTimeout(stepTimeouts[sessionId]);
+          }
+
+          // Set new timeout to detect stuck steps
+          stepTimeouts[sessionId] = setTimeout(() => {
+            const timeSinceLastStep = Date.now() - lastStepTime;
+            logger.warn(`No agent step for ${timeSinceLastStep}ms in session ${sessionId}, may be stuck`);
+            
+            // Send notification to client
+            sendSSEMessage(sessionId, {
+              type: 'system_message',
+              message: {
+                role: 'system',
+                content: `処理に時間がかかっています (${Math.round(timeSinceLastStep/1000)}秒経過)`,
+                parentId,
+                isToolCall: false,
+                isFinalMessage: false,
+                displayMessage: true
+              }
+            });
+          }, 10000); // 10 seconds without a step is suspicious
+          
+        } catch (stepError) {
+          const errorMessage = stepError instanceof Error ? stepError.message : String(stepError);
+          logger.error(`Error in agent step handler: ${errorMessage}`);
+          // Still try to send a message about the error
+          try {
+            const errorNotification = {
+              role: 'system',
+              content: `エラーが発生しました: ${errorMessage}`,
+              parentId,
+              isToolCall: false,
+              isFinalMessage: false,
+              displayMessage: true
+            };
+            
+            chatHistory.push(errorNotification);
+            sendSSEMessage(sessionId, {
+              type: 'error',
+              message: errorNotification
+            });
+          } catch (notifyError) {
+            logger.error(`Failed to send error notification: ${notifyError}`);
+          }
+        }
+      };
+      
       const agentFinalState = await mcpAgent.invoke(
         { messages: [new SystemMessage(sessionData.systemPrompt), ...langChainMessages.filter(msg => msg._getType() !== 'system'), userMessage] },
         { 
           configurable: { 
             thread_id: `web-thread-${new Date().getTime()}`,
             max_iterations: 20,  // 最大20ステップまで継続的に実行
-            with_agent_state: true  // エージェントの状態を返すように設定
+            with_agent_state: true,  // エージェントの状態を返すように設定
+            callbacks: {
+              // ステップごとのコールバック
+              handleAgentStep
+            }
           },
           signal: abortController.signal 
         }
@@ -440,31 +786,31 @@ app.post('/api/chat', async (req, res) => {
       }
       
       // ReactAgentの実行ステップ構造をより詳細に調査
-      console.log('Agent final state keys:', Object.keys(agentFinalState));
-      console.log('Agent final state type:', agentFinalState.constructor?.name || typeof agentFinalState);
+      // console.log('Agent final state keys:', Object.keys(agentFinalState));
+      // console.log('Agent final state type:', agentFinalState.constructor?.name || typeof agentFinalState);
       
       // メッセージの詳細を調査
-      console.log('===== ALL MESSAGES IN AGENT RESPONSE =====');
-      if (Array.isArray(messages)) {
-        for (let i = 0; i < messages.length; i++) {
-          const msg = messages[i];
-          console.log(`Message[${i}] type:`, msg._getType ? msg._getType() : typeof msg);
-          console.log(`Message[${i}] keys:`, Object.keys(msg));
+      // console.log('===== ALL MESSAGES IN AGENT RESPONSE =====');
+      // if (Array.isArray(messages)) {
+      //   for (let i = 0; i < messages.length; i++) {
+      //     const msg = messages[i];
+      //     console.log(`Message[${i}] type:`, msg._getType ? msg._getType() : typeof msg);
+      //     console.log(`Message[${i}] keys:`, Object.keys(msg));
           
-          // ツール呼び出し情報を取得
-          if (msg.additional_kwargs?.tool_calls) {
-            console.log(`Message[${i}] has tool_calls:`, JSON.stringify(msg.additional_kwargs.tool_calls));
-          }
+      //     // ツール呼び出し情報を取得
+      //     if (msg.additional_kwargs?.tool_calls) {
+      //       console.log(`Message[${i}] has tool_calls:`, JSON.stringify(msg.additional_kwargs.tool_calls));
+      //     }
           
-          // ToolMessage からツール実行結果を取得
-          if (msg._getType && msg._getType() === 'tool') {
-            console.log(`Message[${i}] is a ToolMessage with content:`, 
-              msg.content ? (msg.content.length > 100 ? msg.content.substring(0, 100) + '...' : msg.content) : 'N/A');
-            console.log(`Message[${i}] tool name:`, msg.name);
-          }
-        }
-      }
-      console.log('===========================================');
+      //     // ToolMessage からツール実行結果を取得
+      //     if (msg._getType && msg._getType() === 'tool') {
+      //       console.log(`Message[${i}] is a ToolMessage with content:`, 
+      //         msg.content ? (msg.content.length > 100 ? msg.content.substring(0, 100) + '...' : msg.content) : 'N/A');
+      //       console.log(`Message[${i}] tool name:`, msg.name);
+      //     }
+      //   }
+      // }
+      // console.log('===========================================');
       
       // ツール実行のログを処理
       // エージェントの思考プロセスとツール呼び出しのログを抽出
@@ -739,7 +1085,7 @@ app.post('/api/chat', async (req, res) => {
         
         // ツール実行ログをメッセージとして追加
         const toolExecutionLog = uniqueToolLogs.join('\n\n');
-        chatHistory.push({ role: 'tool', content: toolExecutionLog });
+        chatHistory.push({ role: 'tool', content: toolExecutionLog, parentId: agentParentId, isFinalMessage: false, isToolCall: true, displayMessage: false });
         
         // すぐに保存する
         saveChatHistoryToYaml(sessionId, chatHistory);
@@ -909,15 +1255,15 @@ app.post('/api/chat', async (req, res) => {
           console.log(`追加でツール実行ログを${toolCallsLog.length}件見つけました`);
           // ツール実行ログをメッセージとして追加
           const toolExecutionLog = toolCallsLog.join('\n\n');
-          chatHistory.push({ role: 'tool', content: toolExecutionLog });
+          chatHistory.push({ role: 'tool', content: toolExecutionLog, parentId: agentParentId, isFinalMessage: false, isToolCall: true, displayMessage: false });
           
           // すぐに保存する
           saveChatHistoryToYaml(sessionId, chatHistory);
         }
       }
       
-      // AIの応答をチャット履歴に追加
-      chatHistory.push({ role: 'assistant', content: responseContent });
+      // AIの最終応答をチャット履歴に追加
+      chatHistory.push({ role: 'assistant', content: responseContent, parentId: agentParentId, isFinalMessage: true, isToolCall: false, displayMessage: true });
       
       // LangChain形式の履歴にも応答を追加
       langChainMessages.push(new AIMessage(responseContent));
@@ -997,11 +1343,11 @@ app.post('/api/chat', async (req, res) => {
           if (toolCallsLog.length > 0) {
             // ツール実行ログをメッセージとして追加
             const toolExecutionLog = toolCallsLog.join('\n\n');
-            chatHistory.push({ role: 'tool', content: toolExecutionLog });
+            chatHistory.push({ role: 'tool', content: toolExecutionLog, parentId: agentParentId, isFinalMessage: false, isToolCall: true, displayMessage: false });
           }
         }
         
-        chatHistory.push({ role: 'assistant', content: abortMessage });
+        chatHistory.push({ role: 'assistant', content: abortMessage, parentId: agentParentId, isFinalMessage: true, isToolCall: false, displayMessage: true });
         langChainMessages.push(new AIMessage(abortMessage));
         
         console.log('Request aborted by user');
@@ -1015,7 +1361,7 @@ app.post('/api/chat', async (req, res) => {
       } else {
         // その他のエラー発生時は固定メッセージを返す
         const errorMessage = 'すみません、応答の生成中にエラーが発生しました。もう一度お試しください。';
-        chatHistory.push({ role: 'assistant', content: errorMessage });
+        chatHistory.push({ role: 'assistant', content: errorMessage, parentId: agentParentId, isFinalMessage: true, isToolCall: false, displayMessage: true });
         langChainMessages.push(new AIMessage(errorMessage));
         
         // エラーの詳細をログに記録
@@ -1197,23 +1543,39 @@ app.get('*', (req, res) => {
 
 // サーバー起動
 const server = app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`Chat history directory: ${CHAT_HISTORY_DIR}`);
-  console.log(`Environment variables loaded:`);
-  console.log(`- OPENROUTER_API_KEY=${process.env.OPENROUTER_API_KEY ? 'present' : 'missing'}`);
-  console.log(`- ANTHROPIC_API_KEY=${process.env.ANTHROPIC_API_KEY ? 'present' : 'missing'}`);
-  console.log(`- GROQ_API_KEY=${process.env.GROQ_API_KEY ? 'present' : 'missing'}`);
-  console.log(`Using custom system prompt: ${DEFAULT_SYSTEM_PROMPT.substring(0, 50)}...`);
+  logger.info(`Server running on http://localhost:${PORT}`);
+  logger.info(`Chat history directory: ${CHAT_HISTORY_DIR}`);
+  logger.info('Environment variables loaded:');
+  logger.info(`- OPENROUTER_API_KEY=${process.env.OPENROUTER_API_KEY ? 'present' : 'missing'}`);
+  logger.info(`- ANTHROPIC_API_KEY=${process.env.ANTHROPIC_API_KEY ? 'present' : 'missing'}`);
+  logger.info(`- GROQ_API_KEY=${process.env.GROQ_API_KEY ? 'present' : 'missing'}`);
+  logger.info(`Using custom system prompt: ${DEFAULT_SYSTEM_PROMPT.substring(0, 50)}...`);
 });
 
 // クリーンアップ
 process.on('SIGINT', async () => {
-  console.log('Shutting down MCP servers...');
+  logger.info('Shutting down MCP servers...');
   if (mcpCleanup) {
     await mcpCleanup();
   }
   server.close();
   process.exit(0);
 });
+
+function removeConnection(sessionId: string, response: express.Response) {
+  if (sseConnections[sessionId]) {
+    sseConnections[sessionId] = sseConnections[sessionId].filter(conn => {
+      if (conn.res === response) {
+        clearInterval(conn.intervalId);
+        return false;
+      }
+      return true;
+    });
+    
+    if (sseConnections[sessionId].length === 0) {
+      delete sseConnections[sessionId];
+    }
+  }
+}
 
 export default server; 
